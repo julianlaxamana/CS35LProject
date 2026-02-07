@@ -5,12 +5,7 @@ Contributors:
 - Yit-Meng Chin
 
 ## Initialization
-- To start, create a venv and install all necessary requirements
-```
-python3 -m venv .venv
-python3 -m pip -r install requirements.txt
-```
-
+- TBD
 
 ## Running the Backend
 - TBD
