@@ -1,22 +1,23 @@
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import AuthPage from './pages/AuthPage';
+import Debugger from './components/Debugger';
+import RegisterPage from './pages/RegisterPage';
+import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
 import UserPage from './pages/UserPage';
+import SettingsPage from './pages/SettingsPage';
 import './App.css';
 
 function App() {
   return (
     <Router>
-      <nav className="nav-tabs">
-        <Link to="/" className="nav-link">Auth</Link>
-        <Link to="/dashboard" className="nav-link">Dashboard</Link>
-        <Link to="/user" className="nav-link">User</Link>
-      </nav>
       <Routes>
-        <Route path="/" element={<AuthPage />} />
+        <Route path="/" element={<RegisterPage />} />
+        <Route path="/login" element={<LoginPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/user" element={<UserPage />} />
+        <Route path="/settings" element={<SettingsPage />} />
       </Routes>
+      <Debugger isVisible={true} />
     </Router>
   );
 }
