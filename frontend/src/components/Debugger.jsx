@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 const Debugger = ({ isVisible }) => {
   if (!isVisible) return null;
@@ -27,7 +27,7 @@ const DebuggerUserMode = () => {
         <button
           key={mode}
           onClick={() => setUserMode(mode)}
-          style={mode === user_mode ? { backgroundColor: 'white', color: 'black' } : {}}
+          className={mode === user_mode ? 'debugger-button-selected debugger-button' : 'debugger-button'}
         >{mode}</button>
       ))}
     </div>
@@ -39,17 +39,20 @@ const DebuggerNavigator = () => {
   return (
     <>
       {/* Main screens */}
-      <DebuggerNavLink href="/" pageName="Register" />
-      <DebuggerNavLink href="/login" pageName="Login" />
-      <DebuggerNavLink href="/dashboard" pageName="Dashboard" />
-      <DebuggerNavLink href="/user" pageName="User" />
-      <DebuggerNavLink href="/settings" pageName="Settings" />
+      <DebuggerNavLink href="/" page_name="Register" />
+      <DebuggerNavLink href="/login" page_name="Login" />
+      <DebuggerNavLink href="/dashboard" page_name="Dashboard" />
+      <DebuggerNavLink href="/user" page_name="User" />
+      <DebuggerNavLink href="/settings" page_name="Settings" />
     </>
   )
 }
-const DebuggerNavLink = ({ href, pageName }) => {
+const DebuggerNavLink = ({ href, page_name }) => {
   return (
-    <Link to={href} className="debugger-link">{pageName}</Link>
+    <NavLink 
+      to={href} 
+      className={({ isActive }) => isActive ? 'debugger-link debugger-link-active' : 'debugger-link'}
+    >{({ isActive }) => isActive ? `>${page_name}` : page_name}</NavLink>
   );
 }
 

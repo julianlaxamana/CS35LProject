@@ -1,7 +1,15 @@
 #root {
-  max-width: 1280px;
+  /* Center on the screen, simulate a mobile device */
   margin: 0 auto;
-  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* Fixed Iphone 13/14 Dimensions */
+  width: 390px;
+  height: 844px;
+
+  border: solid black 1px;
 }
 
 /* Debugger Styling */
@@ -18,8 +26,9 @@
   border-width: 1px;
   border-color: white;
   border-radius: 8px;
+  border: solid white 1px;
 
-  /* Content Layout */
+  /* Content */
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -41,4 +50,42 @@
   color: white;
   font-size: 16px;
   font-weight: lighter;
+}
+.debugger-link-active {
+  animation: oscillate 0.75s ease-in-out infinite alternate;
+}
+.debugger-button {
+  /* Appearance */
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 8px;
+  background-color: #375699;
+  min-width: 64px;
+
+  /* Content */
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: inherit;
+
+  /* Interaction */
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+.debugger-button-selected {
+  background-color: white;
+  color: black;
+}
+.debugger-button:hover {
+  border-color: #5385f2;
+}
+.debugger-button:focus,
+.debugger-button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+/* Oscillation Animation for a selected text because I'm bored -Gavin */
+@keyframes oscillate {
+  0% { transform: translateX(8px); }
+  100% { transform: translateX(0px); }
 }
