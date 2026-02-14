@@ -22,6 +22,40 @@
   transform-origin: center center;
   transition: transform 0.1s ease-out;
 }
+/* The Layout fills the frame */
+.mobile-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background-color: #fff;
+}
+
+/* Header stays stuck to top */
+.mobile-header {
+  flex-shrink: 0;
+  height: 44px; /* Standard iOS Nav height */
+  background-color: #292929;
+  border-bottom: 1px solid #727272;
+  z-index: 10;
+}
+
+/* Content grows to fill space and scrolls internally */
+.mobile-content {
+  position: relative;
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Footer stays stuck to bottom */
+.mobile-footer {
+  flex-shrink: 0;
+  height: 49px; /* Standard iOS Tab height */
+  background-color: #292929;
+  border-top: 1px solid #727272;
+  z-index: 10;
+}
 
 /* Debugger Styling */
 .debugger-wrapper {

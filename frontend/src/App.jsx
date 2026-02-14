@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom';
 import Debugger from './components/Debugger';
 import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
@@ -7,25 +7,38 @@ import DashboardPage from './pages/DashboardPage';
 import UserPage from './pages/UserPage';
 import SettingsPage from './pages/SettingsPage';
 import './App.css';
-import { use } from 'react';
 
 function App() {
   const frame_scale = scaleToFit(390, 844); // Scale to fit iPhone 13/14 dimensions for demo
 
   return (
     <Router>
-      <div className='app-frame' style={{ transform: `scale(${frame_scale})` }}>
+      <div className='app-frame' style={{ transform: `scale(${frame_scale})`, borderRadius: '16px', overflow: 'hidden' }}>
         <Routes>
-          <Route path="/" element={<RegisterPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="/user" element={<UserPage />} />
-          <Route path="/settings" element={<SettingsPage />} />
+          <Route element={<MobileLayout />}>
+            <Route path="/" element={<RegisterPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/user" element={<UserPage />} />
+            <Route path="/settings" element={<SettingsPage />} />
+          </Route>
         </Routes>
       </div>
       <Debugger isVisible={true} />
     </Router>
   );
+}
+
+const MobileLayout = ({}) => {
+  return (
+    <div className='mobile-layout'>
+      <header className="mobile-header"></header>
+      <main className="mobile-content">
+        <Outlet />
+      </main>
+      <footer className="mobile-footer"></footer>
+    </div>
+  )
 }
 
 /**
