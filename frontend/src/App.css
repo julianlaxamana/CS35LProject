@@ -10,6 +10,7 @@
   overflow: hidden;
 }
 
+/* APP FRAME AND LAYOUT */
 .app-frame {
   /* Fixed iPhone 13/14 Dimensions */
   width: 390px;
@@ -22,7 +23,6 @@
   transform-origin: center center;
   transition: transform 0.1s ease-out;
 }
-/* The Layout fills the frame */
 .mobile-layout {
   display: flex;
   flex-direction: column;
@@ -30,8 +30,6 @@
   width: 100%;
   background-color: #fff;
 }
-
-/* Header stays stuck to top */
 .mobile-header {
   flex-shrink: 0;
   height: 44px; /* Standard iOS Nav height */
@@ -39,16 +37,12 @@
   border-bottom: 1px solid #727272;
   z-index: 10;
 }
-
-/* Content grows to fill space and scrolls internally */
 .mobile-content {
   position: relative;
   flex: 1;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
-
-/* Footer stays stuck to bottom */
 .mobile-footer {
   flex-shrink: 0;
   height: 49px; /* Standard iOS Tab height */
@@ -57,7 +51,7 @@
   z-index: 10;
 }
 
-/* Debugger Styling */
+/* DEBUGGER */
 .debugger-wrapper {
   /* Positioning */
   position: absolute;
@@ -128,9 +122,45 @@
 .debugger-button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
-
 /* Oscillation Animation for a selected text because I'm bored -Gavin */
 @keyframes oscillate {
   0% { transform: translateX(8px); }
   100% { transform: translateX(0px); }
+}
+
+/* DASHBOARD */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #ddd;
+}
+.dashboard-header-left-half {
+  display: flex;
+  flex-direction: column;
+}
+.dashboard-header-right-half {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+}
+.dashboard-header h1 {
+  margin: 0;
+  font-size: 28px;
+}
+.dashboard-header h2 {
+  margin: -12px 0 0 0;
+  font-size: 20px;
+  color: #83889C;
+  font-weight: 500;
+}
+.chip-small {
+  display: inline-block;
+  padding: 4px 16px;
+  background-color: #eee;
+  border-radius: 16px;
+  font-size: 16px;
+  color: #333;
 }
