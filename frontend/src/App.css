@@ -1,15 +1,26 @@
 #root {
-  /* Center on the screen, simulate a mobile device */
-  margin: 0 auto;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: #222222; 
+  overflow: hidden;
+}
 
-  /* Fixed Iphone 13/14 Dimensions */
+.app-frame {
+  /* Fixed iPhone 13/14 Dimensions */
   width: 390px;
   height: 844px;
 
+  background-color: white;
   border: solid black 1px;
+  box-shadow: 0 0 50px rgba(0,0,0,0.5);
+
+  transform-origin: center center;
+  transition: transform 0.1s ease-out;
 }
 
 /* Debugger Styling */
@@ -36,19 +47,19 @@
 }
 .debugger-header {
   color: white;
-  font-size: 18px;
+  font-size: 28px;
   font-weight: bold;
 }
 .debugger-category-header {
   color: white;
-  font-size: 16px;
+  font-size: 24px;
   font-weight: bold;
   margin-top: 8px;
   border-bottom: 1px solid white;
 }
 .debugger-link {
   color: white;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: lighter;
 }
 .debugger-link-active {
@@ -64,7 +75,7 @@
 
   /* Content */
   color: white;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 500;
   font-family: inherit;
 
