@@ -1,17 +1,9 @@
 import Header from '../components/organisms/DashboardHeader';
 import Content from '../components/organisms/DashboardContent';
 
-function DashboardPage() {
-  // Sample data as constants for now, will be fetched from backend later
-  const SAMPLE_HEADER_DATA = {
-    venue_name: "Bruin Plate",
-    day: "Thursday",
-    is_open: true,
-    meal_period: "Lunch",
-    aggregate_rating: 2.53,
-    occupancy: "75%"
-  };
+import { SAMPLE_DASHBOARD_HEADER_DATA } from '../SAMPLEDATA';
 
+function DashboardPage() {
   // Define any colors or other constants to use in the component here for easy access and modification. Will relocate later.
   const COLORS = {
     light: "#E0E0E0",
@@ -27,7 +19,7 @@ function DashboardPage() {
 
   return (
     <div>
-      <Header data={SAMPLE_HEADER_DATA} colors={COLORS} />
+      <Header data={SAMPLE_DASHBOARD_HEADER_DATA} colors={COLORS} />
       <Content />
     </div>
   );
