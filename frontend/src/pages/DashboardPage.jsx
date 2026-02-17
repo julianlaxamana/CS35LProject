@@ -1,5 +1,5 @@
-import Header from '../components/molecules/DashboardHeader';
-import Content from '../components/molecules/DashboardContent';
+import Header from '../components/organisms/DashboardHeader';
+import Content from '../components/organisms/DashboardContent';
 
 function DashboardPage() {
   // Sample data as constants for now, will be fetched from backend later
