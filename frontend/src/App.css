@@ -197,9 +197,7 @@
   background-color: #eee;
   border-radius: 12px;
 
-  /* Content: bar fills up from the right to the left */
   display: flex;
-  justify-content: flex-end;
   overflow: hidden;
 }
 .fill-bar {
