@@ -40,15 +40,17 @@ const Header = ({ data, colors }) => {
       <div className="dashboard-header-left-half">
         <h1>{data.venue_name}</h1>
         <h2>{data.day}</h2>
-        <div style={{ display: "flex", gap: "16px", alignItems: "center" }}>
+        <div className="dashboard-chips">
           <Chip label={data.is_open ? "Open" : "Closed"} size="small" bgcolor={data.is_open ? colors.open : colors.dark} color={colors.light} />
           {data.is_open && <Chip label={data.meal_period} size="small" bgcolor={colors.dark} color={colors.light} />}
         </div>
       </div>
       <div className="dashboard-header-right-half">
         <Icon src={IconVenueDetails} alt="Venue Details" color={colors.dark} />
-        <AggregateRatingDisplay rating={data.aggregate_rating} />
-        <OccupancyDisplay occupancy={data.occupancy} />
+        <div className="venue-data">
+          <AggregateRatingDisplay rating={data.aggregate_rating} />
+          <OccupancyDisplay occupancy={data.occupancy} />
+        </div>
       </div>
     </div>
   );
@@ -71,23 +73,29 @@ const SearchBar = () => {
 }
 
 const AggregateRatingDisplay = ({ rating }) => {
+  const as_progress = (rating / 5) * 100;
   return (
     <div className="aggregate-display">
-      <span className="rating-value">{rating.toFixed(2)}</span>
-      <span className="rating-stars">{'★'.repeat(Math.round(rating))}</span>
+      <div>Rating Today</div>
+      <FillBar text={`${rating.toFixed(2)}`} progress={as_progress} color="#9FDA97" />
     </div>
   );
 }
 const OccupancyDisplay = ({ occupancy }) => {
+  const as_progress = parseFloat(occupancy);
   return (
     <div className="occupancy-display">
-      <span className="occupancy-value">{occupancy}</span>
+      <div>Occupancy</div>
+      <FillBar text={`${occupancy}`} progress={as_progress} color="#F68E8E" />
     </div>
   );
 }
-const FillBar = ({ progress, color }) => {
+const FillBar = ({ text, progress, color }) => {
   return (
-    <div className="fill-bar" style={{ backgroundColor: color, width: `${progress}%` }}></div>
+    <div className="fill-bar-back">
+      <div className="fill-bar-text">{text ? text : `${progress}%`}</div>
+      <div className="fill-bar" style={{ backgroundColor: color, width: `${progress}%` }}></div>
+    </div>
   );
 }
 

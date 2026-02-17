@@ -147,14 +147,25 @@
   text-align: right;
 }
 .dashboard-header h1 {
+  max-width: 192px;
+  overflow-wrap: break-word;
+  line-height: 0.9;
+
   margin: 0;
   font-size: 28px;
 }
 .dashboard-header h2 {
-  margin: -12px 0 0 0;
+  margin: -4px 0 0 0;
   font-size: 20px;
   color: #83889C;
   font-weight: 500;
+}
+.dashboard-chips {
+  margin-top: 12px;
+
+  display: flex;
+  gap: 16px;
+  align-items: center;
 }
 .chip-small {
   display: inline-block;
@@ -163,4 +174,51 @@
   border-radius: 16px;
   font-size: 16px;
   color: #333;
+}
+.chip-large {
+  display: inline-block;
+  padding: 8px 24px;
+  background-color: #eee;
+  border-radius: 16px;
+  font-size: 20px;
+  color: #333;
+}
+.venue-data {
+  margin-top: 12px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.fill-bar-back {
+  position: relative;
+  width: 64px;
+  height: 24px;
+  background-color: #eee;
+  border-radius: 12px;
+
+  /* Content: bar fills up from the right to the left */
+  display: flex;
+  justify-content: flex-end;
+  overflow: hidden;
+}
+.fill-bar {
+  height: 100%;
+  /* Width is handled in inline styles at the component level */
+}
+.fill-bar-text {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+}
+.aggregate-display, .occupancy-display {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
 }
