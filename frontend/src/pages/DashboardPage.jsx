@@ -8,6 +8,10 @@ import { SAMPLE_DASHBOARD_HEADER_DATA, SAMPLE_DINING_VENUES } from '../SAMPLEDAT
 function DashboardPage() {
   const [is_drawer_open, setIsDrawerOpen] = useState(false);
 
+  // NOTE: Currently hardcoded to Bruin Plate for testing purposes. 
+  // Default should be 0 when we have real data and can set it based on time of day.
+  const [current_venue_data, setCurrentVenueData] = useState(SAMPLE_DINING_VENUES[3]); 
+
   // Define any colors or other constants to use in the component here for easy access and modification. Will relocate later.
   const COLORS = {
     light: "#E0E0E0",
@@ -24,7 +28,8 @@ function DashboardPage() {
   return (
     <div className="dashboard-page">
       <Header 
-        data={SAMPLE_DASHBOARD_HEADER_DATA} 
+        header_data={SAMPLE_DASHBOARD_HEADER_DATA}
+        current_venue_data={current_venue_data} 
         colors={COLORS} 
         on_venue_details_click={() => setIsDrawerOpen(true)} 
       />
@@ -32,7 +37,7 @@ function DashboardPage() {
       <Drawer 
         is_open={is_drawer_open} 
         on_close={() => setIsDrawerOpen(false)} 
-        current_venue_data={SAMPLE_DASHBOARD_HEADER_DATA}
+        current_venue_data={current_venue_data}
         all_venues_data={SAMPLE_DINING_VENUES} 
       />
     </div>

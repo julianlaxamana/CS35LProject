@@ -4,12 +4,17 @@ import Icon from '../atoms/Icon';
 import UCLADiningIcon from "../atoms/UCLADiningIcon";
 
 import ItemDetails from "../../assets/item-details.svg";
-import { SAMPLE_ITEM_DATA } from "../../SAMPLEDATA"
+import PlaceholderThumbnail from "../../assets/placeholder-thumbnail.jpg";
 
 // This component represents a single menu item in the dashboard.
 const DashboardItem = ({ item_data }) => {
   return (
-    <ItemCard title={item_data.name} tags={item_data.tags} rating={item_data.rating} image={item_data.image} />
+    <ItemCard 
+      title={item_data.name} 
+      tags={item_data.tags} 
+      rating={item_data.rating} 
+      image={item_data.image || PlaceholderThumbnail} 
+    />
   );
 }
 

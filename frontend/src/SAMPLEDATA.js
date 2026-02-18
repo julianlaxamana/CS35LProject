@@ -2,33 +2,11 @@
 
 // Sample data for the dashboard header
 const SAMPLE_DASHBOARD_HEADER_DATA = {
-  name: "Bruin Plate",
   day: "Thursday",
-  is_open: true,
   meal_period: "Lunch",
-  aggregate_rating: 2.05,
-  occupancy: 89
 };
 
 // Sample data for a DashboardItem component
-const SAMPLE_ITEM_DATA = {
-  name: "Korean Crispy Tofu Bowl",
-  tags: ["Vegan", "Low-Carbon-Footprint", "Contains Soy", "Contains Gluten", "Contains Wheat", "Contains Sesame"],
-  rating: 4.5,
-  image: "",
-  nutrition_facts: {},
-  ingredients: [],
-  allergens: []
-};
-
-// Sample data for a UserItem component
-const SAMPLE_USER_ITEM_DATA = {
-  item_data: SAMPLE_ITEM_DATA,
-  marked_as_favorite: true,
-  rating: null,
-  review: null,
-}
-
 const SAMPLE_ITEM_COLLECTION = [
   {
     name: "Korean Crispy Tofu Bowl",
@@ -86,22 +64,74 @@ const SAMPLE_ITEM_COLLECTION = [
   },
 ]
 
+// Sample data for a UserItem component
+const SAMPLE_USER_ITEM_DATA = {
+  item_data: SAMPLE_ITEM_COLLECTION[0],
+  marked_as_favorite: true,
+  rating: null,
+  review: null,
+}
+
 const SAMPLE_DINING_VENUES = [
-  { name: "Feast at Rieber", rating: 5.0, occupancy: 100, status: "Open" },
-  { name: "Rendezvous", rating: 2.49, occupancy: 73, status: "Open" },
-  { name: "Bruin Cafe", rating: 4.1, occupancy: 26, status: "Open" },
-  { name: "Bruin Plate", rating: 2.05, occupancy: 89, status: "Open" },
-  { name: "De Neve Dining", rating: 1.27, occupancy: 47, status: "Open" },
-  { name: "Epicuria at Ackerman", rating: null, occupancy: null, status: "Closed" },
-  { name: "Epicuria at Covel", rating: 4.38, occupancy: 100, status: "Open" },
-  { name: "Food Trucks", rating: null, occupancy: null, status: "Closed" },
-  { name: "The Study at Hedrick", rating: 0.1, occupancy: 58, status: "Open" },
+  { 
+    name: "Feast at Rieber", 
+    aggregate_rating: 5.0, 
+    occupancy: 100, 
+    status: "Open" 
+  },
+  { 
+    name: "Rendezvous", 
+    aggregate_rating: 2.49, 
+    occupancy: 73, 
+    status: "Open" 
+  },
+  { 
+    name: "Bruin Cafe", 
+    aggregate_rating: 4.1, 
+    occupancy: 26, 
+    status: "Open" 
+  },
+  { 
+    name: "Bruin Plate", 
+    aggregate_rating: 2.05, 
+    occupancy: 89, 
+    status: "Open" 
+  },
+  { 
+    name: "De Neve Dining", 
+    aggregate_rating: 1.27, 
+    occupancy: 47, 
+    status: "Open" 
+  },
+  { 
+    name: "Epicuria at Ackerman", 
+    aggregate_rating: null, 
+    occupancy: null, 
+    status: "Closed" 
+  },
+  { 
+    name: "Epicuria at Covel", 
+    aggregate_rating: 4.38, 
+    occupancy: 100, 
+    status: "Open" 
+  },
+  { 
+    name: "Food Trucks", 
+    aggregate_rating: null, 
+    occupancy: null, 
+    status: "Closed" 
+  },
+  { 
+    name: "The Study at Hedrick", 
+    aggregate_rating: 0.1, 
+    occupancy: 58, 
+    status: "Open" 
+  },
 ];
 
 export { 
   SAMPLE_DASHBOARD_HEADER_DATA, 
-  SAMPLE_ITEM_DATA, 
-  SAMPLE_USER_ITEM_DATA, 
   SAMPLE_ITEM_COLLECTION,
+  SAMPLE_USER_ITEM_DATA, 
   SAMPLE_DINING_VENUES,
 };

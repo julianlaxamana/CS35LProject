@@ -4,22 +4,22 @@ import FillBar from '../atoms/FillBar';
 
 import IconVenueDetails from '../../assets/venue-details.svg';
 
-const Header = ({ data, colors, on_venue_details_click }) => {
+const Header = ({ header_data, current_venue_data, colors, on_venue_details_click }) => {
   return (
     <div className="dashboard-header">
       <div className="dashboard-header-left-half">
-        <h1>{data.name}</h1>
-        <h2>{data.day}</h2>
+        <h1>{current_venue_data.name}</h1>
+        <h2>{header_data.day}</h2>
         <div className="dashboard-chips">
-          <Chip label={data.is_open ? "Open" : "Closed"} size="small" bgcolor={data.is_open ? colors.open : colors.dark} color={colors.light} />
-          {data.is_open && <Chip label={data.meal_period} size="small" bgcolor={colors.dark} color={colors.light} />}
+          <Chip label={current_venue_data.status === "Open" ? "Open" : "Closed"} size="small" bgcolor={current_venue_data.status === "Open" ? colors.open : colors.dark} color={colors.light} />
+          {current_venue_data.status === "Open" && <Chip label={header_data.meal_period} size="small" bgcolor={colors.dark} color={colors.light} />}
         </div>
       </div>
       <div className="dashboard-header-right-half" >
         <Icon src={IconVenueDetails} alt="Venue Details" color={colors.dark} onClick={on_venue_details_click} style={{ cursor: 'pointer' }} />
         <div className="venue-data">
-          <AggregateRatingDisplay rating={data.aggregate_rating} />
-          <OccupancyDisplay occupancy={data.occupancy} />
+          <AggregateRatingDisplay rating={current_venue_data.aggregate_rating} />
+          <OccupancyDisplay occupancy={current_venue_data.occupancy} />
         </div>
       </div>
     </div>
