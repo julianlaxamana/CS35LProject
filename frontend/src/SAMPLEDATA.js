@@ -41,7 +41,7 @@ const SAMPLE_ITEM_COLLECTION = [
   },
   {
     title: "Spaghetti and Meatballs",
-    tags: ["Contains Meat", "Contains Gluten", "Contains Wheat", "Contains Dairy"],
+    tags: ["Contains Gluten", "Contains Wheat", "Customizable"],
     rating: 2.84,
     image: "",
     nutrition_facts: {},
@@ -52,6 +52,33 @@ const SAMPLE_ITEM_COLLECTION = [
     title: "Garden Salad",
     tags: ["Vegan", "Low-Carbon-Footprint", "Gluten-Free", "Dairy-Free"],
     rating: 3.13,
+    image: "",
+    nutrition_facts: {},
+    ingredients: [],
+    allergens: []
+  },
+  {
+    title: "Tag Soup",
+    tags: ["alcohol", "contains shellfish", "customizable", "contains dairy", "contains eggs", "contains fish", "contains gluten", "halal", "high carbon footprint", "low carbon footprint", "contains peanuts", "contains sesame", "contains soy", "contains tree nuts", "vegan", "vegetarian", "contains wheat"],
+    rating: 0.01,
+    image: "",
+    nutrition_facts: {},
+    ingredients: [],
+    allergens: []
+  },
+  {
+    title: "Grilled Chicken Sandwich",
+    tags: ["Halal", "Contains Gluten", "Contains Wheat"],
+    rating: 3.97,
+    image: "",
+    nutrition_facts: {},
+    ingredients: [],
+    allergens: []
+  },
+  {
+    title: "Very Long Menu Item Name That Should Be Handled Correctly In The UI To Prevent Overflow Issues",
+    tags: ["Vegan", "Low-Carbon-Footprint", "Gluten-Free", "Dairy-Free", "Contains Soy", "Contains Gluten", "Contains Wheat", "Contains Sesame", "Contains Peanuts", "Contains Tree Nuts", "Halal", "Alcohol"],
+    rating: 5.00,
     image: "",
     nutrition_facts: {},
     ingredients: [],

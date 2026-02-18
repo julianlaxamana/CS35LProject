@@ -199,10 +199,10 @@
 }
 .fill-bar-horizontal-wrapper {
   position: relative;
-  width: 64px;
-  height: 24px;
   background-color: #eee;
   border-radius: 12px;
+
+  flex-shrink: 0;
 
   display: flex;
 }
@@ -229,10 +229,10 @@
 }
 .fill-bar-vertical-wrapper {
   position: relative;
-  width: 24px;
-  height: 48px;
   background-color: #eee;
   border-radius: 12px;
+
+  flex-shrink: 0;
 }
 .fill-bar-vertical {
   width: 100%;
@@ -312,6 +312,7 @@
 .item-card-image {
   width: 108px;
   height: auto;
+  min-height: 108px;
   background-color: #eee;
   object-fit: cover;
   border-left: solid 1px #9EA1B9;
@@ -324,6 +325,7 @@
   gap: 4px;
 }
 .item-card-top-region {
+  flex: 1;
   display: flex;
   justify-content: flex-start;
   gap: 8px;
@@ -332,4 +334,15 @@
   margin: 0;
   font-size: 16px;
   font-weight: 500;
+}
+.item-card-bottom-region {
+  display: flex;
+  align-items: flex-end;
+}
+.item-card-tags {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 2px;
 }
