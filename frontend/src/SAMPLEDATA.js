@@ -1,4 +1,13 @@
 // Sample data as constants for now, will be fetched from backend later
+import BCafe from "./assets/ucla-venue-thumbnails/ucladiningbcafe.png";
+import BPlate from "./assets/ucla-venue-thumbnails/ucladiningbplate.png";
+import DeNeve from "./assets/ucla-venue-thumbnails/ucladiningdeneve.png";
+import EpicA from "./assets/ucla-venue-thumbnails/ucladiningepicatack.png";
+import EpicC from "./assets/ucla-venue-thumbnails/ucladiningepicatcov.png";
+import Rende from "./assets/ucla-venue-thumbnails/ucladiningrende.png";
+import Study from "./assets/ucla-venue-thumbnails/ucladiningstuhedrick.png";
+import Feast from "./assets/ucla-venue-thumbnails/uclafeastatreiber.png";
+import Default from "./assets/placeholder-thumbnail.jpg";
 
 // Sample data for the dashboard header
 const SAMPLE_DASHBOARD_HEADER_DATA = {
@@ -82,71 +91,88 @@ const SAMPLE_USER_ITEM_DATA = {
 const SAMPLE_DINING_VENUES = [
   { 
     id: 1,
-    name: "Feast at Rieber", 
-    aggregate_rating: 5.0, // Placeholder rating for testing, NOT ACTUALLY TO BE STORED IN THE BACKEND, will be calculated on the frontend based on user ratings in the future.
-    occupancy: 100, 
-    status: "Open" 
+    name: "Bruin Plate", 
+    aggregate_rating: 2.05, // Placeholder rating for testing, NOT ACTUALLY TO BE STORED IN THE BACKEND, will be calculated on the frontend based on user ratings in the future.
+    occupancy: 89, 
+    status: "Open",
+    image: BPlate,
   },
   { 
     id: 2,
-    name: "Rendezvous", 
-    aggregate_rating: 2.49, 
-    occupancy: 73, 
-    status: "Open" 
-  },
-  { 
-    id: 3,
     name: "Bruin Cafe", 
     aggregate_rating: 4.1, 
     occupancy: 26, 
-    status: "Open" 
+    status: "Open",
+    image: BCafe,
+  },
+  { 
+    id: 3,
+    name: "Feast at Rieber", 
+    aggregate_rating: 5.0, 
+    occupancy: 100, 
+    status: "Open",
+    image: Feast,
   },
   { 
     id: 4,
-    name: "Bruin Plate", 
-    aggregate_rating: 2.05, 
-    occupancy: 89, 
-    status: "Open" 
-  },
-  { 
-    id: 5,
     name: "De Neve Dining", 
     aggregate_rating: 1.27, 
     occupancy: 47, 
-    status: "Open" 
+    status: "Open",
+    image: DeNeve,
+  },
+  { 
+    id: 5,
+    name: "Rendezvous", 
+    aggregate_rating: 2.49, 
+    occupancy: 73, 
+    status: "Open",
+    image: Rende,
   },
   { 
     id: 6,
     name: "Epicuria at Ackerman", 
     aggregate_rating: null, 
     occupancy: null, 
-    status: "Closed" 
+    status: "Closed",
+    image: EpicA,
   },
   { 
     id: 7,
     name: "Epicuria at Covel", 
     aggregate_rating: 4.38, 
     occupancy: 100, 
-    status: "Open" 
+    status: "Open",
+    image: EpicC,
   },
   { 
     id: 8,
     name: "Food Trucks", 
     aggregate_rating: null, 
     occupancy: null, 
-    status: "Closed" 
+    status: "Closed",
+    image: Default,
   },
   { 
     id: 9,
     name: "The Study at Hedrick", 
     aggregate_rating: 0.1, 
     occupancy: 58, 
-    status: "Open" 
+    status: "Open",
+    image: Study,
   },
+  {
+    id: 10,
+    name: "A Place with an Exceptionally Long Name From the Future That Will Test Text Wrapping and Layout in the UI", 
+    aggregate_rating: 5.00,
+    occupancy: 100,
+    status: "Open",
+    image: Default,
+  }
 ];
 
 // Sample data for user's favorite dining venues, represented as an array of venue IDs for now. 
-const SAMPLE_USER_FAVORITE_DINING_VENUES = [1, 2];
+const SAMPLE_USER_FAVORITE_DINING_VENUES = [3, 5];
 
 export { 
   SAMPLE_DASHBOARD_HEADER_DATA, 
