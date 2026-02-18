@@ -29,4 +29,34 @@ const SAMPLE_USER_ITEM_DATA = {
   review: null,
 }
 
-export { SAMPLE_DASHBOARD_HEADER_DATA, SAMPLE_ITEM_DATA, SAMPLE_USER_ITEM_DATA };
+const SAMPLE_ITEM_COLLECTION = [
+  {
+    title: "Korean Crispy Tofu Bowl",
+    tags: ["Vegan", "Low-Carbon-Footprint", "Contains Soy", "Contains Gluten", "Contains Wheat", "Contains Sesame"],
+    rating: 4.52,
+    image: "",
+    nutrition_facts: {},
+    ingredients: [],
+    allergens: []
+  },
+  {
+    title: "Spaghetti and Meatballs",
+    tags: ["Contains Meat", "Contains Gluten", "Contains Wheat", "Contains Dairy"],
+    rating: 2.84,
+    image: "",
+    nutrition_facts: {},
+    ingredients: [],
+    allergens: []
+  },
+  {
+    title: "Garden Salad",
+    tags: ["Vegan", "Low-Carbon-Footprint", "Gluten-Free", "Dairy-Free"],
+    rating: 3.13,
+    image: "",
+    nutrition_facts: {},
+    ingredients: [],
+    allergens: []
+  },
+]
+
+export { SAMPLE_DASHBOARD_HEADER_DATA, SAMPLE_ITEM_DATA, SAMPLE_USER_ITEM_DATA, SAMPLE_ITEM_COLLECTION };

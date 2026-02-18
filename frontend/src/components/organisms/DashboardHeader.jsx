@@ -30,7 +30,7 @@ const AggregateRatingDisplay = ({ rating }) => {
   return (
     <div className="aggregate-display">
       <div>Rating Today</div>
-      <FillBar text={`${rating.toFixed(2)}`} progress={as_progress} color="#9FDA97" grow_from="right" />
+      <FillBar text={`${rating.toFixed(2)}`} progress={as_progress} color="#9FDA97" grow_from="end" />
     </div>
   );
 }
@@ -39,7 +39,7 @@ const OccupancyDisplay = ({ occupancy }) => {
   return (
     <div className="occupancy-display">
       <div>Occupancy</div>
-      <FillBar text={`${occupancy}`} progress={as_progress} color="#F68E8E" grow_from="right" />
+      <FillBar text={`${occupancy}`} progress={as_progress} color="#F68E8E" grow_from="end" />
     </div>
   );
 }

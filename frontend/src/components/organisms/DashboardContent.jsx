@@ -1,7 +1,13 @@
+import DashboardItem from "../molecules/DashboardItem";
+
+import { SAMPLE_ITEM_COLLECTION } from "../../SAMPLEDATA";
+
 const Content = () => {
   return (
     <div className="dashboard-content">
-      <p>Welcome to your dashboard!</p>
+      {SAMPLE_ITEM_COLLECTION.map((item, index) => (
+        <DashboardItem key={index} item_data={item} />
+      ))}
     </div>
   );
 }

@@ -1,14 +1,37 @@
-import { SAMPLE_ITEM_DATA } from "../../SAMPLEDATA"
+import FillBar from "../atoms/FillBar";
+import Icon from '../atoms/Icon';
 
+import ItemDetails from "../../assets/item-details.svg";
+import { SAMPLE_ITEM_DATA } from "../../SAMPLEDATA"
 
 // This component represents a single menu item in the dashboard.
 const DashboardItem = ({ item_data }) => {
-  return 
+  return (
+    <ItemCard title={item_data.title} tags={item_data.tags} rating={item_data.rating} image={item_data.image} />
+  );
 }
 
 // The card that shows basic info about the item, appears as part of a list in the dashboard.
 const ItemCard = ({ title, tags, rating, image }) => {
-  return
+  return (
+    <div className="item-card">
+      <div className="item-card-content">
+        <div className="item-card-top-region">
+          <FillBar text={`${rating.toFixed(2)}`} progress={(rating / 5) * 100} color="#9FDA97" grow_from="end" orientation="vertical" />
+          <div>{title}</div>
+        </div>
+        <div className="item-card-bottom-region">
+          <Icon src={ItemDetails} alt="Venue Details" />
+          <div className="item-card-tags">
+            {tags.map((tag, index) => (
+              <div key={index} className="item-card-tag">{tag}</div>
+            ))}
+          </div>
+        </div>
+      </div>
+      <img src={image} alt={"[Image Here]"} className="item-card-image" />
+    </div>  
+  );
 }
 
 // Pops up when you click on an item card, shows more details about the item.
