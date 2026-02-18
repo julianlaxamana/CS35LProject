@@ -18,7 +18,7 @@ const ItemCard = ({ title, tags, rating, image }) => {
       <div className="item-card-content">
         <div className="item-card-top-region">
           <FillBar text={`${rating.toFixed(2)}`} progress={(rating / 5) * 100} color="#9FDA97" grow_from="end" orientation="vertical" />
-          <div>{title}</div>
+          <h4>{title}</h4>
         </div>
         <div className="item-card-bottom-region">
           <Icon src={ItemDetails} alt="Venue Details" />

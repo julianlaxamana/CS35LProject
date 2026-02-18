@@ -18,7 +18,7 @@ function DashboardPage() {
   }
 
   return (
-    <div>
+    <div className="dashboard-page">
       <Header data={SAMPLE_DASHBOARD_HEADER_DATA} colors={COLORS} />
       <Content />
     </div>

@@ -1,6 +1,7 @@
 import Chip from '../atoms/Chip';
 import Icon from '../atoms/Icon';
 import FillBar from '../atoms/FillBar';
+
 import IconVenueDetails from '../../assets/venue-details.svg';
 
 const Header = ({ data, colors }) => {
