@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import FillBar from '../atoms/FillBar';
 import Chip from '../atoms/Chip';
 import Icon from '../atoms/Icon';
@@ -11,9 +11,18 @@ import SelectVenue from '../../assets/select-venue.svg';
 import CurrentVenue from '../../assets/current-venue.svg';
 
 const Drawer = ({ is_open, on_close, day_data, current_venue_data, all_venues_data, favorite_venues_data, on_select_venue }) => {
+  const [reset_key, setResetKey] = useState(false);
+
+  useEffect(() => {
+    // Whenever the drawer is closed, toggle the reset key to force remounting of child components
+    if (!is_open) {
+      setResetKey(prev => !prev);
+    }
+  }, [is_open]);
+
   return (
     <div className={`drawer-overlay ${is_open ? "open" : ""}`} onClick={on_close}>
-      <div className="drawer-content" onClick={(e) => e.stopPropagation()}>
+      <div key={reset_key} className="drawer-content" onClick={(e) => e.stopPropagation()}>
         <DrawerSection 
           title="Your Account" 
           icon={YourAccount} 
