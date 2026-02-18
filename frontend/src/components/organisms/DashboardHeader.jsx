@@ -27,20 +27,20 @@ const Header = ({ header_data, current_venue_data, colors, on_venue_details_clic
 }
 
 const AggregateRatingDisplay = ({ rating }) => {
-  const as_progress = (rating / 5) * 100;
+  const as_progress = rating ? (rating / 5) * 100 : 0;
   return (
     <div className="aggregate-display">
       <div>Rating Today</div>
-      <FillBar text={`${rating.toFixed(2)}`} progress={as_progress} color="#9FDA97" grow_from="end" />
+      <FillBar text={rating ? `${rating.toFixed(2)}` : "N/A"} progress={as_progress} color="#9FDA97" grow_from="end" />
     </div>
   );
 }
 const OccupancyDisplay = ({ occupancy }) => {
-  const as_progress = parseFloat(occupancy);
+  const as_progress = occupancy ? parseFloat(occupancy) : 0;
   return (
     <div className="occupancy-display">
       <div>Occupancy</div>
-      <FillBar text={`${occupancy}%`} progress={as_progress} color="#F68E8E" grow_from="end" />
+      <FillBar text={occupancy ? `${occupancy}%` : "N/A"} progress={as_progress} color="#F68E8E" grow_from="end" />
     </div>
   );
 }
