@@ -4,7 +4,7 @@ import FillBar from '../atoms/FillBar';
 
 import IconVenueDetails from '../../assets/venue-details.svg';
 
-const Header = ({ data, colors }) => {
+const Header = ({ data, colors, on_venue_details_click }) => {
   return (
     <div className="dashboard-header">
       <div className="dashboard-header-left-half">
@@ -15,8 +15,8 @@ const Header = ({ data, colors }) => {
           {data.is_open && <Chip label={data.meal_period} size="small" bgcolor={colors.dark} color={colors.light} />}
         </div>
       </div>
-      <div className="dashboard-header-right-half">
-        <Icon src={IconVenueDetails} alt="Venue Details" color={colors.dark} />
+      <div className="dashboard-header-right-half" >
+        <Icon src={IconVenueDetails} alt="Venue Details" color={colors.dark} onClick={on_venue_details_click} style={{ cursor: 'pointer' }} />
         <div className="venue-data">
           <AggregateRatingDisplay rating={data.aggregate_rating} />
           <OccupancyDisplay occupancy={data.occupancy} />

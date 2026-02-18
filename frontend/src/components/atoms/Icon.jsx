@@ -1,6 +1,6 @@
-const Icon = ({ src, alt, color, size = 32 }) => {
+const Icon = ({ src, alt, color, size = 32, ...props }) => {
   return (
-    <img src={src} alt={alt} width={size} height={size} />
+    <img src={src} alt={alt} width={size} height={size} {...props} />
   );
 }
 

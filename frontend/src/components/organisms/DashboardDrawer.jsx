@@ -7,40 +7,73 @@ import VenueSwitcher from '../molecules/DashboardVenueSwitcher';
 import CurrentVenueDetails from '../molecules/DashboardCurrentVenueDetails';
 
 import YourAccount from '../../assets/your-account.svg';
+import SelectVenue from '../../assets/select-venue.svg';
+import CurrentVenue from '../../assets/current-venue.svg';
 
-const DashboardDrawer = ({ is_open, current_venue_data, all_venues_data, on_close }) => {
+const Drawer = ({ is_open, on_close, current_venue_data, all_venues_data, }) => {
   return (
     <div className={`drawer-overlay ${is_open ? "open" : ""}`} onClick={on_close}>
-      <div className="drawer-panel" onClick={(e) => e.stopPropagation()}>
-        <DrawerItemWrapper>
-          <DrawerItemHeader title="Your Account" icon={YourAccount} on_click={() => alert("Account details coming soon!")} />
-        </DrawerItemWrapper>
+      <div className="drawer-content" onClick={(e) => e.stopPropagation()}>
+        <DrawerSection 
+          title="Your Account" 
+          icon={YourAccount} 
+          is_link={true} 
+          on_header_click={() => alert("Account details coming soon!")} 
+        />
 
-        <DrawerItemWrapper>
-          <DrawerItemHeader title="Choose Another Venue" icon={YourAccount} on_click={() => alert("Venue switching coming soon!")} />
+        <DrawerSection 
+          title="Choose Another Venue" 
+          icon={SelectVenue} 
+        >
           <VenueSwitcher />
-        </DrawerItemWrapper>
+        </DrawerSection>
 
-        <DrawerItemWrapper>
-          <DrawerItemHeader title={current_venue_data.name} icon={YourAccount} on_click={() => alert("Current venue details coming soon!")} />
-          <CurrentVenueDetails />
-        </DrawerItemWrapper>
+        <DrawerSection 
+          title={current_venue_data.name} 
+          icon={CurrentVenue}
+        >
+          <CurrentVenueDetails data={current_venue_data} />
+        </DrawerSection>
       </div>
     </div>
   )
 }
 
-const DrawerItemWrapper = ({ children }) => {
-  return <div className="drawer-item">{children}</div>;
-};
+const DrawerSection = ({ 
+  title, 
+  icon, 
+  children, 
+  is_link = false, 
+  on_header_click, 
+  default_expanded = false 
+}) => {
+  const [is_expanded, setIsExpanded] = useState(default_expanded);
 
-const DrawerItemHeader = ({ title, icon, on_click }) => {
+  const handle_click = () => {
+    if (is_link) {
+      if (on_header_click) on_header_click();
+    } else {
+      setIsExpanded(!is_expanded);
+    }
+  };
+
   return (
-    <div className="drawer-item-header" onClick={on_click} style={{ cursor: 'pointer' }}>
-      <h3>{title}</h3>
-      <Icon src={icon} alt={title} />
+    <div className="drawer-item-wrapper">
+      <div className="drawer-item-header" onClick={handle_click} style={{ cursor: 'pointer' }}>
+        <h3>{title}</h3>
+        <Icon src={icon} alt={title} />
+      </div>
+
+      {/* Collapsible Content Area */}
+      {!is_link && (
+        <div className={`drawer-item-content-wrapper ${is_expanded ? 'open' : ''}`}>
+          <div className="drawer-item-content-inner">
+            {children}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
 
-export default DashboardDrawer;
+export default Drawer;

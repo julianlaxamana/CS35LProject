@@ -1,9 +1,13 @@
+import { useState } from 'react';
 import Header from '../components/organisms/DashboardHeader';
 import Content from '../components/organisms/DashboardContent';
+import Drawer from '../components/organisms/DashboardDrawer';
 
-import { SAMPLE_DASHBOARD_HEADER_DATA } from '../SAMPLEDATA';
+import { SAMPLE_DASHBOARD_HEADER_DATA, SAMPLE_DINING_VENUES } from '../SAMPLEDATA';
 
 function DashboardPage() {
+  const [is_drawer_open, setIsDrawerOpen] = useState(false);
+
   // Define any colors or other constants to use in the component here for easy access and modification. Will relocate later.
   const COLORS = {
     light: "#E0E0E0",
@@ -19,8 +23,18 @@ function DashboardPage() {
 
   return (
     <div className="dashboard-page">
-      <Header data={SAMPLE_DASHBOARD_HEADER_DATA} colors={COLORS} />
+      <Header 
+        data={SAMPLE_DASHBOARD_HEADER_DATA} 
+        colors={COLORS} 
+        on_venue_details_click={() => setIsDrawerOpen(true)} 
+      />
       <Content />
+      <Drawer 
+        is_open={is_drawer_open} 
+        on_close={() => setIsDrawerOpen(false)} 
+        current_venue_data={SAMPLE_DASHBOARD_HEADER_DATA}
+        all_venues_data={SAMPLE_DINING_VENUES} 
+      />
     </div>
   );
 }
