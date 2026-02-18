@@ -3,14 +3,14 @@ import FillBar from '../atoms/FillBar';
 import Chip from '../atoms/Chip';
 import Icon from '../atoms/Icon';
 
-import VenueSwitcher from '../molecules/DashboardVenueSwitcher';
+import VenuePicker from '../molecules/DashboardVenuePicker';
 import CurrentVenueDetails from '../molecules/DashboardCurrentVenueDetails';
 
 import YourAccount from '../../assets/your-account.svg';
 import SelectVenue from '../../assets/select-venue.svg';
 import CurrentVenue from '../../assets/current-venue.svg';
 
-const Drawer = ({ is_open, on_close, current_venue_data, all_venues_data, }) => {
+const Drawer = ({ is_open, on_close, current_venue_data, all_venues_data, favorite_venues_data, }) => {
   return (
     <div className={`drawer-overlay ${is_open ? "open" : ""}`} onClick={on_close}>
       <div className="drawer-content" onClick={(e) => e.stopPropagation()}>
@@ -25,7 +25,7 @@ const Drawer = ({ is_open, on_close, current_venue_data, all_venues_data, }) => 
           title="Choose Another Venue" 
           icon={SelectVenue} 
         >
-          <VenueSwitcher />
+          <VenuePicker venues_data={all_venues_data} favorite_venues_data={favorite_venues_data} />
         </DrawerSection>
 
         <DrawerSection 

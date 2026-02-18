@@ -391,6 +391,7 @@
   transform: translateX(0);
 }
 
+/* Drawer Item */
 .drawer-item-wrapper {
   display: flex;
   flex-direction: column;
@@ -417,7 +418,18 @@
 .drawer-item-content-wrapper.open {
   grid-template-rows: 1fr;
 }
-
 .drawer-item-content-inner {
   overflow: hidden;
+}
+
+.venue-item {
+  padding: 12px;
+  display: flex;
+
+  color:#211DA1;
+  background-color: #DBE3FF;
+}
+.venue-item.favorite {
+  color: #9CA11D;
+  background-color: #FAFFDB;
 }
