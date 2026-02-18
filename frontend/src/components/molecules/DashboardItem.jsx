@@ -9,7 +9,7 @@ import { SAMPLE_ITEM_DATA } from "../../SAMPLEDATA"
 // This component represents a single menu item in the dashboard.
 const DashboardItem = ({ item_data }) => {
   return (
-    <ItemCard title={item_data.title} tags={item_data.tags} rating={item_data.rating} image={item_data.image} />
+    <ItemCard title={item_data.name} tags={item_data.tags} rating={item_data.rating} image={item_data.image} />
   );
 }
 

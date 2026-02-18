@@ -8,7 +8,7 @@ const Header = ({ data, colors }) => {
   return (
     <div className="dashboard-header">
       <div className="dashboard-header-left-half">
-        <h1>{data.venue_name}</h1>
+        <h1>{data.name}</h1>
         <h2>{data.day}</h2>
         <div className="dashboard-chips">
           <Chip label={data.is_open ? "Open" : "Closed"} size="small" bgcolor={data.is_open ? colors.open : colors.dark} color={colors.light} />
@@ -40,7 +40,7 @@ const OccupancyDisplay = ({ occupancy }) => {
   return (
     <div className="occupancy-display">
       <div>Occupancy</div>
-      <FillBar text={`${occupancy}`} progress={as_progress} color="#F68E8E" grow_from="end" />
+      <FillBar text={`${occupancy}%`} progress={as_progress} color="#F68E8E" grow_from="end" />
     </div>
   );
 }
