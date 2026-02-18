@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
-import FillBar from '../atoms/FillBar';
-import Chip from '../atoms/Chip';
+import { useNavigate } from 'react-router-dom';
 import Icon from '../atoms/Icon';
 
 import VenuePicker from '../molecules/DashboardVenuePicker';
@@ -11,6 +10,8 @@ import SelectVenue from '../../assets/select-venue.svg';
 import CurrentVenue from '../../assets/current-venue.svg';
 
 const Drawer = ({ is_open, on_close, day_data, current_venue_data, all_venues_data, favorite_venues_data, on_select_venue }) => {
+  const navigate = useNavigate();
+
   const [reset_key, setResetKey] = useState(false);
 
   useEffect(() => {
@@ -27,7 +28,10 @@ const Drawer = ({ is_open, on_close, day_data, current_venue_data, all_venues_da
           title="Your Account" 
           icon={YourAccount} 
           is_link={true} 
-          on_header_click={() => alert("Account details coming soon!")} 
+          on_header_click={() => {
+            navigate('/user');
+            on_close();
+          }}
         />
 
         <DrawerSection 
