@@ -175,7 +175,7 @@
   gap: 16px;
   align-items: center;
 }
-.chip-small {
+.chip-medium {
   display: inline-block;
   padding: 4px 16px;
   background-color: #eee;
@@ -183,12 +183,12 @@
   font-size: 16px;
   color: #333;
 }
-.chip-large {
+.chip-small {
   display: inline-block;
-  padding: 8px 24px;
+  padding: 0 8px;
   background-color: #eee;
   border-radius: 16px;
-  font-size: 20px;
+  font-size: 14px;
   color: #333;
 }
 .venue-data {
@@ -422,6 +422,7 @@
   overflow: hidden;
 }
 
+/* DASHBOARD DRAWER - VENUE PICKER */
 .venue-picker {
   margin-top: 16px;
 
@@ -480,4 +481,79 @@
 
   font-size: 16px;
   font-weight: 500;
+}
+
+/* DASHBOARD DRAWER - CURRENT VENUE DETAILS */
+.current-venue-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.favorite-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  color: #C0BC88;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+
+  font-family: inherit;
+  font-size: 18px;
+}
+.favorite-button img {
+  width: 24px;
+  height: 24px;
+}
+.location-and-phone {
+  border-radius: 8px;
+  background-color: #E9EBF9;
+  padding: 8px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  font-weight: 300;
+}
+.notices,
+.about {
+  background-color: #FFEEBF;
+  padding: 8px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  font-weight: 300;
+}
+.notices h4,
+.about h4 {
+  margin: 0;
+  font-size: 16px;
+}
+.about {
+  background-color: #E3E2E1;
+}
+.statuses h4,
+.service-hours h4 {
+  margin: 0;
+  font-size: 16px;
+}
+.statuses table,
+.service-hours table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.statuses td,
+.service-hours td {
+  margin: 0;
+  padding: 0;
+  font-weight: 300;
+}
+.statuses td:nth-child(2),
+.service-hours td:nth-child(2) {
+  text-align: end;
 }

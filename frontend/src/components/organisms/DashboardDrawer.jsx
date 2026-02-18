@@ -10,7 +10,7 @@ import YourAccount from '../../assets/your-account.svg';
 import SelectVenue from '../../assets/select-venue.svg';
 import CurrentVenue from '../../assets/current-venue.svg';
 
-const Drawer = ({ is_open, on_close, current_venue_data, all_venues_data, favorite_venues_data, on_select_venue }) => {
+const Drawer = ({ is_open, on_close, day_data, current_venue_data, all_venues_data, favorite_venues_data, on_select_venue }) => {
   return (
     <div className={`drawer-overlay ${is_open ? "open" : ""}`} onClick={on_close}>
       <div className="drawer-content" onClick={(e) => e.stopPropagation()}>
@@ -25,14 +25,22 @@ const Drawer = ({ is_open, on_close, current_venue_data, all_venues_data, favori
           title="Choose Another Venue" 
           icon={SelectVenue} 
         >
-          <VenuePicker venues_data={all_venues_data} favorite_venues_data={favorite_venues_data} on_select_venue={on_select_venue} />
+          <VenuePicker 
+            venues_data={all_venues_data} 
+            favorite_venues_data={favorite_venues_data} 
+            on_select_venue={on_select_venue} 
+          />
         </DrawerSection>
 
         <DrawerSection 
           title={current_venue_data.name} 
           icon={CurrentVenue}
         >
-          <CurrentVenueDetails data={current_venue_data} />
+          <CurrentVenueDetails 
+            day_data={day_data} 
+            venue_data={current_venue_data} 
+            is_favorited={favorite_venues_data.includes(current_venue_data.id)} 
+          />
         </DrawerSection>
       </div>
     </div>

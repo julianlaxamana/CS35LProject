@@ -9,8 +9,8 @@ import Study from "./assets/ucla-venue-thumbnails/ucladiningstuhedrick.png";
 import Feast from "./assets/ucla-venue-thumbnails/uclafeastatreiber.png";
 import Default from "./assets/placeholder-thumbnail.jpg";
 
-// Sample data for the dashboard header
-const SAMPLE_DASHBOARD_HEADER_DATA = {
+// Sample data for the dashboard header and current venue details in the drawer.
+const SAMPLE_DASHBOARD_DAY_DATA = {
   day: "Thursday",
   meal_period: "Lunch",
 };
@@ -88,6 +88,90 @@ const SAMPLE_USER_ITEM_DATA = {
   review: null,
 }
 
+// Sample data for dining venues. Will be fetched from backend later, but defined here for ease of development and testing of the frontend.
+// Object Structure Guide (Because we forgot to set up the project with Typescript...)
+/*
+interface VenueData {
+  id: number;
+  name: string;
+  aggregate_rating: number | null;
+  occupancy: number | null;
+  status: "Open" | "Closed";
+  image: string; // URL or path to the venue's image
+
+  // Additional details for the venue details section in the drawer
+  location: string;
+  phone: string;
+
+  notices: string[]; // Array of important notices or announcements related to the venue
+
+  hours: {
+    [day: string]: {
+      breakfast: string;
+      lunch: string;
+      dinner: string;
+      extended_dinner: string;
+    };
+  };
+
+  about: string; // Use text instead of string in the database
+}
+*/
+
+// Internal, used for SAMPLE_DINING_VENUES, not exported
+const INTERNAL_SAMPLE_VENUE_LOCATION = "456 University Ave, Frontend City, XX 12345";
+const INTERNAL_SAMPLE_VENUE_PHONE = "(987) 654-3210";
+const INTERNAL_SAMPLE_VENUE_NOTICES = [
+  "Notice 1: Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+  "Notice 2: Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+];
+const INTERNAL_SAMPLE_VENUE_HOURS = {  
+  sunday: {
+    breakfast: "7:00 a.m. - 9:00 a.m.",
+    lunch: "11:00 a.m. - 3:00 p.m.",
+    dinner: "5:00 p.m. - 9:00 p.m.",
+    extended_dinner: "Closed",
+  },
+  monday: {
+    breakfast: "7:00 a.m. - 9:00 a.m.",
+    lunch: "11:00 a.m. - 2:00 p.m.",
+    dinner: "5:00 p.m. - 9:00 p.m.",
+    extended_dinner: "Closed",
+  },
+  tuesday: {
+    breakfast: "7:00 a.m. - 9:00 a.m.",
+    lunch: "11:00 a.m. - 2:00 p.m.",
+    dinner: "5:00 p.m. - 9:00 p.m.",
+    extended_dinner: "Closed",
+  },
+  wednesday: {
+    breakfast: "7:00 a.m. - 9:00 a.m.",
+    lunch: "11:00 a.m. - 2:00 p.m.",
+    dinner: "5:00 p.m. - 9:00 p.m.",
+    extended_dinner: "Closed",
+  },
+  thursday: {
+    breakfast: "7:00 a.m. - 9:00 a.m.",
+    lunch: "11:00 a.m. - 2:00 p.m.",
+    dinner: "5:00 p.m. - 9:00 p.m.",
+    extended_dinner: "Closed",
+  },
+  friday: {
+    breakfast: "Closed",
+    lunch: "Closed",
+    dinner: "Closed",
+    extended_dinner: "Closed",
+  },
+  saturday: {
+    breakfast: "7:00 a.m. - 9:00 a.m.",
+    lunch: "11:00 a.m. - 3:00 p.m.",
+    dinner: "5:00 p.m. - 9:00 p.m.",
+    extended_dinner: "Closed",
+  },
+}
+const INTERNAL_SAMPLE_VENUE_ABOUT = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+
+// Sample data for dining venues. Will be fetched from backend later, but defined here for ease of development and testing of the frontend.
 const SAMPLE_DINING_VENUES = [
   { 
     id: 1,
@@ -96,6 +180,17 @@ const SAMPLE_DINING_VENUES = [
     occupancy: 89, 
     status: "Open",
     image: BPlate,
+
+    location: "350 Charles E. Young Drive, West Los Angeles, CA 90095",
+    phone: "(310) 825-1234",
+
+    notices: [
+      "Grab & Go Menu Available Monday - Friday from 7:00 a.m. - 10:00 a.m.",
+      "Now serving breakfast all day!",
+    ],
+
+    hours: INTERNAL_SAMPLE_VENUE_HOURS,
+    about: INTERNAL_SAMPLE_VENUE_ABOUT,
   },
   { 
     id: 2,
@@ -104,6 +199,17 @@ const SAMPLE_DINING_VENUES = [
     occupancy: 26, 
     status: "Open",
     image: BCafe,
+
+    location: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    phone: "(123) 456-7890",
+
+    notices: [
+      "Notice 1: Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "Notice 2: Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    ],
+
+    hours: INTERNAL_SAMPLE_VENUE_HOURS,
+    about: INTERNAL_SAMPLE_VENUE_ABOUT,
   },
   { 
     id: 3,
@@ -112,6 +218,11 @@ const SAMPLE_DINING_VENUES = [
     occupancy: 100, 
     status: "Open",
     image: Feast,
+    location: INTERNAL_SAMPLE_VENUE_LOCATION,
+    phone: INTERNAL_SAMPLE_VENUE_PHONE,
+    notices: INTERNAL_SAMPLE_VENUE_NOTICES,
+    hours: INTERNAL_SAMPLE_VENUE_HOURS,
+    about: INTERNAL_SAMPLE_VENUE_ABOUT,
   },
   { 
     id: 4,
@@ -120,6 +231,11 @@ const SAMPLE_DINING_VENUES = [
     occupancy: 47, 
     status: "Open",
     image: DeNeve,
+    location: INTERNAL_SAMPLE_VENUE_LOCATION,
+    phone: INTERNAL_SAMPLE_VENUE_PHONE,
+    notices: INTERNAL_SAMPLE_VENUE_NOTICES,
+    hours: INTERNAL_SAMPLE_VENUE_HOURS,
+    about: INTERNAL_SAMPLE_VENUE_ABOUT,
   },
   { 
     id: 5,
@@ -128,6 +244,11 @@ const SAMPLE_DINING_VENUES = [
     occupancy: 73, 
     status: "Open",
     image: Rende,
+    location: INTERNAL_SAMPLE_VENUE_LOCATION,
+    phone: INTERNAL_SAMPLE_VENUE_PHONE,
+    notices: INTERNAL_SAMPLE_VENUE_NOTICES,
+    hours: INTERNAL_SAMPLE_VENUE_HOURS,
+    about: INTERNAL_SAMPLE_VENUE_ABOUT,
   },
   { 
     id: 6,
@@ -136,6 +257,11 @@ const SAMPLE_DINING_VENUES = [
     occupancy: null, 
     status: "Closed",
     image: EpicA,
+    location: INTERNAL_SAMPLE_VENUE_LOCATION,
+    phone: INTERNAL_SAMPLE_VENUE_PHONE,
+    notices: INTERNAL_SAMPLE_VENUE_NOTICES,
+    hours: INTERNAL_SAMPLE_VENUE_HOURS,
+    about: INTERNAL_SAMPLE_VENUE_ABOUT,
   },
   { 
     id: 7,
@@ -144,6 +270,11 @@ const SAMPLE_DINING_VENUES = [
     occupancy: 100, 
     status: "Open",
     image: EpicC,
+    location: INTERNAL_SAMPLE_VENUE_LOCATION,
+    phone: INTERNAL_SAMPLE_VENUE_PHONE,
+    notices: INTERNAL_SAMPLE_VENUE_NOTICES,
+    hours: INTERNAL_SAMPLE_VENUE_HOURS,
+    about: INTERNAL_SAMPLE_VENUE_ABOUT,
   },
   { 
     id: 8,
@@ -152,6 +283,11 @@ const SAMPLE_DINING_VENUES = [
     occupancy: null, 
     status: "Closed",
     image: Default,
+    location: INTERNAL_SAMPLE_VENUE_LOCATION,
+    phone: INTERNAL_SAMPLE_VENUE_PHONE,
+    notices: INTERNAL_SAMPLE_VENUE_NOTICES,
+    hours: INTERNAL_SAMPLE_VENUE_HOURS,
+    about: INTERNAL_SAMPLE_VENUE_ABOUT,
   },
   { 
     id: 9,
@@ -160,6 +296,11 @@ const SAMPLE_DINING_VENUES = [
     occupancy: 58, 
     status: "Open",
     image: Study,
+    location: INTERNAL_SAMPLE_VENUE_LOCATION,
+    phone: INTERNAL_SAMPLE_VENUE_PHONE,
+    notices: INTERNAL_SAMPLE_VENUE_NOTICES,
+    hours: INTERNAL_SAMPLE_VENUE_HOURS,
+    about: INTERNAL_SAMPLE_VENUE_ABOUT,
   },
   {
     id: 10,
@@ -168,6 +309,11 @@ const SAMPLE_DINING_VENUES = [
     occupancy: 100,
     status: "Open",
     image: Default,
+    location: INTERNAL_SAMPLE_VENUE_LOCATION,
+    phone: INTERNAL_SAMPLE_VENUE_PHONE,
+    notices: INTERNAL_SAMPLE_VENUE_NOTICES,
+    hours: INTERNAL_SAMPLE_VENUE_HOURS,
+    about: INTERNAL_SAMPLE_VENUE_ABOUT,
   }
 ];
 
@@ -175,7 +321,7 @@ const SAMPLE_DINING_VENUES = [
 const SAMPLE_USER_FAVORITE_DINING_VENUES = [3, 5];
 
 export { 
-  SAMPLE_DASHBOARD_HEADER_DATA, 
+  SAMPLE_DASHBOARD_DAY_DATA, 
   SAMPLE_ITEM_COLLECTION,
   SAMPLE_USER_ITEM_DATA, 
   SAMPLE_DINING_VENUES,

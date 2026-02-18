@@ -3,7 +3,7 @@ import Header from '../components/organisms/DashboardHeader';
 import Content from '../components/organisms/DashboardContent';
 import Drawer from '../components/organisms/DashboardDrawer';
 
-import { SAMPLE_DASHBOARD_HEADER_DATA, SAMPLE_DINING_VENUES, SAMPLE_USER_FAVORITE_DINING_VENUES } from '../SAMPLEDATA';
+import { SAMPLE_DASHBOARD_DAY_DATA, SAMPLE_DINING_VENUES, SAMPLE_USER_FAVORITE_DINING_VENUES } from '../SAMPLEDATA';
 
 function DashboardPage() {
   const [is_drawer_open, setIsDrawerOpen] = useState(false);
@@ -25,7 +25,7 @@ function DashboardPage() {
   return (
     <div className="dashboard-page">
       <Header 
-        header_data={SAMPLE_DASHBOARD_HEADER_DATA}
+        day_data={SAMPLE_DASHBOARD_DAY_DATA}
         current_venue_data={current_venue_data} 
         colors={COLORS} 
         on_venue_details_click={() => setIsDrawerOpen(true)} 
@@ -34,6 +34,7 @@ function DashboardPage() {
       <Drawer 
         is_open={is_drawer_open} 
         on_close={() => setIsDrawerOpen(false)} 
+        day_data={SAMPLE_DASHBOARD_DAY_DATA}
         current_venue_data={current_venue_data}
         all_venues_data={SAMPLE_DINING_VENUES} 
         favorite_venues_data={SAMPLE_USER_FAVORITE_DINING_VENUES}
