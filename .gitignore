@@ -92,3 +92,8 @@ lib-cov
 
 # Firebase Key
 **/l-menu-database-firebase-adminsdk-fbsvc-aec79dc391.json
+
+# Ignore scraped JSON files
+**/bruin-plate.json
+**/de-neve-dining.json
+**/epicuria-at-covel.json

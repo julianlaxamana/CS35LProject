@@ -2,11 +2,12 @@ import requests
 from bs4 import BeautifulSoup
 import re
 import json
+from FirebaseSend import send_to_firebase
 
-# Send an HTTP GET request to the webpage
 halls = ["de-neve-dining", "bruin-plate", "epicuria-at-covel"]
 
-def scrape_hall(hall):
+def scrape_hall(hall, save_json=False):
+    # Send an HTTP GET request to the webpage
     url = f"https://dining.ucla.edu/{hall}/"
     response = requests.get(url)
 
@@ -48,16 +49,13 @@ def scrape_hall(hall):
         station_items = scrape_station(station)
         scraped_data[meal_time][station_name] = station_items
 
-    with open(f"{hall}.json", "w") as f:
-        json.dump(scraped_data, f, indent=4)
+    if save_json:
+        with open(f"{hall}.json", "w") as f:
+            json.dump(scraped_data, f, indent=4)
+    else:
+        return scraped_data
 
 for hall in halls:
-     print(f"Scraping {hall}...")
-     scrape_hall(hall)
-
-# formatted_data = json.dumps(scraped_data, indent=4)
-
-# print(formatted_data)
-
-# print(scraped_data.keys())
-# print(scraped_data["breakfast"].keys())
+    print(f"Scraping {hall}...")
+    data = scrape_hall(hall, save_json=False)
+    send_to_firebase(data, hall)
