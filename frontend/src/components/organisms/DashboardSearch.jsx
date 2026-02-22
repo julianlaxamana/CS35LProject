@@ -3,6 +3,25 @@ import SearchBar from '../molecules/SearchBar';
 
 const Search = ({ is_open, on_close, day_data, current_venue_data, on_interact }) => {
   const [sort_mode, setSortMode] = useState("Alphabetical");
+  const [tags, setTags] = useState([
+    { name: "Alcohol", regex: "alcohol", is_selected: true },
+    { name: "Shellfish", regex: "crustacean|shellfish", is_selected: true },
+    { name: "Customizable", regex: "custom(izable)?", is_selected: true },
+    { name: "Dairy", regex: "dairy", is_selected: true },
+    { name: "Egg", regex: "egg(s)?", is_selected: true },
+    { name: "Fish", regex: "fish", is_selected: true },
+    { name: "Gluten", regex: "gluten", is_selected: true },
+    { name: "Halal", regex: "halal", is_selected: true },
+    { name: "High Carbon", regex: "high[- ]*carbon", is_selected: true },
+    { name: "Low Carbon", regex: "low[- ]*carbon", is_selected: true },
+    { name: "Peanut", regex: "peanut", is_selected: true },
+    { name: "Sesame", regex: "sesame", is_selected: true },
+    { name: "Soy", regex: "soy", is_selected: true },
+    { name: "Tree Nut", regex: "tree[- ]*nut(s)?", is_selected: true },
+    { name: "Vegan", regex: "vegan", is_selected: true },
+    { name: "Vegetarian", regex: "vegetarian", is_selected: true },
+    { name: "Wheat", regex: "wheat", is_selected: true },
+  ]);
 
   return (
     <div className={`drawer-overlay ${is_open ? "open" : ""}`} onClick={on_close}>
@@ -12,6 +31,7 @@ const Search = ({ is_open, on_close, day_data, current_venue_data, on_interact }
           <h2>{current_venue_data.name} ({day_data.day} {day_data.meal_period})</h2>
         </div>
         <SearchBar placeholder="Search menu items..." button_only={false} on_interact={on_interact} />
+
         <div className="search-sort-section">
           <h4>Sort By</h4>
           <CustomDropdown 
@@ -23,7 +43,32 @@ const Search = ({ is_open, on_close, day_data, current_venue_data, on_interact }
             }}
           />
         </div>
-      </div>
+
+        <div className="search-filter-section">
+          <h4>Filter by</h4>
+          <div className="search-filter-content">
+            <h5>Tags</h5>
+            <FilterTags 
+              tags={tags} 
+              on_toggle_tag={(tag_name) => {
+                const new_tags = tags.map((tag) => 
+                  tag.name === tag_name ? { ...tag, is_selected: !tag.is_selected } : tag
+                );
+                setTags(new_tags);
+                on_interact(new_tags);
+              }}
+            />
+
+            <h5>Rating Range</h5>
+            <FilterRatingRange 
+              rating_min={0} 
+              rating_max={5} 
+              on_change_rating_range={() => {}}
+            />
+          </div>
+        </div>
+
+       </div>
     </div>
   );
 }
@@ -73,5 +118,98 @@ const CustomDropdown = ({ options, value, on_change }) => {
     </div>
   );
 };
+
+const FilterTags = ({ tags, on_toggle_tag }) => {
+  const ITEMS_PER_ROW = 3;
+
+  return (
+    <div className="filter-tags">
+      <table>
+        <tbody>
+          {tags.map((tag, index) => (
+            <tr key={tag.name} className="filter-tag-row">
+              {tags.slice(index * ITEMS_PER_ROW, (index + 1) * ITEMS_PER_ROW).map((t) => (
+                <td key={t.name}>
+                  <FilterTagItem 
+                    tag={t} 
+                    is_selected={t.is_selected} 
+                    on_toggle={() => on_toggle_tag(t.name)} 
+                  />
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )
+}
+const FilterTagItem = ({ tag, is_selected, on_toggle }) => {
+  return (
+    <div className={`filter-tag-item ${is_selected ? 'selected' : ''}`} onClick={on_toggle}>
+      <div className="filter-tag-checkbox">
+        <div className={`filter-tag-checkbox-inner ${is_selected ? 'filled' : ''}`}></div>
+      </div>
+      <span>{tag.name}</span>
+    </div>
+  );
+}
+
+const FilterRatingRange = ({ rating_min, rating_max, on_change_rating_range }) => {
+  const [min_val, setMinVal] = useState(rating_min);
+  const [max_val, setMaxVal] = useState(rating_max);
+
+  const RANGE_MIN = 0.0;
+  const RANGE_MAX = 5.0;
+
+  const handleMinChange = (e) => {
+    const value = Math.min(Number(e.target.value), max_val - 0.1);
+    setMinVal(value);
+    on_change_rating_range(value, min_val, max_val);
+  };
+
+  const handleMaxChange = (e) => {
+    const value = Math.max(Number(e.target.value), min_val + 0.1);
+    setMaxVal(value);
+    on_change_rating_range(value, min_val, max_val);
+  };
+
+  // Convert values to percentages to visually draw the blue track
+  const min_percent = ((min_val - rating_min) / (rating_max - rating_min)) * 100;
+  const max_percent = ((max_val - rating_min) / (rating_max - rating_min)) * 100;
+
+  return (
+    <div className="filter-rating-container">
+      <span className="filter-rating-label">{min_val.toFixed(1)}</span>
+      <div className="filter-rating-slider">
+        <div className="filter-rating-track-bg"></div>
+        <div 
+          className="filter-rating-track-active" 
+          style={{ left: `${min_percent}%`, right: `${100 - max_percent}%` }}
+        ></div>
+        
+        <input 
+          type="range" 
+          min={rating_min} 
+          max={rating_max} 
+          step="0.1" 
+          value={min_val} 
+          onChange={handleMinChange} 
+          className="filter-rating-input" 
+        />
+        <input 
+          type="range" 
+          min={rating_min} 
+          max={rating_max} 
+          step="0.1" 
+          value={max_val} 
+          onChange={handleMaxChange} 
+          className="filter-rating-input" 
+        />
+      </div>
+      <span className="filter-rating-label">{max_val.toFixed(1)}</span>
+    </div>
+  );
+}
 
 export default Search;
