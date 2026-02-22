@@ -348,7 +348,7 @@
   gap: 2px;
 }
 
-/* DASHBOARD DRAWER (SLIDE IN OVERLAY) */
+/* VENUE DETAILS DRAWER (SLIDE IN OVERLAY) */
 .drawer-overlay {
   position: absolute;
   top: 0;
@@ -394,33 +394,33 @@
 }
 
 /* Drawer Item */
-.drawer-item-wrapper {
+.venue-details-section-wrapper {
   display: flex;
   flex-direction: column;
   padding: 16px;
   border-bottom: solid 1px #9EA1B9;
 }
-.drawer-item-header {
+.venue-details-section-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
 }
-.drawer-item-header h3 {
+.venue-details-section-header h3 {
   margin: 0;
   font-size: 20px;
   font-weight: 500;
   color: #83889C;
 }
-.drawer-item-content-wrapper {
+.venue-details-section-content-wrapper {
   display: grid;
   grid-template-rows: 0fr;
   transition: grid-template-rows 0.1s ease-out;
 }
-.drawer-item-content-wrapper.open {
+.venue-details-section-content-wrapper.open {
   grid-template-rows: 1fr;
 }
-.drawer-item-content-inner {
+.venue-details-section-content-inner {
   overflow: hidden;
 }
 

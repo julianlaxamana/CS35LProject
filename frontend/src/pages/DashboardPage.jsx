@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Search from '../components/organisms/DashboardSearch';
 import Header from '../components/organisms/DashboardHeader';
 import Content from '../components/organisms/DashboardContent';
-import Drawer from '../components/organisms/DashboardDrawer';
+import Drawer from '../components/organisms/DashboardVenueDetails';
 
 import { SAMPLE_DASHBOARD_DAY_DATA, SAMPLE_DINING_VENUES, SAMPLE_USER_FAVORITE_DINING_VENUES } from '../SAMPLEDATA';
 
