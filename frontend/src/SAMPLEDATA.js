@@ -15,6 +15,16 @@ const SAMPLE_DASHBOARD_DAY_DATA = {
   meal_period: "Lunch",
 };
 
+const EMPTY_ITEM_DATA = {
+  name: "",
+  tags: [],
+  rating: null,
+  image: "",
+  nutrition_facts: {},
+  ingredients: [],
+  allergens: []
+}
+
 // Sample data for a DashboardItem component
 const SAMPLE_ITEM_COLLECTION = [
   {
@@ -323,6 +333,7 @@ const SAMPLE_USER_FAVORITE_DINING_VENUES = [3, 5];
 
 export { 
   SAMPLE_DASHBOARD_DAY_DATA, 
+  EMPTY_ITEM_DATA,
   SAMPLE_ITEM_COLLECTION,
   SAMPLE_USER_ITEM_DATA, 
   SAMPLE_DINING_VENUES,

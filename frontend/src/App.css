@@ -339,6 +339,7 @@
 .item-card-bottom-region {
   display: flex;
   align-items: flex-end;
+  cursor: pointer;
 }
 .item-card-tags {
   flex: 1;
@@ -348,7 +349,7 @@
   gap: 2px;
 }
 
-/* VENUE DETAILS DRAWER (SLIDE IN OVERLAY) */
+/* DRAWER OVERLAY*/
 .drawer-overlay {
   position: absolute;
   top: 0;
@@ -362,13 +363,14 @@
   visibility: hidden;
   transition: opacity 0.3s ease-in-out, visibility 0.3s;
 }
-
 .drawer-overlay.open {
   background-color: rgba(0, 0, 0, 0.5);
   visibility: visible;
 
   transition: background-color 0.3s ease-in-out, visibility 0s linear 0s;
 }
+
+/* DASHBOARD VENUE DETAILS DRAWER */
 .venue-drawer-content {
   position: absolute;
   top: 0;
@@ -560,7 +562,7 @@
   text-align: end;
 }
 
-/* DASHBOARD SEARCH */
+/* DASHBOARD SEARCH DRAWER */
 .search-drawer-content {
   --padding: 16px;
 
@@ -574,7 +576,7 @@
   
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--padding);
   padding: var(--padding);
 
   /* Slide in from the top */
@@ -782,4 +784,31 @@
   font-size: 14px;
   font-weight: 500;
   color: #333;
+}
+
+/* DASHBOARD ITEM DETAILS DRAWER */
+.item-drawer-content {
+  --padding: 16px;
+
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: calc(85% - var(--padding) * 2);
+  height: 100%;
+  background-color: white;
+  box-shadow: 0 -5px 15px rgba(0,0,0,0.2);
+  border-right: solid 1px #9EA1B9;
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--padding);
+  padding: var(--padding);
+
+  /* Slide in from the left */
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in-out;
+}
+.drawer-overlay.open .item-drawer-content {
+  /* Slide in the drawer content when the overlay is open */
+  transform: translateX(0);
 }
