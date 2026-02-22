@@ -19,7 +19,7 @@ const EMPTY_ITEM_DATA = {
   name: "",
   tags: [],
   rating: null,
-  image: "",
+  image: null,
   nutrition_facts: {},
   ingredients: [],
   allergens: []

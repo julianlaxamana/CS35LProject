@@ -1,7 +1,5 @@
 import Chip from '../atoms/Chip';
-
-import Favorite from '../../assets/favorite.svg';
-import NotFavorite from '../../assets/not-favorite.svg';
+import MarkAsFavoriteButton from '../atoms/MarkAsFavoriteButton';
 
 const CurrentVenueDetails = ({ day_data, venue_data, is_favorited }) => {
   const hours_for_the_day = venue_data.hours[day_data.day.toLowerCase()];
@@ -75,15 +73,6 @@ const CurrentVenueDetails = ({ day_data, venue_data, is_favorited }) => {
         <div>{venue_data.about}</div>
       </div>
     </div>
-  );
-}
-
-const MarkAsFavoriteButton = ({ is_favorite, onClick }) => {
-  return (
-    <button className={`favorite-button ${is_favorite ? "favorited" : ""}`} onClick={onClick}>
-      <img src={is_favorite ? Favorite : NotFavorite} alt={is_favorite ? "Unfavorite" : "Mark as Favorite"} />
-      <div>{is_favorite ? "Favorited" : "Mark as Favorite"}</div>
-    </button>
   );
 }
 
