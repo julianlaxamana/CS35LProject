@@ -23,7 +23,7 @@ const Drawer = ({ is_open, on_close, day_data, current_venue_data, all_venues_da
 
   return (
     <div className={`drawer-overlay ${is_open ? "open" : ""}`} onClick={on_close}>
-      <div key={reset_key} className="drawer-content" onClick={(e) => e.stopPropagation()}>
+      <div key={reset_key} className="venue-drawer-content" onClick={(e) => e.stopPropagation()}>
         <DrawerSection 
           title="Your Account" 
           icon={YourAccount} 

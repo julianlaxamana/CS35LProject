@@ -21,7 +21,7 @@ const SAMPLE_ITEM_COLLECTION = [
     id: 1,
     name: "Korean Crispy Tofu Bowl",
     tags: ["Vegan", "Low-Carbon-Footprint", "Contains Soy", "Contains Gluten", "Contains Wheat", "Contains Sesame"],
-    rating: 4.52,
+    rating: 4.52,  // Placeholder rating for testing, NOT ACTUALLY TO BE STORED IN THE BACKEND, will be calculated on the frontend based on user ratings in the future.
     image: "",
     nutrition_facts: {},
     ingredients: [],
@@ -83,6 +83,7 @@ const SAMPLE_ITEM_COLLECTION = [
 const SAMPLE_USER_ITEM_DATA = {
   id: 1,
   item_id: 1,
+  user_id: 1,
   marked_as_favorite: true,
   rating: null,
   review: null,
@@ -178,7 +179,7 @@ const SAMPLE_DINING_VENUES = [
     name: "Bruin Plate", 
     aggregate_rating: 2.05, // Placeholder rating for testing, NOT ACTUALLY TO BE STORED IN THE BACKEND, will be calculated on the frontend based on user ratings in the future.
     occupancy: 89, 
-    status: "Open",
+    status: "Open",   // Placeholder status for testing, NOT ACTUALLY TO BE STORED IN THE BACKEND, will be determined on the frontend based on hours and current time in the future.
     image: BPlate,
 
     location: "350 Charles E. Young Drive, West Los Angeles, CA 90095",
