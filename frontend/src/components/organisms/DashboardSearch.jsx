@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import SearchBar from '../molecules/SearchBar';
+import Slider from '../atoms/Slider';
 
 const Search = ({ is_open, on_close, day_data, current_venue_data, on_interact }) => {
   const [sort_mode, setSortMode] = useState("Alphabetical");
@@ -60,10 +61,17 @@ const Search = ({ is_open, on_close, day_data, current_venue_data, on_interact }
             />
 
             <h5>Rating Range</h5>
-            <FilterRatingRange 
-              rating_min={0} 
-              rating_max={5} 
-              on_change_rating_range={() => {}}
+            <Slider 
+              min={0} 
+              max={5}
+              step={0.1}
+              default_value_first={0}
+              default_value_second={5}
+              on_change={(first, second) => {
+                const new_range = [first, second];
+                on_interact(new_range);
+              }}
+              has_two_thumbs={true}
             />
           </div>
         </div>
@@ -151,63 +159,6 @@ const FilterTagItem = ({ tag, is_selected, on_toggle }) => {
         <div className={`filter-tag-checkbox-inner ${is_selected ? 'filled' : ''}`}></div>
       </div>
       <span>{tag.name}</span>
-    </div>
-  );
-}
-
-const FilterRatingRange = ({ rating_min, rating_max, on_change_rating_range }) => {
-  const [min_val, setMinVal] = useState(rating_min);
-  const [max_val, setMaxVal] = useState(rating_max);
-
-  const RANGE_MIN = 0.0;
-  const RANGE_MAX = 5.0;
-
-  const handleMinChange = (e) => {
-    const value = Math.min(Number(e.target.value), max_val - 0.1);
-    setMinVal(value);
-    on_change_rating_range(value, min_val, max_val);
-  };
-
-  const handleMaxChange = (e) => {
-    const value = Math.max(Number(e.target.value), min_val + 0.1);
-    setMaxVal(value);
-    on_change_rating_range(value, min_val, max_val);
-  };
-
-  // Convert values to percentages to visually draw the blue track
-  const min_percent = ((min_val - rating_min) / (rating_max - rating_min)) * 100;
-  const max_percent = ((max_val - rating_min) / (rating_max - rating_min)) * 100;
-
-  return (
-    <div className="filter-rating-container">
-      <span className="filter-rating-label">{min_val.toFixed(1)}</span>
-      <div className="filter-rating-slider">
-        <div className="filter-rating-track-bg"></div>
-        <div 
-          className="filter-rating-track-active" 
-          style={{ left: `${min_percent}%`, right: `${100 - max_percent}%` }}
-        ></div>
-        
-        <input 
-          type="range" 
-          min={rating_min} 
-          max={rating_max} 
-          step="0.1" 
-          value={min_val} 
-          onChange={handleMinChange} 
-          className="filter-rating-input" 
-        />
-        <input 
-          type="range" 
-          min={rating_min} 
-          max={rating_max} 
-          step="0.1" 
-          value={max_val} 
-          onChange={handleMaxChange} 
-          className="filter-rating-input" 
-        />
-      </div>
-      <span className="filter-rating-label">{max_val.toFixed(1)}</span>
     </div>
   );
 }

@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import Chip from '../atoms/Chip';
+import Slider from '../atoms/Slider';
 import UCLADiningIcon from "../atoms/UCLADiningIcon";
 import MarkAsFavoriteButton from '../atoms/MarkAsFavoriteButton';
 
@@ -29,17 +31,67 @@ const ItemDetails = ({ is_open, on_close, menu_item_data = EMPTY_ITEM_DATA, on_i
   )
 };
 
-const OverallRating = ({ ratings, on_click }) => {  
+const OverallRating = ({ ratings, on_update, user_rating }) => {  
+  const [is_modal_open, setIsModalOpen] = useState(false);
   
   // TODO: clicking this opens a slider to leave/update rating
 
   const average_rating = ratings.length > 0 ? ratings.reduce((sum, r) => sum + r, 0) / ratings.length : null;
   const abbreviated_count = ratings.length > 999 ? `${(ratings.length / 1000).toFixed(1)}k` : ratings.length;
 
+  const updateUserRating = (new_rating) => {
+    // Placeholder for updating user rating, will eventually involve API call and state update
+    if (new_rating === null) {
+      alert("User did not want to leave a rating.");
+      setIsModalOpen(false);
+      return;
+    }
+    if (new_rating === user_rating) {
+      alert("Rating unchanged.");
+      setIsModalOpen(false);
+      return;
+    }
+    alert(`New rating submitted: ${new_rating}`);
+    on_update(new_rating);
+    setIsModalOpen(false);
+  }
+
   return (
-    <div className="overall-rating" onClick={on_click}>
+    <div className="overall-rating" onClick={() => setIsModalOpen(true)}>
       <h3>Overall Rating ({abbreviated_count})</h3>
       <div className="rating-value">{average_rating !== null ? average_rating.toFixed(2) : "N/A"}</div>
+      <div className={`rating-modal ${is_modal_open ? "open" : ""}`}>
+        <h4>Leave a Rating?</h4>
+        <div className="rating-slider">
+          <Slider 
+            min={0} 
+            max={5} 
+            step={0.1} 
+            default_value_first={user_rating || 0} 
+            default_value_second={5} 
+            on_change={(first, second) => updateUserRating(second)} 
+            has_two_thumbs={false} 
+          />
+        </div>
+        <div className="rating-buttons">
+          <Chip 
+            label="Save" 
+            size="medium" 
+            bgcolor="#6B9E64" 
+            color="#E0E0E0" 
+            clickable={true}
+            onClick={() => updateUserRating(user_rating || null)} 
+          />
+          <Chip 
+            label="Cancel" 
+            size="medium" 
+            bgcolor="#9E6464" 
+            color="#E0E0E0" 
+            clickable={true}
+            onClick={() => setIsModalOpen(false)} 
+          />
+        </div>
+      </div>
     </div>
   );
 }
