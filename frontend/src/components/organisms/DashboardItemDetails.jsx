@@ -5,6 +5,8 @@ import UCLADiningIcon from "../atoms/UCLADiningIcon";
 import MarkAsFavoriteButton from '../atoms/MarkAsFavoriteButton';
 import Modal from '../atoms/Modal';
 
+import ItemReviews from '../molecules/DashboardItemReviews';
+
 import { EMPTY_ITEM_DATA } from '../../SAMPLEDATA';
 import PlaceholderThumbnail from "../../assets/placeholder-thumbnail.jpg";
 
@@ -23,7 +25,7 @@ const ItemDetails = ({ is_open, on_close, menu_item_data = EMPTY_ITEM_DATA, on_i
         </div>
         <MarkAsFavoriteButton is_favorite={is_favorited} onClick={() => alert("Favorite functionality coming soon!")} />
         <OverallRating ratings={menu_item_data.ratings || []} on_update={() => {}} />
-        <Reviews reviews={menu_item_data.reviews || []} on_click={() => alert("Review functionality coming soon!")} />
+        <Reviews reviews={menu_item_data.reviews || []} on_update={() => {}} />
         <NutritionFacts nutrition_facts={menu_item_data.nutrition_facts || {}} />
         <IngredientsAndAllergens ingredients_and_allergens_text="Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem vero excepturi dignissimos, eveniet culpa pariatur mollitia suscipit fuga modi explicabo impedit. Aspernatur dolor officiis doloremque, labore pariatur sit. Totam harum facere impedit fugit? Ab animi sint qui, quam, quaerat harum nulla non similique quae tenetur culpa rem ipsum id enim!" />
         
@@ -104,24 +106,27 @@ const OverallRating = ({ ratings, on_update, user_rating }) => {
   );
 }
 
-const Reviews = ({ reviews, on_click }) => {  
-  
-  // TODO: clicking this expands an area below with a portion of all reviews and the option to leave/update your own review
+const Reviews = ({ reviews, on_update, user_review }) => {  
+  const [is_modal_open, setIsModalOpen] = useState(false);
+  const [review_text, setReviewText] = useState(user_review);
+
+  const abbreviated_count = reviews.length > 999 ? `${(reviews.length / 1000).toFixed(1)}k` : reviews.length;
 
   return (
-    <div className="reviews-section" onClick={on_click}>
-      <h3>Reviews</h3>
-      {reviews.length === 0 ? (
-        <div>No reviews yet. Be the first to leave a review!</div>
-      ) : (
-        reviews.map((review, index) => (
-          <div key={index} className="review">
-            <div className="review-rating">Rating: {review.rating.toFixed(2)}</div>
-            <div className="review-comment">{review.comment}</div>
-          </div>
-        ))
-      )}
-    </div>
+    <>
+      <div className="reviews-section" onClick={() => setIsModalOpen(true)}>
+        <h3>Reviews ({abbreviated_count})</h3>
+      </div>
+      <Modal is_open={is_modal_open} on_close={() => setIsModalOpen(false)}>
+        <div className="reviews-modal-inner">
+          <ItemReviews 
+            reviews={reviews} 
+            on_update={on_update} 
+            user_review={user_review} 
+          />
+        </div>
+      </Modal>
+    </>
   );
 }
 

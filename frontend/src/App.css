@@ -908,3 +908,82 @@
   max-height: 80%;
   /* Handle rest of styling manually in child components */
 }
+
+.reviews-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  background-color: white;
+  border: solid 2px #9EA1B9;
+  padding: 12px;
+}
+.modal-overlay:has(.reviews-section) {
+  /* Override center styling so clicking on the position of the pagination doesn't vary due to modal height */
+  align-items: flex-start;
+  padding-top: 92px;
+}
+.reviews-pagination {
+  background-color: #505E82;
+  color: #E0E0E0;
+
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+.reviews-list {
+  max-height: 520px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+}
+.review-card {
+  background-color: #E7E6FF;
+  border-radius: 8px;
+  padding: 8px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.your-review-card {
+  border: 2px dashed #9EA1B9;
+  border-radius: 8px;
+  padding: 8px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  cursor: pointer;
+}
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.review-rating {
+  color: #60BF3E;
+  font-size: 16px;
+  font-weight: 800;
+}
+.review-text {
+  font-size: 16px;
+  color: #333;
+  margin: 0;
+}
+.user-review-modal-inner {
+  width: 320px;
+  background-color: #F6F0E9;
+  border: solid 2px #9EA1B9;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.user-review-modal-inner h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 400;
+}

@@ -331,6 +331,50 @@ const SAMPLE_DINING_VENUES = [
 // Sample data for user's favorite dining venues, represented as an array of venue IDs for now. 
 const SAMPLE_USER_FAVORITE_DINING_VENUES = [3, 5];
 
+// Sample data for item reviews. Will be fetched from backend later, but defined here for ease of development and testing of the frontend.
+const adjectives = ['Small', 'Blue', 'Ugly', 'Flying', 'Red', 'Deep', 'Hostile', 'Shadow', 'Wild', 'Soggy', 'Bright', 'Shiny', 'Ancient', 'Deadly', 'Silent', 'Loud', 'Fierce', 'Gentle', 'Happy', 'Sad', 'Captive', 'Hallucinating', 'Broken', 'Pretentious'];
+const nouns = ['Apple', 'Dog', 'Banana', 'Cliff', 'Mountain', 'Panda', 'Creature', 'Dragon', 'Human', 'LLM', 'Toaster', 'Car', 'Computer', 'Biomass', 'Shark', 'Horror', 'Tiger', 'Destroyer', 'Fox', 'Deer', 'Whale', 'Garbage', 'God', 'Warrior', 'Wizard', 'Chatbot', 'AI'];
+function helperGenerateRandomUsername() {
+  const rand_adj = adjectives[Math.floor(Math.random() * adjectives.length)];
+  const rand_noun = nouns[Math.floor(Math.random() * nouns.length)];
+  const rand_num = Math.floor(Math.random() * 1000);
+  return `${rand_adj}${rand_noun}${rand_num}`;
+}
+const phrases = [
+  "Delicious and satisfying!", "Would not recommend.", "It was okay, nothing special.", "Exceeded my expectations!",
+  "Not worth the hype.", "Perfectly cooked and seasoned.", "Get it with mayo.", "Get it with mustard.",
+  "Get it with ketchup.", "The portion size was generous.", "You won't regret it.", "The portion size was disappointing.",
+  "I would eat this every day if I could.", "The flavors didn't really work for me.", "Never again.", "Don't let them add the pickles.",
+  "Don't let them add the onions.", "Don't let them add the sauce.", "The name is very misleading.", "Underrated.",
+  "Lines get long.", "Be warned.", "Feed it to your nemesis.", "Good chewing exercise.",
+  "Tastes like regret.", "Don't woo the server.", "Don't woo the chef.", "Don't woo the manager.",
+  "The server has a memory of a goldfish.", "They will know if you dash.", "The name is a lie.", "This is what adds 'fine' to dining.",
+  "Best enjoyed with a companion.", "Your dog would love this.", "Your cat would love this.", "Feed it to your ex.",
+  "Feed it to your boss.", "How is this so popular?", "How is this so cheap?", "Why is this so expensive?",
+  "Why is this so small?", "You'll forget your own name.", "You really shouldn't have this.", "I like lying online.",
+  "Don't trust the other reviews.", "The reviews for this item are very accurate.",
+];
+function helperGenerateRandomReviewText() {
+  let review = "";
+  const phrase_count = Math.floor(Math.random() * 3) + 1; // 1 to 3 phrases
+  for (let i = 0; i < phrase_count; i++) {
+    review += phrases[Math.floor(Math.random() * phrases.length)] + " ";
+  }
+  return review.trim();
+}
+function generateRandomItemReviews(count) {
+  const reviews = [];
+  for (let i = 0; i < count; i++) {
+    reviews.push({
+      id: i + 1,
+      owner: helperGenerateRandomUsername(),
+      rating: Math.round((Math.random() * 5) * 10) / 10, // Random rating between 0 and 5, rounded to 1 decimal place
+      text: helperGenerateRandomReviewText(),
+    });
+  }
+  return reviews;
+}
+
 export { 
   SAMPLE_DASHBOARD_DAY_DATA, 
   EMPTY_ITEM_DATA,
@@ -338,4 +382,5 @@ export {
   SAMPLE_USER_ITEM_DATA, 
   SAMPLE_DINING_VENUES,
   SAMPLE_USER_FAVORITE_DINING_VENUES,
+  generateRandomItemReviews,
 };
