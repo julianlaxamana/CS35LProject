@@ -30,7 +30,9 @@ app.post('/create', async (req, res) => {
 
     const userJson = {
       id: req.body.userID,
-      password: hashedPassword 
+      password: hashedPassword,
+      favorites: [],
+      ratings: [] 
     };
 
     const response = db.collection("users").doc(id).set(userJson);
@@ -53,6 +55,32 @@ app.post('/auth', async (req, res) => {
     res.send(error);
   }
 });
+
+// add review
+app.put('/add_review', async (req, res) => {
+  try {
+    const id = req.body.userID;
+
+    const doc = await db.collection("users").doc(id).get();
+    const isMatch = await bcrypt.compare(req.body.password, doc.data().password);
+
+    res.send(isMatch);
+  } catch (error){
+    res.send(error);
+  }
+});
+
+
+// get food 
+app.get('/get_meal/:id', async (req, res) => {
+  try {
+    const doc = await db.collection("food").doc(req.params.id).get();
+    res.send(doc.data());
+  } catch (error) {
+    res.send(error);
+  }
+})
+
 
 // start backend
 app.listen(PORT, () => {

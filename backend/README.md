@@ -1,11 +1,17 @@
-# Backend  
+# CS 35L Backend  
 Contributors:
 - Julian Laxamana
 - Vince Domantay
 - Yit-Meng Chin
 
+# Installation
+
 ## Initialization
-- TBD
+`npm install`
 
 ## Running the Backend
-- TBD
+`node main.js`
+
+# API Documentation
+
+## Endpoints
