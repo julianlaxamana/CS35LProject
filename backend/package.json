@@ -1,6 +1,24 @@
 {
   "name": "backend",
   "version": "1.0.0",
+  "description": "Contributors: - Julian Laxamana - Vince Domantay - Yit-Meng Chin",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "dotenv": "^17.2.4",
+    "express": "^5.2.1",
+    "firebase": "^12.9.0",
+    "firebase-admin": "^13.6.1",
+    "jsonwebtoken": "^9.0.3",
+    "mongodb": "^7.1.0",
+    "mongoose": "^8.1.1"
   "description": "backend for cs35l UCLA menu app",
   "license": "ISC",
   "author": "",
