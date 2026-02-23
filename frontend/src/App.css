@@ -175,6 +175,8 @@
   gap: 16px;
   align-items: center;
 }
+
+/* CHIP ATOM */
 .chip-medium {
   display: inline-block;
   padding: 4px 16px;
@@ -727,6 +729,7 @@
   visibility: visible;
 }
 
+/* SLIDER ATOM */
 .slider-container {
   display: flex;
   flex-direction: row;
@@ -843,14 +846,40 @@
   align-items: center;
   justify-content: space-between;
   gap: 4px;
+  cursor: pointer;
 }
 .rating-value {
   font-size: 18px;
   font-weight: 500;
   color: #60BF3E;
 }
+.rating-modal-inner {
+  width: 320px;
+  background-color: #F6F0E9;
+  border: solid 2px #9EA1B9;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.rating-modal-inner h4 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 400;
+}
+.rating-guide {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #83889C;
+}
+.rating-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
 
-
+/* MODAL ATOM */
 .modal-overlay {
   position: absolute;
   top: 0;
@@ -877,6 +906,5 @@
   padding: 0;
   max-width: 90%;
   max-height: 80%;
-  overflow-y: auto;
   /* Handle rest of styling manually in child components */
 }

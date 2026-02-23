@@ -3,6 +3,7 @@ import Chip from '../atoms/Chip';
 import Slider from '../atoms/Slider';
 import UCLADiningIcon from "../atoms/UCLADiningIcon";
 import MarkAsFavoriteButton from '../atoms/MarkAsFavoriteButton';
+import Modal from '../atoms/Modal';
 
 import { EMPTY_ITEM_DATA } from '../../SAMPLEDATA';
 import PlaceholderThumbnail from "../../assets/placeholder-thumbnail.jpg";
@@ -21,7 +22,7 @@ const ItemDetails = ({ is_open, on_close, menu_item_data = EMPTY_ITEM_DATA, on_i
           ))}
         </div>
         <MarkAsFavoriteButton is_favorite={is_favorited} onClick={() => alert("Favorite functionality coming soon!")} />
-        <OverallRating ratings={menu_item_data.ratings || []} on_click={() => alert("Rating functionality coming soon!")} />
+        <OverallRating ratings={menu_item_data.ratings || []} on_update={() => {}} />
         <Reviews reviews={menu_item_data.reviews || []} on_click={() => alert("Review functionality coming soon!")} />
         <NutritionFacts nutrition_facts={menu_item_data.nutrition_facts || {}} />
         <IngredientsAndAllergens ingredients_and_allergens_text="Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem vero excepturi dignissimos, eveniet culpa pariatur mollitia suscipit fuga modi explicabo impedit. Aspernatur dolor officiis doloremque, labore pariatur sit. Totam harum facere impedit fugit? Ab animi sint qui, quam, quaerat harum nulla non similique quae tenetur culpa rem ipsum id enim!" />
@@ -33,8 +34,7 @@ const ItemDetails = ({ is_open, on_close, menu_item_data = EMPTY_ITEM_DATA, on_i
 
 const OverallRating = ({ ratings, on_update, user_rating }) => {  
   const [is_modal_open, setIsModalOpen] = useState(false);
-  
-  // TODO: clicking this opens a slider to leave/update rating
+  const [slider_value, setSliderValue] = useState(user_rating);
 
   const average_rating = ratings.length > 0 ? ratings.reduce((sum, r) => sum + r, 0) / ratings.length : null;
   const abbreviated_count = ratings.length > 999 ? `${(ratings.length / 1000).toFixed(1)}k` : ratings.length;
@@ -42,57 +42,65 @@ const OverallRating = ({ ratings, on_update, user_rating }) => {
   const updateUserRating = (new_rating) => {
     // Placeholder for updating user rating, will eventually involve API call and state update
     if (new_rating === null) {
-      alert("User did not want to leave a rating.");
+      console.log("No rating submitted.");
       setIsModalOpen(false);
       return;
     }
     if (new_rating === user_rating) {
-      alert("Rating unchanged.");
+      console.log("Rating unchanged.");
       setIsModalOpen(false);
       return;
     }
-    alert(`New rating submitted: ${new_rating}`);
+    console.log(`New rating submitted: ${new_rating}`);
     on_update(new_rating);
     setIsModalOpen(false);
   }
 
   return (
-    <div className="overall-rating" onClick={() => setIsModalOpen(true)}>
-      <h3>Overall Rating ({abbreviated_count})</h3>
-      <div className="rating-value">{average_rating !== null ? average_rating.toFixed(2) : "N/A"}</div>
-      <div className={`rating-modal ${is_modal_open ? "open" : ""}`}>
-        <h4>Leave a Rating?</h4>
-        <div className="rating-slider">
-          <Slider 
-            min={0} 
-            max={5} 
-            step={0.1} 
-            default_value_first={user_rating || 0} 
-            default_value_second={5} 
-            on_change={(first, second) => updateUserRating(second)} 
-            has_two_thumbs={false} 
-          />
-        </div>
-        <div className="rating-buttons">
-          <Chip 
-            label="Save" 
-            size="medium" 
-            bgcolor="#6B9E64" 
-            color="#E0E0E0" 
-            clickable={true}
-            onClick={() => updateUserRating(user_rating || null)} 
-          />
-          <Chip 
-            label="Cancel" 
-            size="medium" 
-            bgcolor="#9E6464" 
-            color="#E0E0E0" 
-            clickable={true}
-            onClick={() => setIsModalOpen(false)} 
-          />
-        </div>
+    <>
+      <div className="overall-rating" onClick={() => setIsModalOpen(true)}>
+        <h3>Overall Rating ({abbreviated_count})</h3>
+        <div className="rating-value">{average_rating !== null ? average_rating.toFixed(2) : "N/A"}</div>
       </div>
-    </div>
+      <Modal is_open={is_modal_open} on_close={() => setIsModalOpen(false)}>
+        <div className="rating-modal-inner">
+          <h4>Leave a Rating?</h4>
+          <div className="rating-slider">
+            <Slider 
+              min={0} 
+              max={5} 
+              step={0.1} 
+              default_value_first={user_rating || 0} 
+              default_value_second={5} 
+              on_change={(first, second) => setSliderValue(second)} 
+              has_two_thumbs={false} 
+            />
+          </div>
+          <div className="rating-guide">
+            <span>Unsatisfactory</span>
+            <span>Excellent</span>
+          </div>
+          <div className="rating-buttons">
+            <Chip 
+              label="Save" 
+              size="medium" 
+              bgcolor="#6B9E64" 
+              color="#E0E0E0" 
+              clickable={true}
+              on_click={() => updateUserRating(slider_value)} 
+            />
+            <Chip 
+              label="Cancel" 
+              size="medium" 
+              bgcolor="#9E6464" 
+              color="#E0E0E0" 
+              clickable={true}
+              on_click={() => setIsModalOpen(false)} 
+            />
+          </div>
+        </div>
+      </Modal>
+    </>
   );
 }
 
