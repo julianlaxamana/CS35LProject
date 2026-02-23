@@ -1,0 +1,33 @@
+Dining Halls
+    B-Plate
+        Active Hours
+            Breakfast :
+            Lunch :
+            Dinner : 
+        Rating : 5
+        Occupancy
+        Location
+        Phone
+        About
+        Food:
+            Food Name
+                Tags
+                image
+
+    Epicuria 
+        ....
+
+    De Neve 
+        ....
+
+Weekly Menu
+    Monday
+        B-Plate
+            Breakfast
+                Station
+                    Item Name (use item name to look up actual food data)
+            Lunch  
+            Dinner
+        Epicuria
+        De Neve
+
