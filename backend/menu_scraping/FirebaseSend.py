@@ -49,6 +49,10 @@ def send_menu_to_firebase(dict, dining_hall):
         "Day of Week": menu_data
     })
 
+def send_hall_info_to_firebase(dict, dining_hall):
+    db.collection("dining_halls")\
+    .document(dining_hall.replace("/", "-"))\
+    .set(dict)
 # Idea of how to structure the database:
 # db.collection("DiningHalls").document("B-Plate").set({
 #   "Rating": 5,

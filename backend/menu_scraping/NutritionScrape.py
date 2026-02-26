@@ -1,6 +1,5 @@
 import requests
 from bs4 import BeautifulSoup
-import re
 
 link = "https://dining.ucla.edu/menu-item/?recipe=5436"
 
