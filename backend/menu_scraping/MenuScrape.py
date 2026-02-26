@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import re
 import json
-from FirebaseSend import send_to_firebase
+from FirebaseSend import send_menu_to_firebase
 
 halls = ["de-neve-dining", "bruin-plate", "epicuria-at-covel"]
 
@@ -26,9 +26,10 @@ def scrape_hall(hall, save_json=False):
             name = section.find("div", class_ = "menu-item-title").find("h3").text
             raw_tags = section.find("div", class_ = "menu-item-meta-data").find_all("img")
             tags = [str(tag["alt"]) for tag in raw_tags]
-            return {"Menu Item": name, "Tags": tags}
+            link = section.find("a", class_="recipe-detail-link")["href"] if section.find("a", class_="recipe-detail-link") else ""
+            return {"Menu Item": name, "Tags": tags, "details_link": link}
         except:
-            return {"Menu Item": "N/A", "Tags": []}
+            return {"Menu Item": "N/A", "Tags": [], "details_link": ""}
 
 
     scraped_data = {}
@@ -52,10 +53,11 @@ def scrape_hall(hall, save_json=False):
     if save_json:
         with open(f"{hall}.json", "w") as f:
             json.dump(scraped_data, f, indent=4)
-    else:
-        return scraped_data
+    
+    return scraped_data
 
-for hall in halls:
-    print(f"Scraping {hall}...")
-    data = scrape_hall(hall, save_json=False)
-    send_to_firebase(data, hall)
+if __name__ == "__main__":
+    for hall in halls:
+        print(f"Scraping {hall}...")
+        data = scrape_hall(hall, save_json=True)
+        #send_menu_to_firebase(data, hall)
