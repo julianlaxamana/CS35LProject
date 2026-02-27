@@ -1,4 +1,5 @@
 const db = require('../config/database.js')
+const admin = require('../config/database.js').admin
 
 // adds or modifies a rating/review/favorite for a given user, dining hall, and food item
 exports.modifyRating = async (req, res) => {
@@ -16,10 +17,10 @@ exports.modifyRating = async (req, res) => {
         }
 
         if (ratingsSnapshot.exists) {
-            ratingsRef.update(updateData);
+            await ratingsRef.update(updateData);
             res.send("Rating/review updated successfully");
         } else {
-            ratingsRef.set(updateData);
+            await ratingsRef.set(updateData);
             res.send("Rating/review added successfully");
         }
     } catch (error){
@@ -27,6 +28,18 @@ exports.modifyRating = async (req, res) => {
     }
 }
 
-// TODO: add function to remove rating
-
-exports.remove
+// removes a review for a given user, dining hall, and food item (does not remove rating or favorite status)
+exports.removeReview = async (req, res) => {
+    try {
+        const reviewRef = await db.collection('dining_halls').doc(req.body.diningHallID).collection('Menu').doc(req.body.foodID).collection('ratings').doc(req.userID);
+        const reviewSnapshot = await reviewRef.get('review');
+        if (!reviewSnapshot.exists) {
+            res.send("No review to remove");
+        } else {
+            await reviewRef.update({ review: admin.firestore.FieldValue.delete() });
+            res.send("Review removed successfully");
+        }
+    } catch (error) {
+        res.send(error);
+    }
+}
