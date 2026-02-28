@@ -23,6 +23,7 @@ function App() {
             <Route path="/settings" element={<SettingsPage />} />
           </Route>
         </Routes>
+        <div id="modal-root"></div>
       </div>
       <Debugger isVisible={true} />
     </Router>

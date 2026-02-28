@@ -17,9 +17,14 @@ import Vegan from '../../assets/ucla-dining-icons/vegan.png';
 import Vegetarian from '../../assets/ucla-dining-icons/vegetarian.png';
 import Wheat from '../../assets/ucla-dining-icons/wheat.png';
 
-const UCLADiningIcon = ({ tag, size = 24 }) => {
+const UCLADiningIcon = ({ tag, size = 24, with_label = false }) => {
   const icon_src = tagToIcon(tag);
-  return <img src={icon_src} alt={tag} width={size} height={size} />;
+  return (
+    <div className="ucladining-icon-wrapper">
+      <img src={icon_src} alt={tag} width={size} height={size} />
+      {with_label && <span className="ucladining-icon-label">{tag}</span>}
+    </div>
+  );
 }
 
 /**
