@@ -18,9 +18,7 @@ exports.createUser = async (req, res) => {
     // create new user json
     const userJson = {
       id: id,
-      password: hashedPassword,
-      favorites: [],
-      ratings: [] 
+      password: hashedPassword
     };
 
     // create token

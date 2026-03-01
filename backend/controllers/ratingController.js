@@ -93,21 +93,22 @@ exports.removeReview = async (req, res) => {
     }
 }
 
+// removes all user ratings/reviews/favorites (if we have feature to remove user account)
 exports.deleteAllUserRatings = async (req, res) => {
     try {
-        diningHalls = await db.collection('dining_halls').select().get();
-        diningHallsIDs = diningHalls.docs.map(doc => doc.id);
+        const ratingsRef = db.collection('ratings').where('userID', '==', req.userID);
 
-        for (const diningHallID of diningHallsIDs) {
-            const menuItems = await db.collection('dining_halls').doc(diningHallID).collection('Menu').select().get();
-            const menuItemIDs = menuItems.docs.map(doc => doc.id);
-            for (const menuItemID of menuItemIDs) {
-                const ratings = await db.collection('dining_halls').doc(diningHallID).collection('Menu').doc(menuItemID).collection('ratings').select().get();
-                const ratingDocs = ratings.docs.map(doc => doc.ref);
-                await db.batch().delete(...ratingDocs).commit();
+        await db.runTransaction(async (transaction) => {
+            const ratingsSnapshot = await transaction.get(ratingsRef);
+            if (ratingsSnapshot.empty) {
+                return;
             }
-        }
-        res.send("All user ratings deleted successfully");
+            ratingsSnapshot.docs.forEach(doc => {
+                transaction.delete(doc.ref);
+            });
+        });
+
+        res.send("All user ratings successfully deleted");
     } catch (error) {
         res.send(error);
     }
