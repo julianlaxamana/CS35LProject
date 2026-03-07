@@ -82,6 +82,7 @@ def scrape_hall_address(html):
 
 def scrape_hall_availability(hall):
     url = f"https://dining.ucla.edu/{hall}/"
+
     response = requests.get(url)
     soup = BeautifulSoup(response.text, "html.parser")
 

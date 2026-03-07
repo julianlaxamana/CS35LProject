@@ -6,9 +6,11 @@ from FirebaseSend import send_menu_to_firebase
 
 halls = ["de-neve-dining", "bruin-plate", "epicuria-at-covel"]
 
-def scrape_hall(hall, save_json=False):
+def scrape_hall(hall, date="", save_json=False):
     # Send an HTTP GET request to the webpage
     url = f"https://dining.ucla.edu/{hall}/"
+    if date != "":
+        url += f"?date={date}"
     response = requests.get(url)
 
     # Parse the HTML content
