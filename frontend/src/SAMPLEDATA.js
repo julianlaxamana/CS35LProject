@@ -87,17 +87,37 @@ const SAMPLE_ITEM_COLLECTION = [
     ingredients: [],
     allergens: []
   },
+  {
+    id: 7,
+    name: "Hawaiian Macaroni and Cheese",
+    tags: ["Vegetarian", "Contains Gluten", "Contains Wheat", "Contains Dairy"],
+    rating: 1.23,
+    image: "",
+    nutrition_facts: {},
+    ingredients: [],
+    allergens: []
+  },
+  {
+    id: 8,
+    name: "Impossible Burger",
+    tags: ["Vegan", "Low-Carbon-Footprint", "Contains Soy", "Contains Gluten", "Contains Wheat"],
+    rating: 4.75,
+    image: "",
+    nutrition_facts: {},
+    ingredients: [],
+    allergens: []
+  },
+  {
+    id: 9,
+    name: "Caesar Salad",
+    tags: ["Contains Gluten", "Contains Wheat", "Contains Dairy", "Contains Fish"],
+    rating: 2.68,
+    image: "",
+    nutrition_facts: {},
+    ingredients: [],
+    allergens: []
+  }
 ]
-
-// Sample data for a UserItem component
-const SAMPLE_USER_ITEM_DATA = {
-  id: 1,
-  item_id: 1,
-  user_id: 1,
-  marked_as_favorite: true,
-  rating: null,
-  review: null,
-}
 
 // Sample data for dining venues. Will be fetched from backend later, but defined here for ease of development and testing of the frontend.
 // Object Structure Guide (Because we forgot to set up the project with Typescript...)
@@ -375,12 +395,35 @@ function generateRandomItemReviews(count) {
   return reviews;
 }
 
+function randomAorB(a, b) {
+return Math.random() < 0.5 ? a : b;
+}
+
+// Used for testing and development of the frontend, will not be needed once we have actual data from the backend.
+function generateRandomUserItems(items, count_per_item) {
+  const collection = [];
+  let id_counter = 1;
+  for (const item of items) {
+    for (let i = 0; i < count_per_item; i++) {
+      collection.push({
+        id: id_counter++,
+        item: item,
+        // User id is not actually used for anything in the frontend right now since we are only generating data for one user
+        marked_as_favorite: randomAorB(true, false), // Randomly mark as favorite or not
+        rating: randomAorB(Math.round((Math.random() * 5) * 10) / 10, null), // Random rating between 0 and 5, rounded to 1 decimal place or null
+        review: randomAorB(helperGenerateRandomReviewText(), null), // Random review text or null
+      });
+    }
+  }
+  return collection;
+}
+
 export { 
   SAMPLE_DASHBOARD_DAY_DATA, 
   EMPTY_ITEM_DATA,
   SAMPLE_ITEM_COLLECTION,
-  SAMPLE_USER_ITEM_DATA, 
   SAMPLE_DINING_VENUES,
   SAMPLE_USER_FAVORITE_DINING_VENUES,
   generateRandomItemReviews,
+  generateRandomUserItems,
 };

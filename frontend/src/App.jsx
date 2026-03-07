@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom';
+import { AuthProvider } from './contexts/AuthContext';
+import ProtectedRoute from './components/ProtectedRoute';
 import Debugger from './components/organisms/Debugger';
 import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
@@ -13,19 +15,23 @@ function App() {
 
   return (
     <Router>
-      <div className='app-frame' style={{ transform: `scale(${frame_scale})`, borderRadius: '16px', overflow: 'hidden' }}>
-        <Routes>
-          <Route element={<MobileLayout />}>
-            <Route path="/" element={<RegisterPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/dashboard" element={<DashboardPage />} />
-            <Route path="/user" element={<UserPage />} />
-            <Route path="/settings" element={<SettingsPage />} />
-          </Route>
-        </Routes>
-        <div id="modal-root"></div>
-      </div>
-      <Debugger isVisible={true} />
+      <AuthProvider>
+        <div className='app-frame' style={{ transform: `scale(${frame_scale})`, borderRadius: '16px', overflow: 'hidden' }}>
+          <Routes>
+            <Route element={<MobileLayout />}>
+              <Route path="/" element={<RegisterPage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route element={<ProtectedRoute />}>
+                <Route path="/dashboard" element={<DashboardPage />} />
+                <Route path="/user" element={<UserPage />} />
+                <Route path="/settings" element={<SettingsPage />} />
+              </Route>
+            </Route>
+          </Routes>
+          <div id="modal-root"></div>
+        </div>
+        <Debugger isVisible={true} />
+      </AuthProvider>
     </Router>
   );
 }
@@ -43,10 +49,10 @@ const MobileLayout = ({}) => {
 }
 
 /**
- * A custom hook that calculates the appropriate scale factor to fit a given width and height 
- * within the current window size, maintaining aspect ratio. Useful for scaling the app frame 
+ * A custom hook that calculates the appropriate scale factor to fit a given width and height
+ * within the current window size, maintaining aspect ratio. Useful for scaling the app frame
  * to fit different screen sizes during development.
- * 
+ *
  * Element must be styled with explicit px dimensions for accurate scaling.
  * @param {*} width The width of the frame to fit.
  * @param {*} height The height of the frame to fit.
