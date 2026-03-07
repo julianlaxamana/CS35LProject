@@ -320,6 +320,14 @@
   object-fit: cover;
   border-left: solid 1px #9EA1B9;
 }
+.item-card-image-small {
+  width: 54px;
+  height: auto;
+  min-height: 54px;
+  background-color: #eee;
+  object-fit: cover;
+  border-left: solid 1px #9EA1B9;
+}
 .item-card-content {
   flex: 1;
   display: flex;
