@@ -1,7 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-
-link = "https://dining.ucla.edu/menu-item/?recipe=5436"
+import re
 
 def scrape_nutrition(link):
     response = requests.get(link)
@@ -63,5 +62,40 @@ def scrape_nutrition(link):
     # Return results
     return nutrition_data
 
+def scrape_ingredients(link):
+    response = requests.get(link)
+    soup = BeautifulSoup(response.text, 'html.parser')
+    
+    recipe_dict = {
+        "ingredients": [],
+        "allergens": []
+    }
+    
+    # get ingredients
+    ingredient_list_div = soup.find('div', id='ingredient_list')
+    if ingredient_list_div:
+        ingredient_tags = ingredient_list_div.find_all('li')
+        for li in ingredient_tags:
+            recipe_dict["ingredients"].append(li.get_text(strip=True))
+            
+    # Get allergens
+    allergen_tag = soup.find('strong', text=re.compile("Allergens", re.IGNORECASE))
+    if allergen_tag:
+        # The allergens follow the <strong> tag
+        allergen_text = str(allergen_tag.next_sibling)
+        if allergen_text:
+            #split by comma and clean up whitespace
+            allergens = [a.strip() for a in allergen_text.split(',') if a.strip()]
+            recipe_dict["allergens"] = allergens
+
+    return recipe_dict
+
 if __name__ == "__main__":
-    print(scrape_nutrition(link))
+    link = "https://dining.ucla.edu/menu-item/?recipe=5436"
+    print(scrape_nutrition(link).keys())
+
+    # data = scrape_ingredients(link)
+    # for key, arr in data.items():
+    #     print (key)
+    #     for item in arr:
+    #         print("-", item)

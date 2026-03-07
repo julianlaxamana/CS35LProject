@@ -1,14 +1,14 @@
 import firebase_admin
 from firebase_admin import credentials, firestore
 import json
-from NutritionScrape import scrape_nutrition
+from NutritionScrape import scrape_nutrition, scrape_ingredients
 
 #initialize firebase access
 cred = credentials.Certificate("l-menu-database-firebase-adminsdk-fbsvc-aec79dc391.json")
 firebase_admin.initialize_app(cred)
 db = firestore.client()
 
-def send_menu_to_firebase(dict, dining_hall, day_of_week):
+def send_menu_to_firebase(dict, dining_hall, day_of_week, force_get_details=False):
     menu_data = {}
     for meal_time, stations in dict.items():
         menu_data[meal_time] = {}
@@ -23,18 +23,21 @@ def send_menu_to_firebase(dict, dining_hall, day_of_week):
                 if not db.collection("dining_halls")\
                     .document(dining_hall.replace("/", "-"))\
                     .collection("Menu")\
-                    .document(sanitized_item_name).get().exists:
+                    .document(sanitized_item_name).get().exists or force_get_details:
                     
                     nutrition = scrape_nutrition("https://dining.ucla.edu" + item["details_link"]) if "details_link" in item and item["details_link"] != "" else {}
+                    ingredients_data = scrape_ingredients("https://dining.ucla.edu" + item["details_link"]) if "details_link" in item and item["details_link"] != "" else {}
+                    data = {
+                        "tags": item["Tags"],
+                        "image": "",
+                        "nutrition": nutrition,
+                    }
+
                     db.collection("dining_halls")\
                     .document(dining_hall.replace("/", "-"))\
                     .collection("Menu")\
                     .document(sanitized_item_name)\
-                    .set({
-                        "tags": item["Tags"],
-                        "image": "",
-                        "nutrition": nutrition
-                    })
+                    .set({**data, **ingredients_data})
 
                 station_items.append(sanitized_item_name)
 

@@ -28,7 +28,7 @@ for hall in halls:
     print(f"Scraping {hall}...")
     for day, date in get_weekdays().items():
         data = scrape_hall(hall, date, save_json=False)
-        send_menu_to_firebase(data, hall, day)
+        send_menu_to_firebase(data, hall, day, force_get_details=True)
 
 # Scrape hall info and send to Firebase
 for hall in halls:
