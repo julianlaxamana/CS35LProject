@@ -4,13 +4,16 @@ const admin = require('../config/database.js').admin
 // adds or modifies a user's rating/review/favorite for a given dining hall, and food item
 exports.modifyRating = async (req, res) => {
     try {
+        if (!await validateFoodAndDH(res, req.body.diningHallID, req.body.foodID)) return;
+        if (!validateRatingAndReview(res, req.body.rating, req.body.review)) return;
+        
         const ratingID = `${req.body.diningHallID}-${req.body.foodID}-${req.userID}`;
         const ratingsRef = db.collection('ratings').doc(ratingID);
         const updateData = {};
         if (req.body.rating !== undefined) updateData.rating = req.body.rating;
         if (req.body.review !== undefined) updateData.review = req.body.review;
         if (Object.keys(updateData).length === 0) {
-            res.send("No fields to update");
+            res.status(400).send("No fields to update");
             return;
         }
         
@@ -26,9 +29,9 @@ exports.modifyRating = async (req, res) => {
             }
         });
 
-        res.send("Rating added/modified successfully");
+        res.status(200).send("Rating added/modified successfully");
     } catch (error){
-        res.send(error);
+        res.status(500).json({ message: error.message });
     }
 }
 
@@ -37,6 +40,7 @@ exports.modifyRating = async (req, res) => {
 // new user rating with only marked property created
 exports.toggleFavorite = async (req, res) => {
     try {
+        if (!await validateFoodAndDH(res, req.body.diningHallID, req.body.foodID)) return;
         const ratingsID = `${req.body.diningHallID}-${req.body.foodID}-${req.userID}`;
         const ratingsRef = db.collection('ratings').doc(ratingsID);
         
@@ -61,21 +65,22 @@ exports.toggleFavorite = async (req, res) => {
             }
         });
         
-        res.send("Successfully toggled favorite");
+        res.status(200).send("Successfully toggled favorite");
     } catch (error) {
-        res.send(error)
+        res.status(500).json({ message: error.message });
     }
 }
 
 exports.getReviews = async (req, res) => {
     try {
+        if (!await validateFoodAndDH(res, req.body.diningHallID, req.body.foodID)) return;
         const foodID = `${req.body.foodID}`;
         const diningHallID = `${req.body.diningHallID}`;
         const reviewRef = db.collection('ratings').where('diningHallID', '==', diningHallID).where('foodID', '==', foodID);
         const reviewSnapshot = await reviewRef.get();
 
         if (reviewSnapshot.empty) {
-            res.json({ reviews: [] });
+            res.status(200).json({ reviews: [] });
             return;
         }
 
@@ -87,15 +92,16 @@ exports.getReviews = async (req, res) => {
                 rating: data.rating
             }
         }).filter(entry => entry.review !== undefined);
-        res.json({ reviews });
+        res.status(200).json({ reviews });
     } catch (error) {
-        res.send(error);
+        res.status(500).json({ message: error.message });
     }
 }
 
 // removes a user's review for a given dining hall, and food item (does not remove rating or favorite status)
 exports.removeReview = async (req, res) => {
     try {
+        if (!await validateFoodAndDH(res, req.body.diningHallID, req.body.foodID)) return;
         const reviewID = `${req.body.diningHallID}-${req.body.foodID}-${req.userID}`;
         const reviewRef = db.collection('ratings').doc(reviewID);
 
@@ -110,12 +116,12 @@ exports.removeReview = async (req, res) => {
         });
 
         if (hasReview) {
-            res.send("Review removed successfully");
+            res.status(200).send("Review removed successfully");
             return;
         }
-        res.send("No review to remove");
+        res.status(404).send("No review to remove");
     } catch (error) {
-        res.send(error);
+        res.status(500).json({ message: error.message });
     }
 }
 
@@ -134,8 +140,39 @@ exports.deleteAllUserRatings = async (req, res) => {
             });
         });
 
-        res.send("All user ratings successfully deleted");
+        res.status(200).send("All user ratings successfully deleted");
     } catch (error) {
-        res.send(error);
+        res.status(500).json({ message: error.message });
     }
+}
+
+// HELPER FUNCTIONS
+async function validateFoodAndDH(res, diningHallID, foodID) {
+    if (!diningHallID || !foodID) {
+        res.status(400).json({ message: "Need values for both diningHallID and foodID"});
+        return false;
+    } 
+    const validDiningHall = await db.collection('dining_halls').doc(diningHallID).get();
+    if (!validDiningHall.exists) {
+        res.status(400).json({ message: "Invalid diningHallID" });
+        return false;
+    } 
+    const validFoodID = await db.collection('dining_halls').doc(diningHallID).collection('Menu').doc(foodID).get();
+    if (!validFoodID.exists) {
+        res.status(400).json({ message: "Invalid foodID" });
+        return false;
+    }
+    return true;
+}
+
+function validateRatingAndReview(res, rating, review) {
+    if (rating !== undefined && (typeof rating !== 'number' || isNaN(rating) || rating < 1.0 || rating > 5.0)) {
+        res.status(400).json({ message: "Rating must be a number between 1.0 and 5.0"});
+        return false;
+    }
+    if (review !== undefined && (typeof review !== 'string' || review.trim().length === 0)) {
+        res.status(400).json({ message: "Review must be a non empty string"});
+        return false;
+    }
+    return true;
 }

@@ -43,7 +43,7 @@ All passwords are encrypted using bcrypt's hashing function. The backend returns
 
 ### Ratings and Reviews
 
-All rating and review routes require a user to be authenticated. All requests must include a JWT token as a cookie by either creating a user or authenticating a user.
+All rating and review routes, except get_reviews, require a user to be authenticated. All requests must include a JWT token as a cookie by either creating a user or authenticating a user.
 
 #### Add or modify a review/rating for a user
 `POST /api/ratings/add_review`
@@ -85,12 +85,21 @@ Marks or unmarks a food item as a favorite for an authenticated user. If a user 
 | `diningHallID` | string | ID of the dining hall |
 | `foodID` | string | ID of the food menu item |
 
+#### Get all reviews for one food item
+`GET /api/ratings/get_reviews`
+
+Fetches all ratings of a specific menu item from database and sends them to the client.
+
+Does not need JWT token or user authentication.
+
+`diningHallID` and `foodID` must be provided in request body.
+
 #### Remove a user written review
 `DELETE /api/ratings/remove_review`
 
 Permanently removes only the text review from a user's rating entry. The numeric rating and favorite status are not removed.
 
-`diningHallID` and `foodID` must be provided.
+`diningHallID` and `foodID` must be provided in request body.
 
 #### Delete all user ratings
 `DELETE /api/ratings/delete_user`
