@@ -73,3 +73,27 @@ exports.authenticateUser = async (req, res) => {
     res.send(error);
   }
 }
+
+exports.changePassword = async (req, res) => {
+  try {
+    const id = req.userID;
+    const newPassword = req.body.password;
+
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const doc = await db.collection("users").doc(id).get();
+
+    // create new user json
+    const userJson = {
+      id: id,
+      password: hashedPassword
+    };
+
+
+    const response = db.collection("users").doc(id).set(userJson);
+
+    // create new hash
+    res.send(true);
+  } catch (error){
+    res.send(error);
+  }
+}
