@@ -28,6 +28,7 @@ export function AuthProvider({ children }) {
     if (!res.ok) {
       throw new Error('Server error. Please try again.');
     }
+    console.log(document.cookie);
 
     const data = await res.json();
 
@@ -65,13 +66,31 @@ export function AuthProvider({ children }) {
     return true;
   };
 
+  const change_password = async (userID, password) => {
+    const res = await fetch(`${API_BASE}/api/auth/change_password`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ userID, password }),
+    });
+
+    if (!res.ok) {
+      throw new Error('Server error. Please try again.');
+    }
+
+    const data = await res.text();
+
+    return true;
+  };
+
+
   const logout = () => {
     localStorage.removeItem('userID');
     setUser(null);
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, signup, logout }}>
+    <AuthContext.Provider value={{ user, loading, login, signup, logout, change_password}}>
       {children}
     </AuthContext.Provider>
   );

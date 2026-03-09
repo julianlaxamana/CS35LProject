@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
 function SettingsPage() {
-  const { user, logout } = useAuth();
+  const { user, logout, login, change_password} = useAuth();
   const navigate = useNavigate();
 
   const [currentPassword, setCurrentPassword] = useState('');
@@ -36,24 +36,22 @@ function SettingsPage() {
     setIsSubmitting(true);
     try {
       // Verify current password by attempting login
-      const res = await fetch('http://localhost:5000/api/auth/auth', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({ userID: user.userID, password: currentPassword }),
-      });
+      const res = await login(user.userID.trim(), currentPassword);
 
-      const isValid = await res.json();
-      if (isValid !== true) {
+      if (res !== true) {
         setError('Current password is incorrect.');
         return;
       }
+
+      // set new password
+      const res1 = await change_password(user.userID.trim(), newPassword);
 
       setMessage('Password verified successfully.');
       setCurrentPassword('');
       setNewPassword('');
       setConfirmNewPassword('');
     } catch (err) {
+      console.log(err);
       setError('Something went wrong. Please try again.');
     } finally {
       setIsSubmitting(false);
