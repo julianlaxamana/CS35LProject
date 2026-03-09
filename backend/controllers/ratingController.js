@@ -79,8 +79,14 @@ exports.getReviews = async (req, res) => {
             return;
         }
 
-        const reviews = reviewSnapshot.docs.map(doc => doc.data().review).filter(review => review !== undefined);
-        
+        const reviews = reviewSnapshot.docs.map(doc => {
+            const data = doc.data();
+            return {
+                userID: data.userID,
+                review: data.review,
+                rating: data.rating
+            }
+        }).filter(entry => entry.review !== undefined);
         res.json({ reviews });
     } catch (error) {
         res.send(error);
