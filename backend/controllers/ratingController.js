@@ -67,6 +67,32 @@ exports.toggleFavorite = async (req, res) => {
     }
 }
 
+exports.getReviews = async (req, res) => {
+    try {
+        const foodID = `${req.body.foodID}`;
+        const diningHallID = `${req.body.diningHallID}`;
+        const reviewRef = db.collection('ratings').where('diningHallID', '==', diningHallID).where('foodID', '==', foodID);
+        const reviewSnapshot = await reviewRef.get();
+
+        if (reviewSnapshot.empty) {
+            res.json({ reviews: [] });
+            return;
+        }
+
+        const reviews = reviewSnapshot.docs.map(doc => {
+            const data = doc.data();
+            return {
+                userID: data.userID,
+                review: data.review,
+                rating: data.rating
+            }
+        }).filter(entry => entry.review !== undefined);
+        res.json({ reviews });
+    } catch (error) {
+        res.send(error);
+    }
+}
+
 // removes a user's review for a given dining hall, and food item (does not remove rating or favorite status)
 exports.removeReview = async (req, res) => {
     try {
