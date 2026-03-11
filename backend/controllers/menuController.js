@@ -110,7 +110,7 @@ exports.getAverageRating = async (req, res) => {
 
     // filter ratings
     ratings.forEach(doc => {
-      if (doc.data()["foodID"] == mealID){
+      if (doc.data()["foodID"] == mealID && doc.data()["rating"] !== undefined){
         ratingsSum = ratingsSum + doc.data()["rating"];
         numRatings = numRatings + 1;
       }
