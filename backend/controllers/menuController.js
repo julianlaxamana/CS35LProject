@@ -44,9 +44,22 @@ exports.getMenu = async (req, res) => {
         }
       }
     };
+
     processMeal(breakfast, "breakfast");
     processMeal(lunch, "lunch");
     processMeal(dinner, "dinner");
+
+    // get time
+    const time = req.body.time;
+    // get all food getting served currently
+    var meals = [];
+    if (time == "breakfast"){
+    var meals = Object.values(breakfast).flat();
+    } else if (time == "lunch"){
+    var meals = Object.values(lunch).flat();
+    } else if (time == "dinner"){
+    var meals = Object.values(dinner).flat();
+    }
 
     // fetch info about each food (tags, allergens, image, rating)
     const names = Object.keys(menuMap);
@@ -80,12 +93,14 @@ exports.getMenu = async (req, res) => {
 
     var objects = []
     for (let i = 0; i < menu.length; i++){
+      if (meals.length != 0 && !meals.includes(menu[i].name))  continue;
       objects.push({
         id: i,
         name: menu[i].name,
         rating: (menu[i].average_rating == undefined) ? NaN : menu[i].average_rating,
         image: "",
         nutrition_facts: menu[i].nutrition,
+        tags: menu[i].tags,
         ingredients: menu[i].ingredients,
         allergens: menu[i].allergens
       })
