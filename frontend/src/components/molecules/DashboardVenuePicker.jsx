@@ -41,7 +41,7 @@ const VenueItem = ({ venue_item_data, onClick }) => {
 
       <h4>{venue_item_data.name}</h4>
 
-      {venue_item_data.status === "Open" ? (
+      {/* {venue_item_data.status === "Open" ? (
         <div className="venue-item-data">
           <div style={{ color: "#60BF3E" }}>
             {venue_item_data.aggregate_rating !== null ? venue_item_data.aggregate_rating.toFixed(2) : "N/A"}
@@ -52,7 +52,7 @@ const VenueItem = ({ venue_item_data, onClick }) => {
         </div>
       ) : (
         <div className="venue-item-closed">Closed</div>
-      )}
+      )} */}
     </div>
   );
 }
