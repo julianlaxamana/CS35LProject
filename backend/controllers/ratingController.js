@@ -112,6 +112,7 @@ exports.getUserReviews = async (req, res) => {
             const data = doc.data();
             return {
                 foodID: data.foodID,
+                diningHallID: data.diningHallID,
                 review: data.review,
                 rating: data.rating
             }
@@ -136,6 +137,7 @@ exports.getUserFavorites = async (req, res) => {
             const data = doc.data();
             return {
                 foodID: data.foodID,
+                diningHallID: data.diningHallID,
                 rating: data.rating
             }
         });

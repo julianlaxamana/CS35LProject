@@ -319,3 +319,35 @@ exports.queryMenu = async (req, res) => {
     res.status(400).json({message:error.message});
   }
 }
+
+exports.getMenuItem = async (req, res) => {
+  try {
+    const { diningHallID, foodID } = req.body;
+    if (!diningHallID || !foodID)
+      return res.status(400).json({ message: "Need values for both diningHallID and foodID"});
+
+    const validDiningHall = await db.collection('dining_halls').doc(diningHallID).get();
+    if (!validDiningHall.exists)
+      return res.status(400).json({ message: "Invalid diningHallID" });
+
+    const foodSnapshot = await db.collection('dining_halls').doc(diningHallID).collection('Menu').doc(foodID).get();
+    if (!foodSnapshot.exists)
+      return res.status(400).json({ message: "Food does not exist" });
+
+    const data = foodSnapshot.data();
+    if (data.allergens.length == 1 && data.allergens[0] == "None") data.allergens = [];
+
+    res.json({
+      name: foodID,
+      tags: data.tags,
+      allergens: data.allergens,
+      nutrition_facts: data.nutrition,
+      ingredients: data.ingredients,
+      rating: (data.average_rating == undefined) ? NaN : data.average_rating,
+      image: ""
+    })
+  } catch(error) {
+    res.status(500).json({ message: error.message });
+  }
+
+}
