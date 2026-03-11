@@ -215,17 +215,33 @@ exports.queryMenu = async (req, res) => {
     } else if (sorting == "allergies"){
       menu.sort((a, b) => {if(a.allergens.length > b.allergens.length) return 1; if(b.allergens.length > a.allergens.length) return -1; return 0});
     } else if (sorting == "rating"){
-      menu.sort((a, b) => {if(a.rating > b.rating) return 1; if(b.rating > a.rating) return -1; return 0});
+      menu.sort((a, b) => {if(a.average_rating > b.average_rating) return 1; if(b.average_rating > a.average_rating) return -1; return 0});
     }
 
     // filter strings
     const filter = req.body.filterString;
-    if (filter != "" || filter != undefined){
-      let filteredMenu = menu.filter(item => {return item.name.startsWith(filter);});
+    if (filter != "" && filter != undefined){
+      let filteredMenu = menu.filter(item => {return item.name.includes(filter);});
       menu = filteredMenu;
     }
 
-    // rizz
+    // filter by tag
+    const tags = req.body.tags;
+    const isSubset = (main, sub) => {
+        return sub.every(element => main.includes(element));
+    }
+    if (tags != undefined){
+      let filteredMenu = menu.filter(item => {return isSubset(item.tags, tags);});
+      menu = filteredMenu;
+    }
+
+    // filter by rating
+    const filterMin = req.body.filterMin;
+    const filterMax = req.body.filterMax;
+    if (filterMax != undefined && filterMin != undefined){
+      let filteredMenu = menu.filter(item => {return item.average_rating >= filterMin && item.average_rating <= filterMax;});
+      menu = filteredMenu;
+    }
 
     res.json({
       diningHallID: diningHallID,
