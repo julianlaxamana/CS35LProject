@@ -105,14 +105,14 @@ exports.getMenu = async (req, res) => {
 // Calculates average rating for a certain meal
 exports.getAverageRating = async (req, res) => {
   try {
-    const mealID = req.body.mealID;
+    const foodID = req.body.foodID;
     const diningHallID = req.body.diningHallID;
 
     // get food docs
     const foodDocs = await db.collection('dining_halls')
         .doc(diningHallID)
         .collection('Menu')
-        .doc(mealID)
+        .doc(foodID)
         .get();
 
     if (foodDocs.data() == undefined){
@@ -127,7 +127,7 @@ exports.getAverageRating = async (req, res) => {
 
     // filter ratings
     ratings.forEach(doc => {
-      if (doc.data()["foodID"] == mealID && doc.data()["rating"] !== undefined){
+      if (doc.data()["foodID"] == foodID && doc.data()["rating"] !== undefined){
         ratingsSum = ratingsSum + doc.data()["rating"];
         numRatings = numRatings + 1;
       }
@@ -138,7 +138,7 @@ exports.getAverageRating = async (req, res) => {
     let data = foodDocs.data();
     data["average_rating"] = average;
 
-    const response = db.collection("dining_halls").doc(diningHallID).collection('Menu').doc(mealID).set(data);
+    const response = db.collection("dining_halls").doc(diningHallID).collection('Menu').doc(foodID).set(data);
     res.json({average_rating: average});
   } catch (error){
     res.status(400).json({message:error.message});
