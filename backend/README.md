@@ -86,7 +86,7 @@ Marks or unmarks a food item as a favorite for an authenticated user. If a user 
 | `foodID` | string | ID of the food menu item |
 
 #### Get Reviews for One Item
-`GET /api/ratings/get_reviews`
+`POST /api/ratings/get_reviews`
 
 Fetches all reviews of a specific menu item from database and sends them to the client.
 
@@ -111,7 +111,7 @@ No request body needed. Only the JWT token is needed.
 ### Menu
 
 #### Get Menu
-`GET /api/menu/get_menu`
+`POST /api/menu/get_menu`
 
 Sends back the menu for a specific dining hall on a given day. If no day is provided, sends back the menu for the current day. Each menu item includes the station, and meals it is served. Also includes tags, allergens, and average rating.
 

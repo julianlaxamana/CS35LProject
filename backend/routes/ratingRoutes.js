@@ -2,9 +2,8 @@ const express = require('express')
 const router = express.Router()
 const controller = require('../controllers/ratingController.js')
 const {authMiddleware} = require('../middleware/authMiddleware.js');
-const { auth } = require('firebase-admin');
 
-router.get('/get_reviews', controller.getReviews);
+router.post('/get_reviews', controller.getReviews);
 
 router.use(authMiddleware);
 router.post('/add_review', controller.modifyRating);
