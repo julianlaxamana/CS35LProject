@@ -35,6 +35,7 @@ const Content = ({ on_searchbar_click, on_item_click, venue, list_instructions, 
         time: meal_period,
       }),
     });
+
     var data = await res.json();
     setItems(data);
     setLoading(false);
