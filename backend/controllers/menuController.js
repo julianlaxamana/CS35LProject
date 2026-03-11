@@ -77,12 +77,26 @@ exports.getMenu = async (req, res) => {
       };
     });
 
-    res.json({
-      diningHallID: diningHallID,
-      day: day,
-      menu: menu
-    });
 
+    var objects = []
+    for (let i = 0; i < menu.length; i++){
+      objects.push({
+        id: i,
+        name: menu[i].name,
+        rating: (menu[i].average_rating == undefined) ? NaN : menu[i].average_rating,
+        image: "",
+        nutrition_facts: menu[i].nutrition,
+        ingredients: menu[i].ingredients,
+        allergens: menu[i].allergens
+      })
+    }
+    //res.json({
+    //  diningHallID: diningHallID,
+    //  day: day,
+    //  menu: menu
+    //});
+
+    res.json(objects);
   } catch(error) {
     res.status(400).json({ message: error.message });
   }
@@ -203,6 +217,8 @@ exports.queryMenu = async (req, res) => {
         station: menuMap[doc.id].station,
         tags: data.tags,
         allergens: data.allergens,
+        nutrition: data.nutrition,
+        ingredients: data.ingredients,
         image: data.image
         //TODO: add avg rating
       };
@@ -243,11 +259,26 @@ exports.queryMenu = async (req, res) => {
       menu = filteredMenu;
     }
 
-    res.json({
-      diningHallID: diningHallID,
-      day: day,
-      menu: menu
-    });
+    var objects = []
+    for (let i = 0; i < menu.length; i++){
+      objects.push({
+        id: i,
+        name: menu[i].name,
+        tags: menu[i].tags,
+        rating: (menu[i].average_rating == undefined) ? NaN : menu[i].average_rating,
+        image: "",
+        nutrition_facts: menu[i].nutrition,
+        ingredients: menu[i].ingredients,
+        allergens: menu[i].allergens
+      })
+    }
+    //res.json({
+    //  diningHallID: diningHallID,
+    //  day: day,
+    //  menu: menu
+    //});
+
+    res.json(objects);
   } catch (error){
     res.status(400).json({message:error.message});
   }
