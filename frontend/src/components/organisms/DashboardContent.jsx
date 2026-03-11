@@ -41,6 +41,7 @@ const Content = ({ on_searchbar_click, on_item_click, venue, list_instructions, 
   };
 
   useEffect(() => {
+    console.log(update);
     handleFetch();
   }, [venue, current_day, meal_period, is_open, update]);
 

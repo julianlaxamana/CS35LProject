@@ -26,7 +26,7 @@ const ItemDetails = ({ is_open, on_close, menu_item_data = EMPTY_ITEM_DATA, dini
           ))}
         </div>
         <MarkAsFavoriteButton is_favorite={is_favorited} onClick={() => alert("Favorite functionality coming soon!")} />
-        <OverallRating ratings={menu_item_data.ratings || []} on_update={() => {}} dining_hall_id={dining_hall_id} food_id={menu_item_data.name} />
+        <OverallRating on_submit={on_update} ratings={menu_item_data.ratings || []} on_update={() => {}} dining_hall_id={dining_hall_id} food_id={menu_item_data.name} />
         <Reviews reviews={menu_item_data.reviews || []} on_update={() => {}} on_submit={on_update} dining_hall_id={dining_hall_id} food_id={menu_item_data.name} />
         <NutritionFacts nutrition_facts={SAMPLE_BACKEND_MENU_ITEM["nutrition"]} />
         <IngredientsAndAllergens ingredients_and_allergens={SAMPLE_BACKEND_MENU_ITEM["ingredients"]} />
@@ -35,12 +35,25 @@ const ItemDetails = ({ is_open, on_close, menu_item_data = EMPTY_ITEM_DATA, dini
   )
 };
 
-const OverallRating = ({ ratings, on_update, user_rating, dining_hall_id, food_id }) => {  
+const OverallRating = ({ on_submit, ratings, on_update, user_rating, dining_hall_id, food_id }) => {  
   const [is_modal_open, setIsModalOpen] = useState(false);
   const [slider_value, setSliderValue] = useState(user_rating);
 
   const average_rating = ratings.length > 0 ? ratings.reduce((sum, r) => sum + r, 0) / ratings.length : null;
   const abbreviated_count = ratings.length > 999 ? `${(ratings.length / 1000).toFixed(1)}k` : ratings.length;
+
+  const avg_rating = async (diningHallID, foodID) => {
+  const res = await fetch(`http://localhost:3000/api/menu/average_rating`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    credentials: 'include',
+    body: JSON.stringify({"foodID" : foodID, "diningHallID" : diningHallID}),
+  });
+
+    const data = await res.text();
+    console.log(data)
+    return true;
+  }
 
   const updateUserRating = (new_rating) => {
     const updateRating = async (diningHallID, foodID, rating) => {
@@ -50,7 +63,6 @@ const OverallRating = ({ ratings, on_update, user_rating, dining_hall_id, food_i
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({diningHallID, foodID, rating}),
       });
-      const data = await res.json();
     };
     // Placeholder for updating user rating, will eventually involve API call and state update
     if (new_rating === null) {
@@ -63,7 +75,7 @@ const OverallRating = ({ ratings, on_update, user_rating, dining_hall_id, food_i
       setIsModalOpen(false);
       return;
     }
-    updateRating(dining_hall_id, food_id, new_rating);
+    updateRating(dining_hall_id, food_id, new_rating).then(val => {avg_rating(dining_hall_id, food_id); on_submit();});
     console.log(`New rating submitted: ${new_rating}`);
     on_update(new_rating);
     setIsModalOpen(false);
