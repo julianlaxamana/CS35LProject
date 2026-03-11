@@ -67,12 +67,14 @@ function UserPage() {
 
       setFAVORITE_ITEMS(favoriteItemsData.map((item, i) => ({
         ...item,
+        diningHallID: favorites[i].diningHallID,
         marked_as_favorite: true,
         rating: favorites[i].rating
       })));
 
       setREVIEWED_ITEMS(reviewedItemsData.map((item, i) => ({
         ...item,
+        diningHallID: reviews[i].diningHallID,
         rating: reviews[i].rating,
         review: reviews[i].review
       })));
@@ -131,6 +133,7 @@ function UserPage() {
         is_open={is_itemdetails_open} 
         on_close={() => setIsItemDetailsOpen(false)} 
         menu_item_data={selected_item} 
+        dining_hall_id={selected_item.diningHallID}
         on_interact={() => {}} 
       />
     </div>
