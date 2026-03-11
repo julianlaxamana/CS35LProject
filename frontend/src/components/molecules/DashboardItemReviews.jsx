@@ -125,6 +125,18 @@ const UserReviewModalContent = ({ review, on_update, on_close, diningHallID, foo
 
 
   const { add_review } = useAuth();
+  const avg_rating = async (diningHallID, foodID) => {
+  const res = await fetch(`http://localhost:3000/api/menu/average_rating`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    credentials: 'include',
+    body: JSON.stringify({"foodID" : foodID, "diningHallID" : diningHallID}),
+  });
+
+    const data = await res.text();
+    console.log(data);
+    return true;
+  }
   return(
     <div className="user-review-modal-inner">
       <h3>Your Review</h3>
@@ -144,7 +156,7 @@ const UserReviewModalContent = ({ review, on_update, on_close, diningHallID, foo
           on_click={() => {
             on_update(review);
             add_review(diningHallID, foodID, review).then(
-            result => {on_close()});
+            result => {avg_rating(diningHallID, foodID); on_close()});
           }}
         />
         <Chip
