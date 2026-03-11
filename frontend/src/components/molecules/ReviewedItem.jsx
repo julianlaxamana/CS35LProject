@@ -7,7 +7,7 @@ const ReviewedItem = ({ user_item_data, on_click }) => {
   return (
     <ItemCard 
       title={user_item_data.name} 
-      rating={user_item_data.rating} 
+      rating={user_item_data.user_rating} 
       image={user_item_data.image || PlaceholderThumbnail} 
       review={user_item_data.review}
       on_click={on_click}

@@ -10,7 +10,7 @@ import IngredientsAndAllergensList from '../molecules/IngredientsAndAllergensLis
 import { useAuth } from '../../contexts/AuthContext';
 import ItemReviews from '../molecules/DashboardItemReviews';
 
-import { EMPTY_ITEM_DATA, SAMPLE_BACKEND_MENU_ITEM } from '../../SAMPLEDATA';
+import { EMPTY_ITEM_DATA } from '../../SAMPLEDATA';
 // import PlaceholderThumbnail from "../../assets/placeholder-thumbnail.jpg";
 
 const ItemDetails = ({ is_open, on_close, menu_item_data = EMPTY_ITEM_DATA, dining_hall_id, on_interact, on_update }) => {
@@ -23,10 +23,8 @@ const ItemDetails = ({ is_open, on_close, menu_item_data = EMPTY_ITEM_DATA, dini
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
     })
-    console.log(menu_item_data)
   }
   useEffect(() => {
-    console.log(menu_item_data)
     if (menu_item_data != EMPTY_ITEM_DATA && menu_item_data.user_favorites != undefined){menu_item_data.user_favorites.includes(user.userID)}
   }, [menu_item_data]);
 
@@ -54,19 +52,19 @@ const ItemDetails = ({ is_open, on_close, menu_item_data = EMPTY_ITEM_DATA, dini
         <MarkAsFavoriteButton is_favorite={is_favorited} onClick={() => {toggle_favorite(menu_item_data.name, dining_hall_id)}} />
         <OverallRating on_submit={on_update} ratings={menu_item_data.ratings || []} on_update={() => {}} dining_hall_id={dining_hall_id} food_id={menu_item_data.name} />
         <Reviews reviews={menu_item_data.reviews || []} on_update={() => {}} on_submit={on_update} dining_hall_id={dining_hall_id} food_id={menu_item_data.name} />
-        <NutritionFacts nutrition_facts={SAMPLE_BACKEND_MENU_ITEM["nutrition"]} />
-        <IngredientsAndAllergens ingredients_and_allergens={SAMPLE_BACKEND_MENU_ITEM["ingredients"]} />
+        <NutritionFacts nutrition_facts={menu_item_data.nutrition_facts} />
+        <IngredientsAndAllergens ingredients_and_allergens={menu_item_data.ingredients} />
       </div>
     </div>
   )
 };
 
-const OverallRating = ({ on_submit, ratings, on_update, user_rating, dining_hall_id, food_id }) => {  
+const OverallRating = ({ on_submit, average_rating, on_update, user_rating, dining_hall_id, food_id }) => {  
   const [is_modal_open, setIsModalOpen] = useState(false);
   const [slider_value, setSliderValue] = useState(user_rating);
 
-  const average_rating = ratings.length > 0 ? ratings.reduce((sum, r) => sum + r, 0) / ratings.length : null;
-  const abbreviated_count = ratings.length > 999 ? `${(ratings.length / 1000).toFixed(1)}k` : ratings.length;
+  //const average_rating = ratings.length > 0 ? ratings.reduce((sum, r) => sum + r, 0) / ratings.length : null;
+  //const abbreviated_count = ratings.length > 999 ? `${(ratings.length / 1000).toFixed(1)}k` : ratings.length;
 
   const avg_rating = async (diningHallID, foodID) => {
     const res = await fetch(`http://localhost:3000/api/menu/average_rating`, {
@@ -110,8 +108,8 @@ const OverallRating = ({ on_submit, ratings, on_update, user_rating, dining_hall
   return (
     <>
       <div className="overall-rating" onClick={() => setIsModalOpen(true)}>
-        <h3>Overall Rating ({abbreviated_count})</h3>
-        <div className="rating-value">{average_rating !== null ? average_rating.toFixed(2) : "N/A"}</div>
+        <h3>Overall Rating</h3>
+        <div className="rating-value">{average_rating && !isNaN(average_rating) ? average_rating.toFixed(2) : "N/A"}</div>
       </div>
       <Modal is_open={is_modal_open} on_close={() => setIsModalOpen(false)}>
         <div className="rating-modal-inner">
