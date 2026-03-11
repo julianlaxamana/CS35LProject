@@ -1320,3 +1320,18 @@
 .ingredients-and-allergens ul {
   padding-left: 24px;
 }
+
+#day-of-the-week, #meal-time {
+  display: inline-block;
+  padding: 4px 12px;
+  background-color: #F6F0E9;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+label {
+  font-size: 14px;
+  color: #83889C;
+  margin-bottom: 0px;
+}

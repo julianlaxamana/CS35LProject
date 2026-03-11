@@ -9,28 +9,49 @@ const Debugger = ({ isVisible }) => {
       <div className="debugger-header">Debugger</div>
       <div className="debugger-category-header">Navigation</div>
       <DebuggerNavigator />
-      <div className="debugger-category-header">User State</div>
-      <DebuggerUserMode />
+      <div className="debugger-category-header">Time State</div>
+      <DebuggerDaySelect />
+      <DebuggerMealTimeSelect />
     </div>
   );
 }
 
 // Toggle between view, edit, and add modes for the user page, useful for testing different user interactions and states.
-const DebuggerUserMode = () => {
-  const [user_mode, setUserMode] = useState('view');
+const DebuggerDaySelect = () => {
+  const [selected_day, setDay] = useState('Monday');
 
-  const mode_keys = ['view', 'edit', 'add'];
+  const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  
+  // TODO: change to dropdown
+
+  return (
+    <>
+      <label htmlFor="day-select">Day of the Week</label>
+      <select id="day-select" value={selected_day} onChange={(e) => setDay(e.target.value)}>
+        {days.map((day) => (
+          <option key={day} value={day}>{day}</option>
+        ))}
+      </select>
+    </>
+  );
+}
+
+const DebuggerMealTimeSelect = () => {
+  const [selected_meal_time, setMealTime] = useState('Lunch');
+
+  const meal_time = ['Breakfast', 'Lunch', 'Dinner', 'Extended Dinner'];
+
+  // TODO: change to dropdown
   
   return (
-    <div style={{ display: 'flex', gap: '8px' }}>
-      {mode_keys.map((mode) => (
-        <button
-          key={mode}
-          onClick={() => setUserMode(mode)}
-          className={mode === user_mode ? 'debugger-button-selected debugger-button' : 'debugger-button'}
-        >{mode}</button>
-      ))}
-    </div>
+    <>
+      <label htmlFor="meal-time-select">Meal Time</label>
+      <select id="meal-time-select" value={selected_meal_time} onChange={(e) => setMealTime(e.target.value)}>
+        {meal_time.map((meal) => (
+          <option key={meal} value={meal}>{meal}</option>
+        ))}
+      </select>
+    </>
   );
 }
 
