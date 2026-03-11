@@ -30,12 +30,12 @@ const DashboardItemReviews = ({ reviews, on_update, user_review, diningHallID, f
   const [REVIEWS, setREVIEWS] = useState([]);
 
   useEffect(() => {
-  if (!diningHallID || !foodID) return;
-  getReviews(diningHallID, foodID).then((data) => {
-    setREVIEWS(data);
-  });
-}, [diningHallID, foodID]);
-  
+    if (!diningHallID || !foodID) return;
+    getReviews(diningHallID, foodID).then((data) => {
+      setREVIEWS(data);
+    });
+  }, [diningHallID, foodID]);
+
   const PAGE_SIZE = 5;
   const [current_page, setCurrentPage] = useState(1);
   const total_pages = Math.ceil(REVIEWS.length / PAGE_SIZE);
@@ -65,7 +65,13 @@ const DashboardItemReviews = ({ reviews, on_update, user_review, diningHallID, f
             setReviewText(new_review_text);
             on_update(new_review_text);
           }}
-          on_close={() => setIsModalOpen(false)}
+          on_close={() => { if (!diningHallID || !foodID) return;
+        console.log("Hi");
+            getReviews(diningHallID, foodID).then((data) => {
+        console.log(data);
+              setREVIEWS(data);
+            });
+            setIsModalOpen(false)}}
         />
       </Modal>
     </>
@@ -89,7 +95,7 @@ const Pagination = ({ current_page, total_pages, on_page_change }) => {
         {">>"}
       </button>
     </div>
-   );
+  );
 }
 
 const ReviewCard = ({ review }) => {
@@ -118,8 +124,8 @@ const YourReviewCard = ({ review, on_click }) => {
 const UserReviewModalContent = ({ review, on_update, on_close, diningHallID, foodID }) => {
 
 
-const { add_review } = useAuth();
- return(
+  const { add_review } = useAuth();
+  return(
     <div className="user-review-modal-inner">
       <h3>Your Review</h3>
       <textarea 
@@ -137,8 +143,8 @@ const { add_review } = useAuth();
           clickable={true}
           on_click={() => {
             on_update(review);
-            add_review(diningHallID, foodID, review);
-            on_close();
+            add_review(diningHallID, foodID, review).then(
+            result => {on_close()});
           }}
         />
         <Chip
