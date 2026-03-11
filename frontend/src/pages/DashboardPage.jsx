@@ -12,6 +12,7 @@ function DashboardPage({ current_day, is_open, meal_period }) {
   const [is_search_open, setIsSearchOpen] = useState(false);
   const [is_venuedetails_open, setIsVenueDetailsOpen] = useState(false);
   const [is_itemdetails_open, setIsItemDetailsOpen] = useState(false);
+  const [update, setUpdate] = useState(false);
 
   const [list_instructions, setListInstructions] = useState({
     search_string: "",
@@ -86,6 +87,7 @@ function DashboardPage({ current_day, is_open, meal_period }) {
         current_day={current_day}
         meal_period={meal_period}
         is_open={is_open}
+        update={update}
       />
       <VenueDetails 
         is_open={is_venuedetails_open} 
@@ -105,6 +107,7 @@ function DashboardPage({ current_day, is_open, meal_period }) {
         menu_item_data={selected_item}
         dining_hall_id={current_venue_data.string_id} 
         on_interact={() => {}} 
+        on_update={()=>{setUpdate(true)}}
       />
     </div>
   );
