@@ -209,6 +209,22 @@ exports.queryMenu = async (req, res) => {
     processMeal(lunch, "lunch");
     processMeal(dinner, "dinner");
 
+    // get time
+    const time = req.body.time;
+    // get all food getting served currently
+    var meals = [];
+    if (time == "breakfast"){
+    if (breakfast == null) return res.json([]);
+    var meals = Object.values(breakfast).flat();
+    } else if (time == "lunch"){
+    if (lunch == null) return res.json([]);
+    var meals = Object.values(lunch).flat();
+    } else if (time == "dinner"){
+    if (dinner == null) return res.json([]);
+    var meals = Object.values(dinner).flat();
+    }
+
+
     // fetch info about each food (tags, allergens, image, rating)
     const names = Object.keys(menuMap);
     const foodDocs = await Promise.all(
@@ -276,6 +292,7 @@ exports.queryMenu = async (req, res) => {
 
     var objects = []
     for (let i = 0; i < menu.length; i++){
+      if (meals.length != 0 && !meals.includes(menu[i].name))  continue;
       objects.push({
         id: i,
         name: menu[i].name,
