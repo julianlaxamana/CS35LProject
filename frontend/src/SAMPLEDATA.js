@@ -207,6 +207,7 @@ const SAMPLE_DINING_VENUES = [
   { 
     id: 1,
     name: "Bruin Plate", 
+    string_id: "bruin-plate",
     aggregate_rating: 2.05, // Placeholder rating for testing, NOT ACTUALLY TO BE STORED IN THE BACKEND, will be calculated on the frontend based on user ratings in the future.
     occupancy: 89, 
     status: "Open",   // Placeholder status for testing, NOT ACTUALLY TO BE STORED IN THE BACKEND, will be determined on the frontend based on hours and current time in the future.
@@ -257,6 +258,7 @@ const SAMPLE_DINING_VENUES = [
   // },
   { 
     id: 4,
+    string_id: "de-neve-dining",
     name: "De Neve Dining", 
     aggregate_rating: 1.27, 
     occupancy: 47, 
@@ -296,6 +298,7 @@ const SAMPLE_DINING_VENUES = [
   // },
   { 
     id: 7,
+    string_id: "epicuria-at-covel",
     name: "Epicuria at Covel", 
     aggregate_rating: 4.38, 
     occupancy: 100, 

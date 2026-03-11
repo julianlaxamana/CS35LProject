@@ -1,16 +1,39 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Modal from "../atoms/Modal";
 import Chip from "../atoms/Chip";
 
-import { generateRandomItemReviews } from "../../SAMPLEDATA";
+//import { generateRandomItemReviews } from "../../SAMPLEDATA";
+//const REVIEWS = generateRandomItemReviews(23);
 
-const REVIEWS = generateRandomItemReviews(23);
+const getReviews = async (diningHallID, foodID) => {
+  const res = await fetch(`http://localhost:3000/api/ratings/get_reviews`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({diningHallID, foodID}),
+  });
+  const data = await res.json();
+  if (!data.reviews) return [];
+  return data.reviews.map((r, index) => ({
+    id: index + 1,
+    owner: r.userID,
+    rating: r.rating,
+    text: r.review,
+  }));
+};
 
 // Currently using randomly generated reviews for testing and development purposes, but will be fetched from backend later.
 // Currently not using anything for user review, but will be fetched from backend later as well.
-const DashboardItemReviews = ({ reviews, on_update, user_review }) => {  
+const DashboardItemReviews = ({ reviews, on_update, user_review, diningHallID, foodID }) => {  
   const [is_modal_open, setIsModalOpen] = useState(false);
   const [review_text, setReviewText] = useState("");
+  const [REVIEWS, setREVIEWS] = useState([]);
+
+  useEffect(() => {
+  if (!diningHallID || !foodID) return;
+  getReviews(diningHallID, foodID).then((data) => {
+    setREVIEWS(data);
+  });
+}, [diningHallID, foodID]);
   
   const PAGE_SIZE = 5;
   const [current_page, setCurrentPage] = useState(1);

@@ -102,7 +102,8 @@ function DashboardPage({ current_day, is_open, meal_period }) {
       <ItemDetails 
         is_open={is_itemdetails_open} 
         on_close={() => setIsItemDetailsOpen(false)} 
-        menu_item_data={selected_item} 
+        menu_item_data={selected_item}
+        dining_hall_id={current_venue_data.string_id} 
         on_interact={() => {}} 
       />
     </div>

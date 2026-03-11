@@ -12,7 +12,7 @@ import ItemReviews from '../molecules/DashboardItemReviews';
 import { EMPTY_ITEM_DATA, SAMPLE_BACKEND_MENU_ITEM } from '../../SAMPLEDATA';
 // import PlaceholderThumbnail from "../../assets/placeholder-thumbnail.jpg";
 
-const ItemDetails = ({ is_open, on_close, menu_item_data = EMPTY_ITEM_DATA, on_interact }) => {
+const ItemDetails = ({ is_open, on_close, menu_item_data = EMPTY_ITEM_DATA, dining_hall_id, on_interact }) => {
   const is_favorited = false; // Placeholder for favorite status, will be obtained from passed menu_item_data
 
   return (
@@ -27,7 +27,7 @@ const ItemDetails = ({ is_open, on_close, menu_item_data = EMPTY_ITEM_DATA, on_i
         </div>
         <MarkAsFavoriteButton is_favorite={is_favorited} onClick={() => alert("Favorite functionality coming soon!")} />
         <OverallRating ratings={menu_item_data.ratings || []} on_update={() => {}} />
-        <Reviews reviews={menu_item_data.reviews || []} on_update={() => {}} />
+        <Reviews reviews={menu_item_data.reviews || []} on_update={() => {}} dining_hall_id={dining_hall_id} food_id={menu_item_data.name} />
         <NutritionFacts nutrition_facts={SAMPLE_BACKEND_MENU_ITEM["nutrition"]} />
         <IngredientsAndAllergens ingredients_and_allergens={SAMPLE_BACKEND_MENU_ITEM["ingredients"]} />
       </div>
@@ -107,7 +107,7 @@ const OverallRating = ({ ratings, on_update, user_rating }) => {
   );
 }
 
-const Reviews = ({ reviews, on_update, user_review }) => {  
+const Reviews = ({ reviews, on_update, user_review, dining_hall_id, food_id }) => {  
   const [is_modal_open, setIsModalOpen] = useState(false);
   const [review_text, setReviewText] = useState(user_review);
 
@@ -124,6 +124,8 @@ const Reviews = ({ reviews, on_update, user_review }) => {
             reviews={reviews} 
             on_update={on_update} 
             user_review={user_review} 
+            diningHallID={dining_hall_id}
+            foodID={food_id}
           />
         </div>
       </Modal>
