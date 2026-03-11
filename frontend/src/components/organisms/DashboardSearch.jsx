@@ -2,27 +2,24 @@ import { useState, useRef, useEffect } from 'react';
 import SearchBar from '../molecules/SearchBar';
 import Slider from '../atoms/Slider';
 
-const Search = ({ is_open, on_close, day_data, current_venue_data, on_interact }) => {
-  const [sort_mode, setSortMode] = useState("Alphabetical");
-  const [tags, setTags] = useState([
-    { name: "Alcohol", regex: "alcohol", is_selected: true },
-    { name: "Shellfish", regex: "crustacean|shellfish", is_selected: true },
-    { name: "Customizable", regex: "custom(izable)?", is_selected: true },
-    { name: "Dairy", regex: "dairy", is_selected: true },
-    { name: "Egg", regex: "egg(s)?", is_selected: true },
-    { name: "Fish", regex: "fish", is_selected: true },
-    { name: "Gluten", regex: "gluten", is_selected: true },
-    { name: "Halal", regex: "halal", is_selected: true },
-    { name: "High Carbon", regex: "high[- ]*carbon", is_selected: true },
-    { name: "Low Carbon", regex: "low[- ]*carbon", is_selected: true },
-    { name: "Peanut", regex: "peanut", is_selected: true },
-    { name: "Sesame", regex: "sesame", is_selected: true },
-    { name: "Soy", regex: "soy", is_selected: true },
-    { name: "Tree Nut", regex: "tree[- ]*nut(s)?", is_selected: true },
-    { name: "Vegan", regex: "vegan", is_selected: true },
-    { name: "Vegetarian", regex: "vegetarian", is_selected: true },
-    { name: "Wheat", regex: "wheat", is_selected: true },
-  ]);
+const Search = ({ is_open, on_close, day_data, current_venue_data, list_instructions, setListInstructions }) => {
+  const handleSearchChange = (e) => {
+    setListInstructions(prev => ({ ...prev, search_string: e.target.value }));
+  };
+  const handleSortChange = (new_value) => {
+    setListInstructions(prev => ({ ...prev, sort_mode: new_value }));
+  };
+  const handleTagToggle = (tag_name) => {
+    setListInstructions(prev => ({
+      ...prev,
+      tags: prev.tags.map(t => 
+        t.name === tag_name ? { ...t, is_selected: !t.is_selected } : t
+      )
+    }));
+  };
+  const handleRatingChange = (first, second) => {
+    setListInstructions(prev => ({ ...prev, rating_range: [first, second] }));
+  };
 
   return (
     <div className={`drawer-overlay ${is_open ? "open" : ""}`} onClick={on_close}>
@@ -31,17 +28,14 @@ const Search = ({ is_open, on_close, day_data, current_venue_data, on_interact }
           <h3>Searching...</h3>
           <h2>{current_venue_data.name} ({day_data.day} {day_data.meal_period})</h2>
         </div>
-        <SearchBar placeholder="Search menu items..." button_only={false} on_interact={on_interact} />
+        <SearchBar placeholder="Search menu items..." button_only={false} on_interact={handleSearchChange} />
 
         <div className="search-sort-section">
           <h4>Sort By</h4>
           <CustomDropdown 
             options={["Alphabetical", "Allergies", "Rating"]} 
-            value={sort_mode}
-            on_change={(new_value) => {
-              setSortMode(new_value);
-              on_interact(new_value);
-            }}
+            value={list_instructions.sort_mode}
+            on_change={handleSortChange}
           />
         </div>
 
@@ -50,14 +44,8 @@ const Search = ({ is_open, on_close, day_data, current_venue_data, on_interact }
           <div className="search-filter-content">
             <h5>Tags</h5>
             <FilterTags 
-              tags={tags} 
-              on_toggle_tag={(tag_name) => {
-                const new_tags = tags.map((tag) => 
-                  tag.name === tag_name ? { ...tag, is_selected: !tag.is_selected } : tag
-                );
-                setTags(new_tags);
-                on_interact(new_tags);
-              }}
+              tags={list_instructions.tags} 
+              on_toggle_tag={handleTagToggle}
             />
 
             <h5>Rating Range</h5>
@@ -65,12 +53,9 @@ const Search = ({ is_open, on_close, day_data, current_venue_data, on_interact }
               min={0} 
               max={5}
               step={0.1}
-              default_value_first={0}
-              default_value_second={5}
-              on_change={(first, second) => {
-                const new_range = [first, second];
-                on_interact(new_range);
-              }}
+              default_value_first={list_instructions.rating_range[0]}
+              default_value_second={list_instructions.rating_range[1]}
+              on_change={handleRatingChange}
               has_two_thumbs={true}
             />
           </div>

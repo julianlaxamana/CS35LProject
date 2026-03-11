@@ -13,13 +13,29 @@ function DashboardPage() {
   const [is_venuedetails_open, setIsVenueDetailsOpen] = useState(false);
   const [is_itemdetails_open, setIsItemDetailsOpen] = useState(false);
 
-  // TODO: Hook up search bar state to this and pass down to search component, then use it to filter/sort items in content. 
-  // Will need to decide on a format for the search/sort/filter instructions and how to store that in state.
-  const [list_instructions, setSortMode] = useState({
+  const [list_instructions, setListInstructions] = useState({
     search_string: "",
     sort_mode: "Alphabetical",
-    tags: [],
-    rating_range: {min: 0, max: 5},
+    tags: [
+      { name: "Alcohol", regex: "alcohol", is_selected: true },
+      { name: "Shellfish", regex: "crustacean|shellfish", is_selected: true },
+      { name: "Customizable", regex: "custom(izable)?", is_selected: true },
+      { name: "Dairy", regex: "dairy", is_selected: true },
+      { name: "Egg", regex: "egg(s)?", is_selected: true },
+      { name: "Fish", regex: "fish", is_selected: true },
+      { name: "Gluten", regex: "gluten", is_selected: true },
+      { name: "Halal", regex: "halal", is_selected: true },
+      { name: "High Carbon", regex: "high[- ]*carbon", is_selected: true },
+      { name: "Low Carbon", regex: "low[- ]*carbon", is_selected: true },
+      { name: "Peanut", regex: "peanut", is_selected: true },
+      { name: "Sesame", regex: "sesame", is_selected: true },
+      { name: "Soy", regex: "soy", is_selected: true },
+      { name: "Tree Nut", regex: "tree[- ]*nut(s)?", is_selected: true },
+      { name: "Vegan", regex: "vegan", is_selected: true },
+      { name: "Vegetarian", regex: "vegetarian", is_selected: true },
+      { name: "Wheat", regex: "wheat", is_selected: true },
+    ],
+    rating_range: [0, 5],
   });
 
   // State for currently selected venue and menu item, which will determine the content shown in the details drawers.
@@ -47,7 +63,8 @@ function DashboardPage() {
         on_close={() => setIsSearchOpen(false)} 
         day_data={SAMPLE_DASHBOARD_DAY_DATA}
         current_venue_data={current_venue_data}
-        on_interact={() => {}}
+        list_instructions={list_instructions}
+        setListInstructions={setListInstructions}
       />
       <Header 
         day_data={SAMPLE_DASHBOARD_DAY_DATA}
@@ -62,6 +79,7 @@ function DashboardPage() {
           setIsItemDetailsOpen(true);
         }}
         venue={current_venue_data}
+        list_instructions={list_instructions}
       />
       <VenueDetails 
         is_open={is_venuedetails_open} 
