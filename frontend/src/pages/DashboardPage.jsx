@@ -61,6 +61,7 @@ function DashboardPage() {
           setSelectedItem(item);
           setIsItemDetailsOpen(true);
         }}
+        venue={current_venue_data}
       />
       <VenueDetails 
         is_open={is_venuedetails_open} 
