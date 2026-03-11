@@ -23,7 +23,7 @@ const ItemCard = ({ title, rating, image, review, on_click }) => {
           <h4>{title}</h4>
         </div>
       </div>
-      <img src={image} alt={"[Image Here]"} className="item-card-image-small" />
+      {/* <img src={image} alt={"[Image Here]"} className="item-card-image-small" /> */}
     </div>  
   );
 }

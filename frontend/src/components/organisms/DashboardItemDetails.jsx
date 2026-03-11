@@ -16,7 +16,7 @@ const ItemDetails = ({ is_open, on_close, menu_item_data = EMPTY_ITEM_DATA, on_i
   return (
     <div className={`drawer-overlay ${is_open ? "open" : ""}`} onClick={on_close}>
       <div className="item-drawer-content" onClick={(e) => e.stopPropagation()}>
-        <img src={menu_item_data.image || PlaceholderThumbnail} alt={`[Image Here]`} className="item-drawer-image" />
+        {/* <img src={menu_item_data.image || PlaceholderThumbnail} alt={`[Image Here]`} className="item-drawer-image" /> */}
         <h2>{menu_item_data.name}</h2>
         <div className="item-drawer-tags">
           {menu_item_data.tags.map((tag, index) => (

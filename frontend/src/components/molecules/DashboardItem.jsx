@@ -37,7 +37,7 @@ const ItemCard = ({ title, tags, rating, image, on_click }) => {
           </div>
         </div>
       </div>
-      <img src={image} alt={"[Image Here]"} className="item-card-image" />
+      {/* <img src={image} alt={"[Image Here]"} className="item-card-image" /> */}
     </div>  
   );
 }
