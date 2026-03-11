@@ -6,7 +6,7 @@ const CurrentVenueDetails = ({ day_data, venue_data, is_favorited }) => {
 
   return (
     <div className="current-venue-details">
-      <MarkAsFavoriteButton is_favorite={is_favorited} onClick={() => alert("Favorite functionality coming soon!")} />
+      {/* <MarkAsFavoriteButton is_favorite={is_favorited} onClick={() => alert("Favorite functionality coming soon!")} /> */}
 
       <div className="location-and-phone">
         <div>{venue_data.location}</div>

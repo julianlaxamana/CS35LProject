@@ -13,6 +13,10 @@ import './App.css';
 function App() {
   const frame_scale = scaleToFit(390, 844); // Scale to fit iPhone 13/14 dimensions for demo
 
+  const [current_day, setCurrentDay] = useState("Wednesday"); 
+  const [is_open, setIsOpen] = useState(true);
+  const [meal_period, setMealTime] = useState("Lunch");
+
   return (
     <Router>
       <AuthProvider>
@@ -22,7 +26,14 @@ function App() {
               <Route path="/" element={<RegisterPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route element={<ProtectedRoute />}>
-                <Route path="/dashboard" element={<DashboardPage />} />
+                <Route 
+                  path="/dashboard" 
+                  element={<DashboardPage 
+                    current_day={current_day} 
+                    is_open={is_open} 
+                    meal_period={meal_period} 
+                  />} 
+                />
                 <Route path="/user" element={<UserPage />} />
                 <Route path="/settings" element={<SettingsPage />} />
               </Route>
@@ -30,7 +41,15 @@ function App() {
           </Routes>
           <div id="modal-root"></div>
         </div>
-        <Debugger isVisible={true} />
+        <Debugger 
+          isVisible={true} 
+          current_day={current_day} 
+          is_open={is_open} 
+          meal_period={meal_period} 
+          setCurrentDay={setCurrentDay}
+          setIsOpen={setIsOpen}
+          setMealTime={setMealTime}
+        />
       </AuthProvider>
     </Router>
   );

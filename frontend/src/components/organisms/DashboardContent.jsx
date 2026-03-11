@@ -3,11 +3,19 @@ import DashboardItem from "../molecules/DashboardItem";
 import Loading from '../atoms/Loading';
 import { useState, useEffect } from 'react';
 
-const Content = ({ on_searchbar_click, on_item_click, venue, list_instructions }) => {
+const Content = ({ on_searchbar_click, on_item_click, venue, list_instructions, current_day, meal_period, is_open }) => {
 
   const [items, setItems] = useState([{}]);
   const [loading, setLoading] = useState(true);
   const handleFetch = async () => {
+    setLoading(true);
+
+    if (!is_open) {
+      setItems([]);
+      setLoading(false);
+      return;
+    }
+
     var venue_name = "";
     console.log(venue.name);
     if (venue.name == "Bruin Plate"){
@@ -22,7 +30,11 @@ const Content = ({ on_searchbar_click, on_item_click, venue, list_instructions }
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
-      body: JSON.stringify({ diningHallID : venue_name, time: "dinner" }),
+      body: JSON.stringify({ 
+        diningHallID : venue_name, 
+        day: current_day,
+        time: meal_period,
+      }),
     });
     var data = await res.json();
     setItems(data);
@@ -31,7 +43,7 @@ const Content = ({ on_searchbar_click, on_item_click, venue, list_instructions }
 
   useEffect(() => {
     handleFetch();
-  }, [venue]);
+  }, [venue, current_day, meal_period, is_open]);
 
 
   const filteredAndSortedItems = items.filter(item => {

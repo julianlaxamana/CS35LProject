@@ -1,7 +1,15 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
-const Debugger = ({ isVisible }) => {
+const Debugger = ({ 
+  isVisible,
+  current_day,
+  is_open,
+  meal_period,
+  setCurrentDay,
+  setIsOpen,
+  setMealTime
+}) => {
   if (!isVisible) return null;
 
   return (
@@ -10,24 +18,21 @@ const Debugger = ({ isVisible }) => {
       <div className="debugger-category-header">Navigation</div>
       <DebuggerNavigator />
       <div className="debugger-category-header">Time State</div>
-      <DebuggerDaySelect />
-      <DebuggerMealTimeSelect />
+      <DebuggerDaySelect current_day={current_day} setCurrentDay={setCurrentDay} />
+      <DebuggerMealTimeSelect meal_period={meal_period} setMealTime={setMealTime} />
+      <DebuggerOpenToggle is_open={is_open} setIsOpen={setIsOpen} />
     </div>
   );
 }
 
 // Toggle between view, edit, and add modes for the user page, useful for testing different user interactions and states.
-const DebuggerDaySelect = () => {
-  const [selected_day, setDay] = useState('Monday');
-
+const DebuggerDaySelect = ({ current_day, setCurrentDay }) => {
   const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-  
-  // TODO: change to dropdown
 
   return (
     <>
       <label htmlFor="day-select">Day of the Week</label>
-      <select id="day-select" value={selected_day} onChange={(e) => setDay(e.target.value)}>
+      <select id="day-select" value={current_day} onChange={(e) => setCurrentDay(e.target.value)}>
         {days.map((day) => (
           <option key={day} value={day}>{day}</option>
         ))}
@@ -36,22 +41,28 @@ const DebuggerDaySelect = () => {
   );
 }
 
-const DebuggerMealTimeSelect = () => {
-  const [selected_meal_time, setMealTime] = useState('Lunch');
-
-  const meal_time = ['Breakfast', 'Lunch', 'Dinner', 'Extended Dinner'];
-
-  // TODO: change to dropdown
+const DebuggerMealTimeSelect = ({ meal_period, setMealTime }) => {
+  const meal_periods = ['Breakfast', 'Lunch', 'Dinner', 'Extended Dinner'];
   
   return (
     <>
       <label htmlFor="meal-time-select">Meal Time</label>
-      <select id="meal-time-select" value={selected_meal_time} onChange={(e) => setMealTime(e.target.value)}>
-        {meal_time.map((meal) => (
+      <select id="meal-time-select" value={meal_period} onChange={(e) => setMealTime(e.target.value)}>
+        {meal_periods.map((meal) => (
           <option key={meal} value={meal}>{meal}</option>
         ))}
       </select>
     </>
+  );
+}
+
+const DebuggerOpenToggle = ({ is_open, setIsOpen }) => {
+  return (
+    <div className="debugger-toggle">
+      <button onClick={() => setIsOpen(!is_open)} className="debugger-button">
+        {is_open ? 'Open Venue' : 'Close Venue'}
+      </button>
+    </div>
   );
 }
 

@@ -4,15 +4,17 @@ import FillBar from '../atoms/FillBar';
 
 import IconVenueDetails from '../../assets/venue-details.svg';
 
-const Header = ({ day_data, current_venue_data, colors, on_venue_details_click }) => {
+const Header = ({ day_data, current_venue_data, colors, on_venue_details_click, current_day, meal_period, is_open }) => {
+  meal_period = meal_period == "Extended Dinner" ? "Late Night" : meal_period;
+
   return (
     <div className="dashboard-header">
       <div className="dashboard-header-left-half">
         <h1>{current_venue_data.name}</h1>
-        <h2>{day_data.day}</h2>
+        <h2>{current_day}</h2>
         <div className="dashboard-chips">
-          <Chip label={current_venue_data.status === "Open" ? "Open" : "Closed"} size="medium" bgcolor={current_venue_data.status === "Open" ? colors.open : colors.dark} color={colors.light} />
-          {current_venue_data.status === "Open" && <Chip label={day_data.meal_period} size="medium" bgcolor={colors.dark} color={colors.light} />}
+          <Chip label={is_open ? "Open" : "Closed"} size="medium" bgcolor={is_open ? colors.open : colors.dark} color={colors.light} />
+          {is_open && <Chip label={meal_period} size="medium" bgcolor={colors.dark} color={colors.light} />}
         </div>
       </div>
       <div className="dashboard-header-right-half" >

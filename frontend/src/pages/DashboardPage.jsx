@@ -7,7 +7,7 @@ import ItemDetails from '../components/organisms/DashboardItemDetails';
 
 import { SAMPLE_DASHBOARD_DAY_DATA, SAMPLE_DINING_VENUES, SAMPLE_USER_FAVORITE_DINING_VENUES, EMPTY_ITEM_DATA } from '../SAMPLEDATA';
 
-function DashboardPage() {
+function DashboardPage({ current_day, is_open, meal_period }) {
   // State for opening and closing the search, venue details, and item details drawers.
   const [is_search_open, setIsSearchOpen] = useState(false);
   const [is_venuedetails_open, setIsVenueDetailsOpen] = useState(false);
@@ -71,6 +71,9 @@ function DashboardPage() {
         current_venue_data={current_venue_data} 
         colors={COLORS} 
         on_venue_details_click={() => setIsVenueDetailsOpen(true)} 
+        current_day={current_day}
+        meal_period={meal_period}
+        is_open={is_open}
       />
       <Content 
         on_searchbar_click={() => setIsSearchOpen(true)} 
@@ -80,6 +83,9 @@ function DashboardPage() {
         }}
         venue={current_venue_data}
         list_instructions={list_instructions}
+        current_day={current_day}
+        meal_period={meal_period}
+        is_open={is_open}
       />
       <VenueDetails 
         is_open={is_venuedetails_open} 

@@ -102,7 +102,7 @@
 
   /* Content */
   color: white;
-  font-size: 20px;
+  font-size: 14px;
   font-weight: 500;
   font-family: inherit;
 
@@ -125,6 +125,10 @@
 @keyframes oscillate {
   0% { transform: translateX(8px); }
   100% { transform: translateX(0px); }
+}
+.debugger-toggle {
+  display: flex;
+  justify-content: center;
 }
 
 /* DASHBOARD */
@@ -172,7 +176,7 @@
   margin-top: 12px;
 
   display: flex;
-  gap: 16px;
+  gap: 4px;
   align-items: center;
 }
 

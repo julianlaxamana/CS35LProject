@@ -189,7 +189,7 @@ exports.queryMenu = async (req, res) => {
     if (!daySnapshot.exists)
       return res.json({ menu: {} });
 
-    const { breakfast, lunch, dinner } = daySnapshot.data();
+    const { breakfast, lunch, dinner, extended_dinner } = daySnapshot.data();
     const menuMap = {};
     const processMeal = (meal, mealName) => {
       if (!meal) return;
@@ -209,7 +209,7 @@ exports.queryMenu = async (req, res) => {
     processMeal(breakfast, "breakfast");
     processMeal(lunch, "lunch");
     processMeal(dinner, "dinner");
-
+    processMeal(extended_dinner, "extended_dinner");
     // get time
     const time = req.body.time;
     // get all food getting served currently
@@ -223,7 +223,11 @@ exports.queryMenu = async (req, res) => {
     } else if (time == "dinner"){
     if (dinner == null) return res.json([]);
     var meals = Object.values(dinner).flat();
+    } else if (time == "extended_dinner"){
+    if (extended_dinner == null) return res.json([]);
+    var meals = Object.values(extended_dinner).flat();
     }
+
 
 
     // fetch info about each food (tags, allergens, image, rating)
