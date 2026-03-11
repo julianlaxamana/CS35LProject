@@ -104,20 +104,41 @@ exports.getUserReviews = async (req, res) => {
         const reviewSnapshot = await reviewRef.get();
 
         if (reviewSnapshot.empty) {
-            res.status(200).json({ reviews: [] });
-            return;
+        return res.status(200).json({ items: [] });
         }
 
-        const reviews = reviewSnapshot.docs.map(doc => {
+        const reviews = reviewSnapshot.docs.map(doc => doc.data());
+
+        const foodDocs = await Promise.all(
+        reviews.map(r =>
+            db.collection('dining_halls')
+            .doc(r.diningHallID)
+            .collection('Menu')
+            .doc(r.foodID)
+            .get()
+        )
+        );
+
+        const items = foodDocs
+        .filter(doc => doc.exists)
+        .map((doc, i) => {
             const data = doc.data();
+            if (data.allergens.length == 1 && data.allergens[0] == "None") data.allergens = [];
             return {
-                foodID: data.foodID,
-                diningHallID: data.diningHallID,
-                review: data.review,
-                rating: data.rating
-            }
+            name: doc.id,
+            diningHallID: reviews[i].diningHallID,
+            tags: data.tags,
+            allergens: data.allergens,
+            nutrition_facts: data.nutrition,
+            ingredients: data.ingredients,
+            rating: data.average_rating ?? null,
+            user_rating: reviews[i].rating ?? null,
+            review: reviews[i].review,
+            image: ""
+            };
         });
-        res.status(200).json({ reviews });
+
+        res.status(200).json({ items });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -128,23 +149,43 @@ exports.getUserFavorites = async (req, res) => {
         const reviewRef = db.collection('ratings').where('userID', '==', req.userID).where('marked_fav', '==', true);
         const reviewSnapshot = await reviewRef.get();
 
-        if (reviewSnapshot.empty) {
-            res.status(200).json({ reviews: [] });
-            return;
-        }
+        if (reviewSnapshot.empty)
+            return res.status(200).json({ items: [] });
 
-        const reviews = reviewSnapshot.docs.map(doc => {
+        const reviews = reviewSnapshot.docs.map(doc => doc.data());
+
+        const foodDocs = await Promise.all(
+            reviews.map(r =>
+                db.collection('dining_halls')
+                .doc(r.diningHallID)
+                .collection('Menu')
+                .doc(r.foodID)
+                .get()
+            )
+        );
+
+        const items = foodDocs
+        .filter(doc => doc.exists)
+        .map((doc, i) => {
             const data = doc.data();
+            if (data.allergens.length == 1 && data.allergens[0] == "None") data.allergens = [];
             return {
-                foodID: data.foodID,
-                diningHallID: data.diningHallID,
-                rating: data.rating
-            }
+                name: doc.id,
+                diningHallID: reviews[i].diningHallID,
+                tags: data.tags,
+                allergens: data.allergens,
+                nutrition_facts: data.nutrition,
+                ingredients: data.ingredients,
+                rating: data.average_rating ?? null,
+                user_rating: reviews[i].rating ?? null,
+                image: ""
+            };
         });
-        res.status(200).json({ reviews });
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
+
+    res.status(200).json({ items });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 }
 
 // removes a user's review for a given dining hall, and food item (does not remove rating or favorite status)
