@@ -5,6 +5,7 @@ import UCLADiningIcon from "../atoms/UCLADiningIcon";
 import MarkAsFavoriteButton from '../atoms/MarkAsFavoriteButton';
 import Modal from '../atoms/Modal';
 import NutritionFactsTable from '../molecules/NutritionFactsTable';
+import IngredientsAndAllergensList from '../molecules/IngredientsAndAllergensList';
 
 import ItemReviews from '../molecules/DashboardItemReviews';
 
@@ -28,8 +29,7 @@ const ItemDetails = ({ is_open, on_close, menu_item_data = EMPTY_ITEM_DATA, on_i
         <OverallRating ratings={menu_item_data.ratings || []} on_update={() => {}} />
         <Reviews reviews={menu_item_data.reviews || []} on_update={() => {}} />
         <NutritionFacts nutrition_facts={SAMPLE_BACKEND_MENU_ITEM["nutrition"]} />
-        <IngredientsAndAllergens ingredients_and_allergens_text={SAMPLE_BACKEND_MENU_ITEM["ingredients"]} />
-        
+        <IngredientsAndAllergens ingredients_and_allergens={SAMPLE_BACKEND_MENU_ITEM["ingredients"]} />
       </div>
     </div>
   )
@@ -140,13 +140,11 @@ const NutritionFacts = ({ nutrition_facts }) => {
   );
 }
 
-const IngredientsAndAllergens = ({ ingredients_and_allergens_text }) => {
+const IngredientsAndAllergens = ({ ingredients_and_allergens }) => {
   return (
     <div className="ingredients-and-allergens">
       <h3>Ingredients and Allergens</h3>
-      <div className="ingredients-and-allergens-text">
-        {ingredients_and_allergens_text}
-      </div>
+      <IngredientsAndAllergensList ingredients_and_allergens={ingredients_and_allergens} />
     </div>
   );
 }

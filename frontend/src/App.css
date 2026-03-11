@@ -1316,3 +1316,7 @@
 .nutrition-facts .first-in-group {
   border-top: solid 1px #9EA1B9;
 }
+
+.ingredients-and-allergens ul {
+  padding-left: 24px;
+}
