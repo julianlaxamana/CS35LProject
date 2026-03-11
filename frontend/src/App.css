@@ -1335,3 +1335,34 @@ label {
   color: #83889C;
   margin-bottom: 0px;
 }
+
+.loading-circle-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 2rem 0;
+}
+
+.loading-circle {
+  border-radius: 50%;
+  animation: swoop 2.0s ease-in-out infinite;
+}
+
+@keyframes swoop {
+  0% {
+    transform: translateX(-40px) scale(1);
+  }
+  25% {
+    transform: translateX(0px) scale(0.8);
+  }
+  50% {
+    transform: translateX(40px) scale(1);
+  }
+  75% {
+    transform: translateX(0px) scale(0.8);
+  }
+  100% {
+    transform: translateX(-40px) scale(1);
+  }
+}

@@ -1,5 +1,6 @@
 import SearchBar from "../molecules/SearchBar";
 import DashboardItem from "../molecules/DashboardItem";
+import Loading from '../atoms/Loading';
 import { useState, useEffect } from 'react';
 
 const Content = ({ on_searchbar_click, on_item_click, venue, list_instructions }) => {
@@ -73,9 +74,9 @@ const Content = ({ on_searchbar_click, on_item_click, venue, list_instructions }
   });
 
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loading size={32} />;
 
-    return (
+  return (
     <div className="dashboard-content">
       <div style={{ position: "sticky", top: 0, zIndex: 15, paddingBottom: "16px" }}>
         <SearchBar placeholder="Narrow menu..." button_only={true} on_interact={on_searchbar_click} />

@@ -19,10 +19,11 @@ import Wheat from '../../assets/ucla-dining-icons/wheat.png';
 
 const UCLADiningIcon = ({ tag, size = 24, with_label = false }) => {
   const icon_src = tagToIcon(tag);
+  const icon_name = cleanTagName(tag);
   return (
     <div className="ucladining-icon-wrapper">
-      <img src={icon_src} alt={tag} width={size} height={size} />
-      {with_label && <span className="ucladining-icon-label">{tag}</span>}
+      <img src={icon_src} alt={icon_name} width={size} height={size} />
+      {with_label && <span className="ucladining-icon-label">{icon_name}</span>}
     </div>
   );
 }
@@ -63,6 +64,13 @@ const tagToIcon = (tag) => {
   }
 
   return null;
+}
+
+const cleanTagName = (tag) => {
+  // clean up any appearance of "food item", trim, then set to title case
+  let cleaned_name = tag.replace(/food item/i, "").trim();
+  cleaned_name = cleaned_name.split(" ").map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(" ");
+  return cleaned_name;
 }
 
 export default UCLADiningIcon;
