@@ -4,11 +4,12 @@ import Slider from '../atoms/Slider';
 import UCLADiningIcon from "../atoms/UCLADiningIcon";
 import MarkAsFavoriteButton from '../atoms/MarkAsFavoriteButton';
 import Modal from '../atoms/Modal';
+import NutritionFactsTable from '../molecules/NutritionFactsTable';
 
 import ItemReviews from '../molecules/DashboardItemReviews';
 
-import { EMPTY_ITEM_DATA } from '../../SAMPLEDATA';
-import PlaceholderThumbnail from "../../assets/placeholder-thumbnail.jpg";
+import { EMPTY_ITEM_DATA, SAMPLE_BACKEND_MENU_ITEM } from '../../SAMPLEDATA';
+// import PlaceholderThumbnail from "../../assets/placeholder-thumbnail.jpg";
 
 const ItemDetails = ({ is_open, on_close, menu_item_data = EMPTY_ITEM_DATA, on_interact }) => {
   const is_favorited = false; // Placeholder for favorite status, will be obtained from passed menu_item_data
@@ -26,8 +27,8 @@ const ItemDetails = ({ is_open, on_close, menu_item_data = EMPTY_ITEM_DATA, on_i
         <MarkAsFavoriteButton is_favorite={is_favorited} onClick={() => alert("Favorite functionality coming soon!")} />
         <OverallRating ratings={menu_item_data.ratings || []} on_update={() => {}} />
         <Reviews reviews={menu_item_data.reviews || []} on_update={() => {}} />
-        <NutritionFacts nutrition_facts={menu_item_data.nutrition_facts || {}} />
-        <IngredientsAndAllergens ingredients_and_allergens_text="Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem vero excepturi dignissimos, eveniet culpa pariatur mollitia suscipit fuga modi explicabo impedit. Aspernatur dolor officiis doloremque, labore pariatur sit. Totam harum facere impedit fugit? Ab animi sint qui, quam, quaerat harum nulla non similique quae tenetur culpa rem ipsum id enim!" />
+        <NutritionFacts nutrition_facts={SAMPLE_BACKEND_MENU_ITEM["nutrition"]} />
+        <IngredientsAndAllergens ingredients_and_allergens_text={SAMPLE_BACKEND_MENU_ITEM["ingredients"]} />
         
       </div>
     </div>
@@ -134,6 +135,7 @@ const NutritionFacts = ({ nutrition_facts }) => {
   return (
     <div className="nutrition-facts">
       <h3>Nutrition Facts</h3>
+      <NutritionFactsTable nutrition_facts={nutrition_facts} />
     </div>
   );
 }

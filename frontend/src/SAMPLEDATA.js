@@ -418,6 +418,104 @@ function generateRandomUserItems(items, count_per_item) {
   return collection;
 }
 
+const SAMPLE_BACKEND_MENU_ITEM = {
+  "tags": [
+    "Vegetarian food item",
+    "Contains Gluten",
+    "Contains wheat",
+    "Contains dairy",
+    "Contains egg"
+  ],
+  "image": "",
+  "nutrition": {
+    "Serving Size": "5.16oz",
+    "Calories": "446",
+    "Total Fat": {
+      "Amount": "25.79g",
+      "Daily Value": "33%"
+    },
+    "Saturated Fat": {
+      "Amount": "12.5g",
+      "Daily Value": "63%"
+    },
+    "Trans Fat": {
+      "Amount": "0.1g",
+      "Daily Value": ""
+    },
+    "Cholesterol": {
+      "Amount": "106.17mg",
+      "Daily Value": "35%"
+    },
+    "Sodium": {
+      "Amount": "204.11mg",
+      "Daily Value": "9%"
+    },
+    "Total Carbohydrate": {
+      "Amount": "45.28g",
+      "Daily Value": "16%"
+    },
+    "Dietary Fiber": {
+      "Amount": "0.19g",
+      "Daily Value": "1%"
+    },
+    "Sugars": {
+      "Amount": "36.08g",
+      "Daily Value": "72%"
+    },
+    "Includes Added Sugars": {
+      "Amount": "8.79g",
+      "Daily Value": "18%"
+    },
+    "Protein": {
+      "Amount": "8.11g",
+      "Daily Value": "16%"
+    },
+    "Calcium": {
+      "Amount": "190.13mg",
+      "Daily Value": "15%"
+    },
+    "Iron": {
+      "Amount": "0.79mg",
+      "Daily Value": "4%"
+    },
+    "Potassium": {
+      "Amount": "202.88mg",
+      "Daily Value": "4%"
+    },
+    "Vitamin A": {
+      "Amount": "87.71\u00b5g",
+      "Daily Value": "10%"
+    },
+    "Vitamin B6": {
+      "Amount": "0.06mg",
+      "Daily Value": "3%"
+    },
+    "Vitamin B12": {
+      "Amount": "0.29\u00b5g",
+      "Daily Value": "12%"
+    },
+    "Vitamin C": {
+      "Amount": "0.53mg",
+      "Daily Value": "1%"
+    },
+    "Vitamin D": {
+      "Amount": "0.72\u00b5g",
+      "Daily Value": "4%"
+    }
+  },
+  "ingredients": [
+    "Tres Leches Soak: [ Condensed Milk (MILK, SUGAR. CONTAINS MILK INGREDIENTS.)(Dairy), Evaporated Milk (INGREDIENTS: MILK, DIPOTASSIUM PHOSPHATE, CARRAGEENAN, AND VITAMIN D3. CONTAINS: MILK. INGREDIENTES: LECHE, FOSFATO DIPOTASICO, CARRAGENINA Y VITAMINA D3. CONTIENE: LECHE)(Dairy), Heavy Whipping Cream(Dairy), Vanilla Extract Pure (Water, Cane Alcohol, Cane Sugar, Vanilla Bean Extractives.) ]",
+    "Tres Leches Cake Base: [ Creme Cake Mix(Gluten, Wheat), Egg Liquid(Eggs), Canola Oil (CANOLA OIL), SP Granulated Sugar (Sugar), Baking Powder (Corn Starch, Sodium Bicarbonate, Sodium Aluminum Sulfate, Monocalcium Phosphate.) ]",
+    "Whipped Topping Non-Dairy (WATER, HYDROGENATED PALM KERNEL OIL, HIGH FRUCTOSE CORN SYRUP, CORN SYRUP, SUGAR, CONTAINS LESS THAN 2% OF THE FOLLOWING: *SODIUM CASEINATE (A MILK DERIVATIVE), ARTIFICIAL FLAVOR, POLYSORBATE 60, SORBITAN MONOSTEARATE, SALT, SOY LECITHIN, MONO AND DIGLYCERIDES, CARRAGEENAN, COLORED WITH BETA CAROTENE. *NOT A SOURCE OF LACTOSE)"
+  ],
+  "allergens": [
+    "Gluten",
+    "Wheat",
+    "Dairy",
+    "Eggs"
+  ]
+}
+
 export { 
   SAMPLE_DASHBOARD_DAY_DATA, 
   EMPTY_ITEM_DATA,
@@ -426,4 +524,5 @@ export {
   SAMPLE_USER_FAVORITE_DINING_VENUES,
   generateRandomItemReviews,
   generateRandomUserItems,
+  SAMPLE_BACKEND_MENU_ITEM,
 };

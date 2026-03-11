@@ -1283,3 +1283,36 @@
   font-size: 14px;
   color: #83889C;
 }
+
+.nutrition-facts table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.nutrition-facts th {
+  text-align: left;
+  font-size: 16px;
+  color: #333;
+  padding-bottom: 4px;
+}
+.nutrition-facts th:nth-child(2) {
+  text-align: right;
+  padding-right: 8px;
+}
+.nutrition-facts td {
+  font-size: 14px;
+  color: #83889C;
+}
+.nutrition-facts td:nth-child(1) {
+  font-weight: 500;
+}
+.nutrition-facts td:nth-child(2) {
+  text-align: right;
+  padding-right: 8px;
+}
+.nutrition-facts td:nth-child(3) {
+  font-weight: 500;
+  color: #333;
+}
+.nutrition-facts .first-in-group {
+  border-top: solid 1px #9EA1B9;
+}
