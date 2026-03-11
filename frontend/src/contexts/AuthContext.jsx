@@ -88,9 +88,19 @@ export function AuthProvider({ children }) {
     localStorage.removeItem('userID');
     setUser(null);
   };
+  const add_review = async (diningHallID, foodID, review) => {
+  const res = await fetch(`http://localhost:3000/api/ratings/add_review`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: 'include',
+    body: JSON.stringify({diningHallID, foodID, review}),
+  });
 
+    const data = await res.text();
+    return true;
+  }
   return (
-    <AuthContext.Provider value={{ user, loading, login, signup, logout, change_password}}>
+    <AuthContext.Provider value={{ user, loading, login, signup, logout, change_password, add_review}}>
       {children}
     </AuthContext.Provider>
   );
