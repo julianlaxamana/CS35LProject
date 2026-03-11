@@ -24,7 +24,7 @@ const getReviews = async (diningHallID, foodID) => {
 
 // Currently using randomly generated reviews for testing and development purposes, but will be fetched from backend later.
 // Currently not using anything for user review, but will be fetched from backend later as well.
-const DashboardItemReviews = ({ reviews, on_update, user_review, diningHallID, foodID }) => {  
+const DashboardItemReviews = ({ reviews, on_update, user_review, diningHallID, foodID, on_submit }) => {  
   const [is_modal_open, setIsModalOpen] = useState(false);
   const [review_text, setReviewText] = useState("");
   const [REVIEWS, setREVIEWS] = useState([]);
@@ -66,10 +66,9 @@ const DashboardItemReviews = ({ reviews, on_update, user_review, diningHallID, f
             on_update(new_review_text);
           }}
           on_close={() => { if (!diningHallID || !foodID) return;
-        console.log("Hi");
             getReviews(diningHallID, foodID).then((data) => {
-        console.log(data);
               setREVIEWS(data);
+              on_submit();
             });
             setIsModalOpen(false)}}
         />

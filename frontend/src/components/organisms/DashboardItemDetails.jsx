@@ -12,7 +12,7 @@ import ItemReviews from '../molecules/DashboardItemReviews';
 import { EMPTY_ITEM_DATA, SAMPLE_BACKEND_MENU_ITEM } from '../../SAMPLEDATA';
 // import PlaceholderThumbnail from "../../assets/placeholder-thumbnail.jpg";
 
-const ItemDetails = ({ is_open, on_close, menu_item_data = EMPTY_ITEM_DATA, dining_hall_id, on_interact }) => {
+const ItemDetails = ({ is_open, on_close, menu_item_data = EMPTY_ITEM_DATA, dining_hall_id, on_interact, on_update }) => {
   const is_favorited = false; // Placeholder for favorite status, will be obtained from passed menu_item_data
 
   return (
@@ -26,8 +26,8 @@ const ItemDetails = ({ is_open, on_close, menu_item_data = EMPTY_ITEM_DATA, dini
           ))}
         </div>
         <MarkAsFavoriteButton is_favorite={is_favorited} onClick={() => alert("Favorite functionality coming soon!")} />
-        <OverallRating ratings={menu_item_data.ratings || []} on_update={() => {}} />
-        <Reviews reviews={menu_item_data.reviews || []} on_update={() => {}} dining_hall_id={dining_hall_id} food_id={menu_item_data.name} />
+        <OverallRating ratings={menu_item_data.ratings || []} on_update={() => {}} dining_hall_id={dining_hall_id} food_id={menu_item_data.name} />
+        <Reviews reviews={menu_item_data.reviews || []} on_update={() => {}} on_submit={on_update} dining_hall_id={dining_hall_id} food_id={menu_item_data.name} />
         <NutritionFacts nutrition_facts={SAMPLE_BACKEND_MENU_ITEM["nutrition"]} />
         <IngredientsAndAllergens ingredients_and_allergens={SAMPLE_BACKEND_MENU_ITEM["ingredients"]} />
       </div>
@@ -35,7 +35,7 @@ const ItemDetails = ({ is_open, on_close, menu_item_data = EMPTY_ITEM_DATA, dini
   )
 };
 
-const OverallRating = ({ ratings, on_update, user_rating }) => {  
+const OverallRating = ({ ratings, on_update, user_rating, dining_hall_id, food_id }) => {  
   const [is_modal_open, setIsModalOpen] = useState(false);
   const [slider_value, setSliderValue] = useState(user_rating);
 
@@ -43,6 +43,15 @@ const OverallRating = ({ ratings, on_update, user_rating }) => {
   const abbreviated_count = ratings.length > 999 ? `${(ratings.length / 1000).toFixed(1)}k` : ratings.length;
 
   const updateUserRating = (new_rating) => {
+    const updateRating = async (diningHallID, foodID, rating) => {
+      const res = await fetch(`http://localhost:3000/api/ratings/add_review`, {
+        method: "POST",
+        credentials: 'include',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({diningHallID, foodID, rating}),
+      });
+      const data = await res.json();
+    };
     // Placeholder for updating user rating, will eventually involve API call and state update
     if (new_rating === null) {
       console.log("No rating submitted.");
@@ -54,6 +63,7 @@ const OverallRating = ({ ratings, on_update, user_rating }) => {
       setIsModalOpen(false);
       return;
     }
+    updateRating(dining_hall_id, food_id, new_rating);
     console.log(`New rating submitted: ${new_rating}`);
     on_update(new_rating);
     setIsModalOpen(false);
@@ -107,7 +117,7 @@ const OverallRating = ({ ratings, on_update, user_rating }) => {
   );
 }
 
-const Reviews = ({ reviews, on_update, user_review, dining_hall_id, food_id }) => {  
+const Reviews = ({ reviews, on_update, user_review, dining_hall_id, food_id, on_submit}) => {  
   const [is_modal_open, setIsModalOpen] = useState(false);
   const [review_text, setReviewText] = useState(user_review);
 
@@ -126,6 +136,7 @@ const Reviews = ({ reviews, on_update, user_review, dining_hall_id, food_id }) =
             user_review={user_review} 
             diningHallID={dining_hall_id}
             foodID={food_id}
+            on_submit={on_submit}
           />
         </div>
       </Modal>
