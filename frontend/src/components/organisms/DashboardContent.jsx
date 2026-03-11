@@ -2,9 +2,7 @@ import SearchBar from "../molecules/SearchBar";
 import DashboardItem from "../molecules/DashboardItem";
 import { useState, useEffect } from 'react';
 
-import { SAMPLE_ITEM_COLLECTION } from "../../SAMPLEDATA";
-
-const Content = ({ on_searchbar_click, on_item_click, venue }) => {
+const Content = ({ on_searchbar_click, on_item_click, venue, list_instructions }) => {
 
   const [items, setItems] = useState([{}]);
   const [loading, setLoading] = useState(true);
@@ -35,6 +33,46 @@ const Content = ({ on_searchbar_click, on_item_click, venue }) => {
   }, [venue]);
 
 
+  const filteredAndSortedItems = items.filter(item => {
+    // Search String Filter
+    if (list_instructions.search_string && item.name) {
+      if (!item.name.toLowerCase().includes(list_instructions.search_string.toLowerCase())) {
+        return false;
+      }
+    }
+    // Subtractive Tag Filter: If an item contains a tag that the user UNCHECKED, hide it.
+    if (item.tags && list_instructions.tags) {
+      const unselected_regex_strings = list_instructions.tags
+        .filter(t => !t.is_selected)
+        .map(t => new RegExp(t.regex, 'i'));
+      
+      const has_unselected_tag = item.tags.some(itemTag => 
+        unselected_regex_strings.some(regex => regex.test(itemTag))
+      );
+      
+      if (has_unselected_tag) return false;
+    }
+    // Rating Range Filter
+    const rating = item.rating || 0; 
+    const [min_rating, max_rating] = list_instructions.rating_range;
+    if (rating < min_rating || rating > max_rating) {
+      return false;
+    }
+    return true;
+  }).sort((a, b) => {
+    // Sorting Logic
+    if (list_instructions.sort_mode === "Alphabetical") {
+      return (a.name || "").localeCompare(b.name || "");
+    } else if (list_instructions.sort_mode === "Rating") {
+      return (b.rating || 0) - (a.rating || 0);
+    } else if (list_instructions.sort_mode === "Allergies") {
+      // Sorts items with fewer dietary warning tags to the top
+      return (a.tags?.length || 0) - (b.tags?.length || 0);
+    }
+    return 0;
+  });
+
+
   if (loading) return <p>Loading...</p>;
 
     return (
@@ -42,9 +80,16 @@ const Content = ({ on_searchbar_click, on_item_click, venue }) => {
       <div style={{ position: "sticky", top: 0, zIndex: 15, paddingBottom: "16px" }}>
         <SearchBar placeholder="Narrow menu..." button_only={true} on_interact={on_searchbar_click} />
       </div>
-      {items.map((item, index) => (
-        <DashboardItem key={index} item_data={item} on_click={() => on_item_click(item)} />
+      {filteredAndSortedItems.map((item, index) => (
+        <DashboardItem 
+          key={item.id || index} 
+          item_data={item} 
+          on_click={() => on_item_click(item)} 
+        />
       ))}
+      {filteredAndSortedItems.length === 0 && (
+        <p style={{ textAlign: "center", color: "#83889C" }}>No items match your search.</p>
+      )}
     </div>
   );
 }
