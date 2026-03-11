@@ -208,6 +208,7 @@ exports.queryMenu = async (req, res) => {
       };
     });
 
+    // Sorting
     const sorting = req.body.sorting;
     if (sorting == "alphabetical"){
       menu.sort((a, b) => {if(a.name[0] > b.name[0]) return 1; if(b.name[0] > a.name[0]) return -1; return 0});
@@ -217,7 +218,15 @@ exports.queryMenu = async (req, res) => {
       menu.sort((a, b) => {if(a.rating > b.rating) return 1; if(b.rating > a.rating) return -1; return 0});
     }
 
-    console.log(menu);
+    // filter strings
+    const filter = req.body.filterString;
+    if (filter != "" || filter != undefined){
+      let filteredMenu = menu.filter(item => {return item.name.startsWith(filter);});
+      menu = filteredMenu;
+    }
+
+    // rizz
+
     res.json({
       diningHallID: diningHallID,
       day: day,
