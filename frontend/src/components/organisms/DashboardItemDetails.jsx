@@ -9,7 +9,7 @@ import IngredientsAndAllergensList from '../molecules/IngredientsAndAllergensLis
 
 import ItemReviews from '../molecules/DashboardItemReviews';
 
-import { EMPTY_ITEM_DATA, SAMPLE_BACKEND_MENU_ITEM } from '../../SAMPLEDATA';
+import { EMPTY_ITEM_DATA } from '../../SAMPLEDATA';
 // import PlaceholderThumbnail from "../../assets/placeholder-thumbnail.jpg";
 
 const ItemDetails = ({ is_open, on_close, menu_item_data = EMPTY_ITEM_DATA, dining_hall_id, on_interact, on_update }) => {
@@ -28,8 +28,8 @@ const ItemDetails = ({ is_open, on_close, menu_item_data = EMPTY_ITEM_DATA, dini
         <MarkAsFavoriteButton is_favorite={is_favorited} onClick={() => alert("Favorite functionality coming soon!")} />
         <OverallRating on_submit={on_update} ratings={menu_item_data.ratings || []} on_update={() => {}} dining_hall_id={dining_hall_id} food_id={menu_item_data.name} />
         <Reviews reviews={menu_item_data.reviews || []} on_update={() => {}} on_submit={on_update} dining_hall_id={dining_hall_id} food_id={menu_item_data.name} />
-        <NutritionFacts nutrition_facts={SAMPLE_BACKEND_MENU_ITEM["nutrition"]} />
-        <IngredientsAndAllergens ingredients_and_allergens={SAMPLE_BACKEND_MENU_ITEM["ingredients"]} />
+        <NutritionFacts nutrition_facts={menu_item_data.nutrition_facts} />
+        <IngredientsAndAllergens ingredients_and_allergens={menu_item_data.ingredients} />
       </div>
     </div>
   )
