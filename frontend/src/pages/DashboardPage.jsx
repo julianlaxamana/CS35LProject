@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Search from '../components/organisms/DashboardSearch';
 import Header from '../components/organisms/DashboardHeader';
 import Content from '../components/organisms/DashboardContent';

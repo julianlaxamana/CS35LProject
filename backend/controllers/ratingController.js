@@ -98,6 +98,53 @@ exports.getReviews = async (req, res) => {
     }
 }
 
+exports.getUserReviews = async (req, res) => {
+    try {
+        const reviewRef = db.collection('ratings').where('userID', '==', req.userID).where('review', '!=', null);
+        const reviewSnapshot = await reviewRef.get();
+
+        if (reviewSnapshot.empty) {
+            res.status(200).json({ reviews: [] });
+            return;
+        }
+
+        const reviews = reviewSnapshot.docs.map(doc => {
+            const data = doc.data();
+            return {
+                foodID: data.foodID,
+                review: data.review,
+                rating: data.rating
+            }
+        });
+        res.status(200).json({ reviews });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+exports.getUserFavorites = async (req, res) => {
+    try {
+        const reviewRef = db.collection('ratings').where('userID', '==', req.userID).where('marked_fav', '==', true);
+        const reviewSnapshot = await reviewRef.get();
+
+        if (reviewSnapshot.empty) {
+            res.status(200).json({ reviews: [] });
+            return;
+        }
+
+        const reviews = reviewSnapshot.docs.map(doc => {
+            const data = doc.data();
+            return {
+                foodID: data.foodID,
+                rating: data.rating
+            }
+        });
+        res.status(200).json({ reviews });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
 // removes a user's review for a given dining hall, and food item (does not remove rating or favorite status)
 exports.removeReview = async (req, res) => {
     try {
