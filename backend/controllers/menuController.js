@@ -255,7 +255,8 @@ exports.queryMenu = async (req, res) => {
         allergens: data.allergens,
         nutrition: data.nutrition,
         ingredients: data.ingredients,
-        average_rating: data.average_rating
+        average_rating: data.average_rating,
+        user_favorites: data.userFavorites
       };
     });
 
@@ -305,6 +306,7 @@ exports.queryMenu = async (req, res) => {
         image: "",
         nutrition_facts: menu[i].nutrition,
         ingredients: menu[i].ingredients,
+        user_favorites: menu[i].user_favorites,
         allergens: menu[i].allergens
       })
     }

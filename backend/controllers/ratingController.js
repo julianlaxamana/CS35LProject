@@ -49,6 +49,18 @@ exports.toggleFavorite = async (req, res) => {
         updateData.foodID = req.body.foodID;
         updateData.diningHallID = req.body.diningHallID;
 
+        const doc = await db.collection("dining_halls").doc(updateData.diningHallID).collection("Menu").doc(updateData.foodID).get();
+
+        var data = doc.data();
+        if (data.userFavorites == undefined){
+            data.userFavorites = [updateData.userID];
+        } else if (!data.userFavorites.includes(updateData.userID)){
+          data.userFavorites.push(updateData.userID);
+        } else {
+          data.userFavorites.splice(data.userFavorites.indexOf(updateData.userID), 1);
+        }
+        db.collection("dining_halls").doc(updateData.diningHallID).collection("Menu").doc(updateData.foodID).set(data);
+
         await db.runTransaction(async (transaction) => {
             const ratingsSnapshot = await transaction.get(ratingsRef);
             if (!ratingsSnapshot.exists) {

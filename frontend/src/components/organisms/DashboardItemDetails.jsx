@@ -7,14 +7,40 @@ import Modal from '../atoms/Modal';
 import NutritionFactsTable from '../molecules/NutritionFactsTable';
 import IngredientsAndAllergensList from '../molecules/IngredientsAndAllergensList';
 
+import { useAuth } from '../../contexts/AuthContext';
 import ItemReviews from '../molecules/DashboardItemReviews';
 
 import { EMPTY_ITEM_DATA, SAMPLE_BACKEND_MENU_ITEM } from '../../SAMPLEDATA';
 // import PlaceholderThumbnail from "../../assets/placeholder-thumbnail.jpg";
 
 const ItemDetails = ({ is_open, on_close, menu_item_data = EMPTY_ITEM_DATA, dining_hall_id, on_interact, on_update }) => {
-  const is_favorited = false; // Placeholder for favorite status, will be obtained from passed menu_item_data
+  const [is_favorited, setFavorited] = useState(false);
+  const { user } = useAuth();
 
+  const checkFavorite = async () =>{
+    const res = await fetch(`http://localhost:3000/api/ratings/get_user_favorites`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+    })
+    console.log(menu_item_data)
+  }
+  useEffect(() => {
+    console.log(menu_item_data)
+    if (menu_item_data != EMPTY_ITEM_DATA && menu_item_data.user_favorites != undefined){menu_item_data.user_favorites.includes(user.userID)}
+  }, [menu_item_data]);
+
+  const toggle_favorite = async (foodID, diningHallID) => {
+    const res = await fetch(`http://localhost:3000/api/ratings/toggle_favorite`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ 
+        foodID, diningHallID
+      }),
+    });
+    setFavorited(!is_favorited);
+  }
   return (
     <div className={`drawer-overlay ${is_open ? "open" : ""}`} onClick={on_close}>
       <div className="item-drawer-content" onClick={(e) => e.stopPropagation()}>
@@ -25,7 +51,7 @@ const ItemDetails = ({ is_open, on_close, menu_item_data = EMPTY_ITEM_DATA, dini
             <UCLADiningIcon key={index} tag={tag} size={24} with_label={true} />
           ))}
         </div>
-        <MarkAsFavoriteButton is_favorite={is_favorited} onClick={() => alert("Favorite functionality coming soon!")} />
+        <MarkAsFavoriteButton is_favorite={is_favorited} onClick={() => {toggle_favorite(menu_item_data.name, dining_hall_id)}} />
         <OverallRating on_submit={on_update} ratings={menu_item_data.ratings || []} on_update={() => {}} dining_hall_id={dining_hall_id} food_id={menu_item_data.name} />
         <Reviews reviews={menu_item_data.reviews || []} on_update={() => {}} on_submit={on_update} dining_hall_id={dining_hall_id} food_id={menu_item_data.name} />
         <NutritionFacts nutrition_facts={SAMPLE_BACKEND_MENU_ITEM["nutrition"]} />
@@ -43,12 +69,12 @@ const OverallRating = ({ on_submit, ratings, on_update, user_rating, dining_hall
   const abbreviated_count = ratings.length > 999 ? `${(ratings.length / 1000).toFixed(1)}k` : ratings.length;
 
   const avg_rating = async (diningHallID, foodID) => {
-  const res = await fetch(`http://localhost:3000/api/menu/average_rating`, {
-    method: "PATCH",
-    headers: { "Content-Type": "application/json" },
-    credentials: 'include',
-    body: JSON.stringify({"foodID" : foodID, "diningHallID" : diningHallID}),
-  });
+    const res = await fetch(`http://localhost:3000/api/menu/average_rating`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      credentials: 'include',
+      body: JSON.stringify({"foodID" : foodID, "diningHallID" : diningHallID}),
+    });
 
     const data = await res.text();
     console.log(data)
@@ -75,7 +101,7 @@ const OverallRating = ({ on_submit, ratings, on_update, user_rating, dining_hall
       setIsModalOpen(false);
       return;
     }
-    updateRating(dining_hall_id, food_id, new_rating).then(val => {avg_rating(dining_hall_id, food_id); on_submit();});
+    updateRating(dining_hall_id, food_id, new_rating).then(val => {avg_rating(dining_hall_id, food_id).then(val => {on_submit();})});
     console.log(`New rating submitted: ${new_rating}`);
     on_update(new_rating);
     setIsModalOpen(false);
