@@ -214,16 +214,16 @@ exports.queryMenu = async (req, res) => {
     const time = req.body.time;
     // get all food getting served currently
     var meals = [];
-    if (time == "breakfast"){
+    if (time == "Breakfast"){
     if (breakfast == null) return res.json([]);
     var meals = Object.values(breakfast).flat();
-    } else if (time == "lunch"){
+    } else if (time == "Lunch"){
     if (lunch == null) return res.json([]);
     var meals = Object.values(lunch).flat();
-    } else if (time == "dinner"){
+    } else if (time == "Dinner"){
     if (dinner == null) return res.json([]);
     var meals = Object.values(dinner).flat();
-    } else if (time == "extended_dinner"){
+    } else if (time == "Extended Dinner"){
     if (extended_dinner == null) return res.json([]);
     var meals = Object.values(extended_dinner).flat();
     }
