@@ -83,10 +83,11 @@ exports.getMenu = async (req, res) => {
         name: doc.id,
         meals: menuMap[doc.id].meals,
         station: menuMap[doc.id].station,
+        average_rating: data.average_rating,
+        nutrition_facts: data.nutrition,
         tags: data.tags,
-        allergens: data.allergens,
-        image: data.image
-        //TODO: add avg rating
+        ingredients: data.ingredients,
+        allergens: data.allergens
       };
     });
 
@@ -234,8 +235,7 @@ exports.queryMenu = async (req, res) => {
         allergens: data.allergens,
         nutrition: data.nutrition,
         ingredients: data.ingredients,
-        image: data.image
-        //TODO: add avg rating
+        average_rating: data.average_rating
       };
     });
 
