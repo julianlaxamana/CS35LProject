@@ -213,6 +213,8 @@ exports.queryMenu = async (req, res) => {
       menu.sort((a, b) => {if(a.name[0] > b.name[0]) return 1; if(b.name[0] > a.name[0]) return -1; return 0});
     } else if (sorting == "allergies"){
       menu.sort((a, b) => {if(a.allergens.length > b.allergens.length) return 1; if(b.allergens.length > a.allergens.length) return -1; return 0});
+    } else if (sorting == "rating"){
+      menu.sort((a, b) => {if(a.rating > b.rating) return 1; if(b.rating > a.rating) return -1; return 0});
     }
 
     console.log(menu);
