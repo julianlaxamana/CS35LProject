@@ -1,22 +1,84 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import FavoritedItem from '../components/molecules/FavoritedItem';
 import ReviewedItem from '../components/molecules/ReviewedItem';
 import ItemDetails from '../components/organisms/DashboardItemDetails';
 
-import { SAMPLE_ITEM_COLLECTION, EMPTY_ITEM_DATA, generateRandomUserItems } from '../SAMPLEDATA';
+//import { SAMPLE_ITEM_COLLECTION, EMPTY_ITEM_DATA, generateRandomUserItems } from '../SAMPLEDATA';
+import { EMPTY_ITEM_DATA } from '../SAMPLEDATA';
+
+const get_user_favorites = async () => {
+  const res = await fetch('http://localhost:3000/api/ratings/get_user_favorites', {
+    method: 'GET',
+    credentials: 'include'
+  });
+  const data = await res.json();
+  return data.reviews;
+}
+
+const get_user_reviews = async () => {
+  const res = await fetch('http://localhost:3000/api/ratings/get_user_reviews', {
+    method: 'GET',
+    credentials: 'include'
+  });
+  const data = await res.json();
+  return data.reviews;
+}
+
+const get_menu_item = async (diningHallID, foodID) => {
+  const res = await fetch('http://localhost:3000/api/menu/get_menu_item', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ diningHallID, foodID })
+  });
+  return await res.json();
+}
 
 // Sample data generation, replace with actual API calls in production
-const SAMPLE_USER_ITEMS = generateRandomUserItems(SAMPLE_ITEM_COLLECTION, 1);
-const FAVORITE_ITEMS = SAMPLE_USER_ITEMS.filter(item => item.marked_as_favorite);
-const REVIEWED_ITEMS = SAMPLE_USER_ITEMS.filter(item => item.review);
+//const SAMPLE_USER_ITEMS = generateRandomUserItems(SAMPLE_ITEM_COLLECTION, 1);
+//const FAVORITE_ITEMS = SAMPLE_USER_ITEMS.filter(item => item.marked_as_favorite);
+//const REVIEWED_ITEMS = SAMPLE_USER_ITEMS.filter(item => item.review);
 
 function UserPage() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [is_itemdetails_open, setIsItemDetailsOpen] = useState(false);
   const [selected_item, setSelectedItem] = useState(EMPTY_ITEM_DATA);
+  const [FAVORITE_ITEMS, setFAVORITE_ITEMS] = useState([]);
+  const [REVIEWED_ITEMS, setREVIEWED_ITEMS] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const [favorites, reviews] = await Promise.all([
+        get_user_favorites(),
+        get_user_reviews()
+      ]);
+
+      if (!favorites || !reviews) return;
+
+      const favoriteItemsData = await Promise.all(
+        favorites.map(f => get_menu_item(f.diningHallID, f.foodID))
+      );
+
+      const reviewedItemsData = await Promise.all(
+        reviews.map(f => get_menu_item(f.diningHallID, f.foodID))
+      );
+
+      setFAVORITE_ITEMS(favoriteItemsData.map((item, i) => ({
+        ...item,
+        marked_as_favorite: true,
+        rating: favorites[i].rating
+      })));
+
+      setREVIEWED_ITEMS(reviewedItemsData.map((item, i) => ({
+        ...item,
+        rating: reviews[i].rating,
+        review: reviews[i].review
+      })));
+    };
+    fetchData();
+  }, []);
 
   const PAGE_SIZE = 5;
   const [current_page, setCurrentPage] = useState(1);
@@ -49,7 +111,7 @@ function UserPage() {
         <div className="user-section">
           <h3>My Favorites</h3>
           {FAVORITE_ITEMS.map(user_item => (
-            <FavoritedItem key={user_item.id} user_item_data={user_item} on_click={() => { setSelectedItem(user_item.item); setIsItemDetailsOpen(true); }} />
+            <FavoritedItem key={user_item.name} user_item_data={user_item} on_click={() => { setSelectedItem(user_item); setIsItemDetailsOpen(true); }} />
           ))}
         </div>
 
@@ -61,7 +123,7 @@ function UserPage() {
             on_page_change={(new_page) => setCurrentPage(new_page)}
           />
           {paginated_items.filter(user_item => user_item.review).map(user_item => (
-            <ReviewedItem key={user_item.id} user_item_data={user_item} on_click={() => { setSelectedItem(user_item.item); setIsItemDetailsOpen(true); }} />
+            <ReviewedItem key={user_item.name} user_item_data={user_item} on_click={() => { setSelectedItem(user_item); setIsItemDetailsOpen(true); }} />
           ))}
         </div>
       </div>

@@ -6,9 +6,9 @@ import PlaceholderThumbnail from "../../assets/placeholder-thumbnail.jpg";
 const ReviewedItem = ({ user_item_data, on_click }) => {
   return (
     <ItemCard 
-      title={user_item_data.item.name} 
-      rating={user_item_data.item.rating} 
-      image={user_item_data.item.image || PlaceholderThumbnail} 
+      title={user_item_data.name} 
+      rating={user_item_data.rating} 
+      image={user_item_data.image || PlaceholderThumbnail} 
       review={user_item_data.review}
       on_click={on_click}
     />
@@ -26,7 +26,7 @@ const ItemCard = ({ title, rating, image, review, on_click }) => {
           </div>
         </div>
         <div className="item-card-top-region">
-          <FillBar text={`${rating.toFixed(2)}`} progress={(rating / 5) * 100} color="#9FDA97" grow_from="end" orientation="vertical" long_side_length={24} />
+          <FillBar text={rating ? `${rating.toFixed(2)}` : "N/A"} progress={rating ? (rating / 5) * 100 : 0} color="#9FDA97" grow_from="end" orientation="vertical" long_side_length={24} />
           <h4>{title}</h4>
         </div>
       </div>
