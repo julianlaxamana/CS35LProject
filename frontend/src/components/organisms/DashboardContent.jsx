@@ -17,7 +17,6 @@ const Content = ({ on_searchbar_click, on_item_click, venue, list_instructions, 
     }
 
     var venue_name = "";
-    console.log(venue.name);
     if (venue.name == "Bruin Plate"){
       venue_name = "bruin-plate";
     } else if (venue.name == "De Neve Dining"){
@@ -25,8 +24,9 @@ const Content = ({ on_searchbar_click, on_item_click, venue, list_instructions, 
     } else if (venue.name == "Epicuria at Covel"){
       venue_name = "epicuria-at-covel";
     }
+    console.log(meal_period);
 
-    const res = await fetch(`http://localhost:3000/api/menu/get_menu`, {
+    const res = await fetch(`http://localhost:3000/api/menu/query`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',

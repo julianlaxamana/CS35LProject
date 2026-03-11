@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Modal from "../atoms/Modal";
 import Chip from "../atoms/Chip";
+import { useAuth } from '../../contexts/AuthContext';
 
 //import { generateRandomItemReviews } from "../../SAMPLEDATA";
 //const REVIEWS = generateRandomItemReviews(23);
@@ -57,6 +58,8 @@ const DashboardItemReviews = ({ reviews, on_update, user_review, diningHallID, f
       </div>
       <Modal is_open={is_modal_open} on_close={() => setIsModalOpen(false)}>
         <UserReviewModalContent 
+          diningHallID = {diningHallID}
+          foodID = {foodID}
           review={review_text} 
           on_update={(new_review_text) => {
             setReviewText(new_review_text);
@@ -112,8 +115,11 @@ const YourReviewCard = ({ review, on_click }) => {
   )
 }
 
-const UserReviewModalContent = ({ review, on_update, on_close }) => {
-  return(
+const UserReviewModalContent = ({ review, on_update, on_close, diningHallID, foodID }) => {
+
+
+const { add_review } = useAuth();
+ return(
     <div className="user-review-modal-inner">
       <h3>Your Review</h3>
       <textarea 
@@ -131,6 +137,7 @@ const UserReviewModalContent = ({ review, on_update, on_close }) => {
           clickable={true}
           on_click={() => {
             on_update(review);
+            add_review(diningHallID, foodID, review);
             on_close();
           }}
         />
