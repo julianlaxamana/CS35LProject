@@ -14,7 +14,7 @@ const get_user_favorites = async () => {
     credentials: 'include'
   });
   const data = await res.json();
-  return data.reviews;
+  return data.items;
 }
 
 const get_user_reviews = async () => {
@@ -23,16 +23,7 @@ const get_user_reviews = async () => {
     credentials: 'include'
   });
   const data = await res.json();
-  return data.reviews;
-}
-
-const get_menu_item = async (diningHallID, foodID) => {
-  const res = await fetch('http://localhost:3000/api/menu/get_menu_item', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({ diningHallID, foodID })
-  });
-  return await res.json();
+  return data.items;
 }
 
 // Sample data generation, replace with actual API calls in production
@@ -57,27 +48,8 @@ function UserPage() {
 
       if (!favorites || !reviews) return;
 
-      const favoriteItemsData = await Promise.all(
-        favorites.map(f => get_menu_item(f.diningHallID, f.foodID))
-      );
-
-      const reviewedItemsData = await Promise.all(
-        reviews.map(f => get_menu_item(f.diningHallID, f.foodID))
-      );
-
-      setFAVORITE_ITEMS(favoriteItemsData.map((item, i) => ({
-        ...item,
-        diningHallID: favorites[i].diningHallID,
-        marked_as_favorite: true,
-        user_rating: favorites[i].rating
-      })));
-
-      setREVIEWED_ITEMS(reviewedItemsData.map((item, i) => ({
-        ...item,
-        diningHallID: reviews[i].diningHallID,
-        user_rating: reviews[i].rating,
-        review: reviews[i].review
-      })));
+      setFAVORITE_ITEMS(favorites);
+      setREVIEWED_ITEMS(reviews);
     };
     fetchData();
   }, []);
