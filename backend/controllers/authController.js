@@ -1,4 +1,3 @@
-require('dotenv').config()
 const db = require('../config/database.js');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -80,7 +79,6 @@ exports.changePassword = async (req, res) => {
     const newPassword = req.body.password;
 
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    const doc = await db.collection("users").doc(id).get();
 
     // create new user json
     const userJson = {
