@@ -69,13 +69,13 @@ function UserPage() {
         ...item,
         diningHallID: favorites[i].diningHallID,
         marked_as_favorite: true,
-        rating: favorites[i].rating
+        user_rating: favorites[i].rating
       })));
 
       setREVIEWED_ITEMS(reviewedItemsData.map((item, i) => ({
         ...item,
         diningHallID: reviews[i].diningHallID,
-        rating: reviews[i].rating,
+        user_rating: reviews[i].rating,
         review: reviews[i].review
       })));
     };
