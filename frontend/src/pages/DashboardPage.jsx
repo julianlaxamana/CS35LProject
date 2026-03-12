@@ -42,7 +42,16 @@ function DashboardPage({ current_day, is_open, meal_period }) {
   // State for currently selected venue and menu item, which will determine the content shown in the details drawers.
   const [selected_item, setSelectedItem] = useState(EMPTY_ITEM_DATA);
 
-  const [current_venue_data, setCurrentVenueData] = useState(SAMPLE_DINING_VENUES[0]); 
+  const [current_venue_data, setCurrentVenueData] = useState(SAMPLE_DINING_VENUES[0]);
+  const [venue_aggregate_rating, setVenueAggregateRating] = useState(null);
+
+  // reset computed rating when switching venues
+  useEffect(() => {
+    setVenueAggregateRating(null);
+  }, [current_venue_data]);
+
+  // build venue data with live computed rating instead of hardcoded sample
+  const header_venue_data = { ...current_venue_data, aggregate_rating: venue_aggregate_rating };
 
   // Define any colors or other constants to use in the component here for easy access and modification. Will relocate later.
   const COLORS = {
@@ -67,17 +76,17 @@ function DashboardPage({ current_day, is_open, meal_period }) {
         list_instructions={list_instructions}
         setListInstructions={setListInstructions}
       />
-      <Header 
+      <Header
         day_data={SAMPLE_DASHBOARD_DAY_DATA}
-        current_venue_data={current_venue_data} 
-        colors={COLORS} 
-        on_venue_details_click={() => setIsVenueDetailsOpen(true)} 
+        current_venue_data={header_venue_data}
+        colors={COLORS}
+        on_venue_details_click={() => setIsVenueDetailsOpen(true)}
         current_day={current_day}
         meal_period={meal_period}
         is_open={is_open}
       />
-      <Content 
-        on_searchbar_click={() => setIsSearchOpen(true)} 
+      <Content
+        on_searchbar_click={() => setIsSearchOpen(true)}
         on_item_click={(item) => {
           setSelectedItem(item);
           setIsItemDetailsOpen(true);
@@ -88,6 +97,7 @@ function DashboardPage({ current_day, is_open, meal_period }) {
         meal_period={meal_period}
         is_open={is_open}
         update={update}
+        on_ratings_loaded={setVenueAggregateRating}
       />
       <VenueDetails 
         is_open={is_venuedetails_open} 

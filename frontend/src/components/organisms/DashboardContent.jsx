@@ -4,7 +4,7 @@ import Loading from '../atoms/Loading';
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 
-const Content = ({ on_searchbar_click, on_item_click, venue, list_instructions, current_day, meal_period, is_open, update }) => {
+const Content = ({ on_searchbar_click, on_item_click, venue, list_instructions, current_day, meal_period, is_open, update, on_ratings_loaded }) => {
   const { user } = useAuth();
   const [items, setItems] = useState([{}]);
   const [loading, setLoading] = useState(true);
@@ -14,6 +14,7 @@ const Content = ({ on_searchbar_click, on_item_click, venue, list_instructions, 
     if (!is_open) {
       setItems([]);
       setLoading(false);
+      if (on_ratings_loaded) on_ratings_loaded(null);
       return;
     }
 
@@ -40,6 +41,18 @@ const Content = ({ on_searchbar_click, on_item_click, venue, list_instructions, 
     var data = await res.json();
     if (!Array.isArray(data)) data = [];
     setItems(data);
+
+    // compute aggregate rating from fetched items
+    if (on_ratings_loaded) {
+      const rated = data.filter(item => item.rating != null && !isNaN(item.rating));
+      if (rated.length > 0) {
+        const sum = rated.reduce((acc, item) => acc + item.rating, 0);
+        on_ratings_loaded(sum / rated.length);
+      } else {
+        on_ratings_loaded(null);
+      }
+    }
+
     setLoading(false);
   };
 

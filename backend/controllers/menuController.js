@@ -149,12 +149,12 @@ exports.getAverageRating = async (req, res) => {
       }
     });
 
-    // calculate average
-    let average = ratingsSum / numRatings;
+    // calculate average, guard against zero ratings
+    let average = numRatings > 0 ? ratingsSum / numRatings : null;
     let data = foodDocs.data();
     data["average_rating"] = average;
 
-    const response = db.collection("dining_halls").doc(diningHallID).collection('Menu').doc(foodID).set(data);
+    await db.collection("dining_halls").doc(diningHallID).collection('Menu').doc(foodID).set(data);
     res.json({average_rating: average});
   } catch (error){
     res.status(400).json({message:error.message});
