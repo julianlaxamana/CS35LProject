@@ -4,29 +4,32 @@ import Icon from '../atoms/Icon';
 import UCLADiningIcon from "../atoms/UCLADiningIcon";
 
 import ItemDetails from "../../assets/item-details.svg";
+import FavoriteIcon from "../../assets/favorite.svg";
 import PlaceholderThumbnail from "../../assets/placeholder-thumbnail.jpg";
 
 // This component represents a single menu item in the dashboard.
-const DashboardItem = ({ item_data, on_click }) => {
+const DashboardItem = ({ item_data, on_click, is_favorite }) => {
   return (
-    <ItemCard 
-      title={item_data.name} 
-      tags={(item_data.tags == null)?[]:item_data.tags} 
-      rating={item_data.rating} 
-      image={item_data.image || PlaceholderThumbnail} 
+    <ItemCard
+      title={item_data.name}
+      tags={(item_data.tags == null)?[]:item_data.tags}
+      rating={item_data.rating}
+      image={item_data.image || PlaceholderThumbnail}
       on_click={on_click}
+      is_favorite={is_favorite}
     />
   );
 }
 
 // The card that shows basic info about the item, appears as part of a list in the dashboard.
-const ItemCard = ({ title, tags, rating, image, on_click }) => {
+const ItemCard = ({ title, tags, rating, image, on_click, is_favorite }) => {
   return (
     <div className="item-card">
       <div className="item-card-content">
         <div className="item-card-top-region">
           <FillBar text={`${(rating == null || isNaN(rating))?"N/A" : rating.toFixed(2)}`} progress={(rating == null || isNaN(rating))?0 :(rating / 5) * 100} color="#9FDA97" grow_from="end" orientation="vertical" long_side_length={24} />
           <h4>{title}</h4>
+          {is_favorite && <img src={FavoriteIcon} alt="Favorited" style={{ width: 18, height: 18 }} />}
         </div>
         <div className="item-card-bottom-region" onClick={on_click}>
           <Icon src={ItemDetails} alt="Venue Details" />

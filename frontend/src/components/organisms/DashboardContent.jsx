@@ -2,9 +2,10 @@ import SearchBar from "../molecules/SearchBar";
 import DashboardItem from "../molecules/DashboardItem";
 import Loading from '../atoms/Loading';
 import { useState, useEffect } from 'react';
+import { useAuth } from '../../contexts/AuthContext';
 
 const Content = ({ on_searchbar_click, on_item_click, venue, list_instructions, current_day, meal_period, is_open, update }) => {
-
+  const { user } = useAuth();
   const [items, setItems] = useState([{}]);
   const [loading, setLoading] = useState(true);
   const handleFetch = async () => {
@@ -37,6 +38,7 @@ const Content = ({ on_searchbar_click, on_item_click, venue, list_instructions, 
     });
 
     var data = await res.json();
+    if (!Array.isArray(data)) data = [];
     setItems(data);
     setLoading(false);
   };
@@ -76,13 +78,18 @@ const Content = ({ on_searchbar_click, on_item_click, venue, list_instructions, 
     }
     return true;
   }).sort((a, b) => {
-    // Sorting Logic
+    // favorited items go to the top
+    const a_fav = a.user_favorites && user?.userID && a.user_favorites.includes(user.userID);
+    const b_fav = b.user_favorites && user?.userID && b.user_favorites.includes(user.userID);
+    if (a_fav && !b_fav) return -1;
+    if (!a_fav && b_fav) return 1;
+
+    // then sort by selected mode
     if (list_instructions.sort_mode === "Alphabetical") {
       return (a.name || "").localeCompare(b.name || "");
     } else if (list_instructions.sort_mode === "Rating") {
       return (b.rating || 0) - (a.rating || 0);
     } else if (list_instructions.sort_mode === "Allergies") {
-      // Sorts items with fewer dietary warning tags to the top
       return (a.tags?.length || 0) - (b.tags?.length || 0);
     }
     return 0;
@@ -97,10 +104,11 @@ const Content = ({ on_searchbar_click, on_item_click, venue, list_instructions, 
         <SearchBar placeholder="Narrow menu..." button_only={true} on_interact={on_searchbar_click} />
       </div>
       {filteredAndSortedItems.map((item, index) => (
-        <DashboardItem 
-          key={item.id || index} 
-          item_data={item} 
-          on_click={() => on_item_click(item)} 
+        <DashboardItem
+          key={item.id || index}
+          item_data={item}
+          on_click={() => on_item_click(item)}
+          is_favorite={item.user_favorites && user?.userID && item.user_favorites.includes(user.userID)}
         />
       ))}
       {filteredAndSortedItems.length === 0 && (
