@@ -106,11 +106,6 @@ exports.getMenu = async (req, res) => {
         allergens: menu[i].allergens
       })
     }
-    //res.json({
-    //  diningHallID: diningHallID,
-    //  day: day,
-    //  menu: menu
-    //});
 
     res.json(objects);
   } catch(error) {
