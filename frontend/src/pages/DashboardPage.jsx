@@ -100,6 +100,7 @@ function DashboardPage({ current_day, is_open, meal_period }) {
           setCurrentVenueData(venue);
           setIsVenueDetailsOpen(false);
         }}
+
       />
       <ItemDetails 
         is_open={is_itemdetails_open} 

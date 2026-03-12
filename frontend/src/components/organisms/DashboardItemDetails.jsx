@@ -25,7 +25,10 @@ const ItemDetails = ({ is_open, on_close, menu_item_data = EMPTY_ITEM_DATA, dini
     })
   }
   useEffect(() => {
-    if (menu_item_data != EMPTY_ITEM_DATA && menu_item_data.user_favorites != undefined){menu_item_data.user_favorites.includes(user.userID)}
+    if (menu_item_data != EMPTY_ITEM_DATA && menu_item_data.user_favorites != undefined){
+      setFavorited(menu_item_data.user_favorites.includes(user.userID))
+    }
+    else {setFavorited(false)}
   }, [menu_item_data]);
 
   const toggle_favorite = async (foodID, diningHallID) => {
@@ -37,6 +40,7 @@ const ItemDetails = ({ is_open, on_close, menu_item_data = EMPTY_ITEM_DATA, dini
         foodID, diningHallID
       }),
     });
+    on_update();
     setFavorited(!is_favorited);
   }
   return (
