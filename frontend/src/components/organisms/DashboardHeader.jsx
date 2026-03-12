@@ -21,7 +21,6 @@ const Header = ({ day_data, current_venue_data, colors, on_venue_details_click, 
         <Icon src={IconVenueDetails} alt="Venue Details" color={colors.dark} onClick={on_venue_details_click} style={{ cursor: 'pointer' }} />
         <div className="venue-data">
           <AggregateRatingDisplay rating={current_venue_data.aggregate_rating} />
-          <OccupancyDisplay occupancy={current_venue_data.occupancy} />
         </div>
       </div>
     </div>

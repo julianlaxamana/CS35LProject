@@ -49,12 +49,7 @@ const VenueDetails = ({ is_open, on_close, day_data, current_venue_data, all_ven
           title={current_venue_data.name} 
           icon={CurrentVenue}
         >
-          <CurrentVenueDetails 
-            day_data={day_data} 
-            venue_data={current_venue_data} 
-            is_favorited={favorite_venues_data.includes(current_venue_data.id)} 
-          />
-        </VenueDetailsSection>
+                  </VenueDetailsSection>
       </div>
     </div>
   )
