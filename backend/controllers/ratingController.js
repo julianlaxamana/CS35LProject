@@ -156,6 +156,56 @@ exports.getUserReviews = async (req, res) => {
     }
 }
 
+// gets all items a user has rated (with or without a text review)
+exports.getUserRatings = async (req, res) => {
+    try {
+        const ratingsRef = db.collection('ratings').where('userID', '==', req.userID);
+        const ratingsSnapshot = await ratingsRef.get();
+
+        if (ratingsSnapshot.empty)
+            return res.status(200).json({ items: [] });
+
+        // only keep docs that actually have a numeric rating
+        const ratings = ratingsSnapshot.docs.map(doc => doc.data()).filter(r => r.rating !== undefined);
+
+        if (ratings.length === 0)
+            return res.status(200).json({ items: [] });
+
+        const foodDocs = await Promise.all(
+            ratings.map(r =>
+                db.collection('dining_halls')
+                .doc(r.diningHallID)
+                .collection('Menu')
+                .doc(r.foodID)
+                .get()
+            )
+        );
+
+        const items = foodDocs
+        .filter(doc => doc.exists)
+        .map((doc, i) => {
+            const data = doc.data();
+            if (data.allergens.length == 1 && data.allergens[0] == "None") data.allergens = [];
+            return {
+                name: doc.id,
+                diningHallID: ratings[i].diningHallID,
+                tags: data.tags,
+                allergens: data.allergens,
+                nutrition_facts: data.nutrition,
+                ingredients: data.ingredients,
+                rating: data.average_rating ?? null,
+                user_rating: ratings[i].rating ?? null,
+                review: ratings[i].review ?? null,
+                image: ""
+            };
+        });
+
+        res.status(200).json({ items });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
 exports.getUserFavorites = async (req, res) => {
     try {
         const reviewRef = db.collection('ratings').where('userID', '==', req.userID).where('marked_fav', '==', true);

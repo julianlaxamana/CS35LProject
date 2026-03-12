@@ -9,6 +9,7 @@ router.use(authMiddleware);
 router.post('/add_review', controller.modifyRating);
 router.patch('/toggle_favorite', controller.toggleFavorite);
 router.get('/get_user_reviews', controller.getUserReviews);
+router.get('/get_user_ratings', controller.getUserRatings);
 router.get('/get_user_favorites', controller.getUserFavorites);
 router.delete('/remove_review', controller.removeReview);
 router.delete('/delete_user', controller.deleteAllUserRatings);

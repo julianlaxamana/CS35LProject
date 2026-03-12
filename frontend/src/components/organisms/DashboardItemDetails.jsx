@@ -55,7 +55,7 @@ const ItemDetails = ({ is_open, on_close, menu_item_data = EMPTY_ITEM_DATA, dini
         </div>
         <MarkAsFavoriteButton is_favorite={is_favorited} onClick={() => {toggle_favorite(menu_item_data.name, dining_hall_id)}} />
         <OverallRating on_submit={on_update} average_rating={menu_item_data.rating} on_update={() => {}} dining_hall_id={dining_hall_id} food_id={menu_item_data.name} />
-        <Reviews reviews={menu_item_data.reviews || []} on_update={() => {}} on_submit={on_update} dining_hall_id={dining_hall_id} food_id={menu_item_data.name} />
+        <Reviews on_update={() => {}} on_submit={on_update} dining_hall_id={dining_hall_id} food_id={menu_item_data.name} />
         <NutritionFacts nutrition_facts={menu_item_data.nutrition_facts} />
         <IngredientsAndAllergens ingredients_and_allergens={menu_item_data.ingredients} />
       </div>
@@ -157,11 +157,29 @@ const OverallRating = ({ on_submit, average_rating, on_update, user_rating, dini
   );
 }
 
-const Reviews = ({ reviews, on_update, user_review, dining_hall_id, food_id, on_submit}) => {  
+const Reviews = ({ on_update, user_review, dining_hall_id, food_id, on_submit}) => {
   const [is_modal_open, setIsModalOpen] = useState(false);
   const [review_text, setReviewText] = useState(user_review);
+  const [review_count, setReviewCount] = useState(0);
 
-  const abbreviated_count = reviews.length > 999 ? `${(reviews.length / 1000).toFixed(1)}k` : reviews.length;
+  const fetchReviewCount = () => {
+    if (!dining_hall_id || !food_id) return;
+    fetch(`http://localhost:3000/api/ratings/get_reviews`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ diningHallID: dining_hall_id, foodID: food_id }),
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.reviews) setReviewCount(data.reviews.length);
+      });
+  };
+
+  useEffect(() => {
+    fetchReviewCount();
+  }, [dining_hall_id, food_id]);
+
+  const abbreviated_count = review_count > 999 ? `${(review_count / 1000).toFixed(1)}k` : review_count;
 
   return (
     <>
@@ -170,13 +188,12 @@ const Reviews = ({ reviews, on_update, user_review, dining_hall_id, food_id, on_
       </div>
       <Modal is_open={is_modal_open} on_close={() => setIsModalOpen(false)}>
         <div className="reviews-modal-inner">
-          <ItemReviews 
-            reviews={reviews} 
-            on_update={on_update} 
-            user_review={user_review} 
+          <ItemReviews
+            on_update={on_update}
+            user_review={user_review}
             diningHallID={dining_hall_id}
             foodID={food_id}
-            on_submit={on_submit}
+            on_submit={() => { fetchReviewCount(); on_submit(); }}
           />
         </div>
       </Modal>

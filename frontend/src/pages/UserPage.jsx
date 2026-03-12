@@ -26,6 +26,15 @@ const get_user_reviews = async () => {
   return data.items;
 }
 
+const get_user_ratings = async () => {
+  const res = await fetch('http://localhost:3000/api/ratings/get_user_ratings', {
+    method: 'GET',
+    credentials: 'include'
+  });
+  const data = await res.json();
+  return data.items;
+}
+
 // Sample data generation, replace with actual API calls in production
 //const SAMPLE_USER_ITEMS = generateRandomUserItems(SAMPLE_ITEM_COLLECTION, 1);
 //const FAVORITE_ITEMS = SAMPLE_USER_ITEMS.filter(item => item.marked_as_favorite);
@@ -38,18 +47,26 @@ function UserPage() {
   const [selected_item, setSelectedItem] = useState(EMPTY_ITEM_DATA);
   const [FAVORITE_ITEMS, setFAVORITE_ITEMS] = useState([]);
   const [REVIEWED_ITEMS, setREVIEWED_ITEMS] = useState([]);
+  const [RATED_ITEMS, setRATED_ITEMS] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const [favorites, reviews] = await Promise.all([
+      const [favorites, reviews, ratings] = await Promise.all([
         get_user_favorites(),
-        get_user_reviews()
+        get_user_reviews(),
+        get_user_ratings()
       ]);
 
       if (!favorites || !reviews) return;
 
       setFAVORITE_ITEMS(favorites);
       setREVIEWED_ITEMS(reviews);
+
+      // only show items that have a rating but no text review
+      if (ratings) {
+        const ratings_only = ratings.filter(item => !item.review);
+        setRATED_ITEMS(ratings_only);
+      }
     };
     fetchData();
   }, []);
@@ -85,6 +102,14 @@ function UserPage() {
         <div className="user-section">
           <h3>My Favorites</h3>
           {FAVORITE_ITEMS.map(user_item => (
+            <FavoritedItem key={user_item.name} user_item_data={user_item} on_click={() => { setSelectedItem(user_item); setIsItemDetailsOpen(true); }} />
+          ))}
+        </div>
+
+        <div className="user-section">
+          <h3>My Ratings</h3>
+          {RATED_ITEMS.length === 0 && <p style={{ color: '#83889C' }}>No ratings yet.</p>}
+          {RATED_ITEMS.map(user_item => (
             <FavoritedItem key={user_item.name} user_item_data={user_item} on_click={() => { setSelectedItem(user_item); setIsItemDetailsOpen(true); }} />
           ))}
         </div>
