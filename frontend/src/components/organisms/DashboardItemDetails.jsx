@@ -50,7 +50,7 @@ const ItemDetails = ({ is_open, on_close, menu_item_data = EMPTY_ITEM_DATA, dini
           ))}
         </div>
         <MarkAsFavoriteButton is_favorite={is_favorited} onClick={() => {toggle_favorite(menu_item_data.name, dining_hall_id)}} />
-        <OverallRating on_submit={on_update} average_rating={menu_item_data.rating || null} on_update={() => {}} dining_hall_id={dining_hall_id} food_id={menu_item_data.name} />
+        <OverallRating on_submit={on_update} average_rating={menu_item_data.rating} on_update={() => {}} dining_hall_id={dining_hall_id} food_id={menu_item_data.name} />
         <Reviews reviews={menu_item_data.reviews || []} on_update={() => {}} on_submit={on_update} dining_hall_id={dining_hall_id} food_id={menu_item_data.name} />
         <NutritionFacts nutrition_facts={menu_item_data.nutrition_facts} />
         <IngredientsAndAllergens ingredients_and_allergens={menu_item_data.ingredients} />

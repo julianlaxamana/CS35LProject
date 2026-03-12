@@ -98,7 +98,7 @@ exports.getMenu = async (req, res) => {
       objects.push({
         id: i,
         name: menu[i].name,
-        rating: (menu[i].average_rating == undefined) ? NaN : menu[i].average_rating,
+        rating: menu[i].average_rating ?? null,
         image: "",
         nutrition_facts: menu[i].nutrition,
         tags: menu[i].tags,
@@ -302,7 +302,7 @@ exports.queryMenu = async (req, res) => {
         id: i,
         name: menu[i].name,
         tags: menu[i].tags,
-        rating: (menu[i].average_rating == undefined) ? NaN : menu[i].average_rating,
+        rating: menu[i].average_rating ?? null,
         image: "",
         nutrition_facts: menu[i].nutrition,
         ingredients: menu[i].ingredients,
@@ -345,7 +345,7 @@ exports.getMenuItem = async (req, res) => {
       allergens: data.allergens,
       nutrition_facts: data.nutrition,
       ingredients: data.ingredients,
-      rating: (data.average_rating == undefined) ? NaN : data.average_rating,
+      rating: data.average_rating ?? null,
       image: ""
     })
   } catch(error) {

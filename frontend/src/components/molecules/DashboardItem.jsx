@@ -25,7 +25,7 @@ const ItemCard = ({ title, tags, rating, image, on_click }) => {
     <div className="item-card">
       <div className="item-card-content">
         <div className="item-card-top-region">
-          <FillBar text={`${(rating == null)?"N/A" : rating.toFixed(2)}`} progress={(rating==null)?0 :(rating / 5) * 100} color="#9FDA97" grow_from="end" orientation="vertical" long_side_length={24} />
+          <FillBar text={`${(rating == null || isNaN(rating))?"N/A" : rating.toFixed(2)}`} progress={(rating == null || isNaN(rating))?0 :(rating / 5) * 100} color="#9FDA97" grow_from="end" orientation="vertical" long_side_length={24} />
           <h4>{title}</h4>
         </div>
         <div className="item-card-bottom-region" onClick={on_click}>

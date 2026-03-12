@@ -66,11 +66,13 @@ const Content = ({ on_searchbar_click, on_item_click, venue, list_instructions, 
       
       if (has_unselected_tag) return false;
     }
-    // Rating Range Filter
-    const rating = item.rating || 0; 
+    // Rating Range Filter - let unrated items through
+    const rating = item.rating;
     const [min_rating, max_rating] = list_instructions.rating_range;
-    if (rating < min_rating || rating > max_rating) {
-      return false;
+    if (rating != null && !isNaN(rating)) {
+      if (rating < min_rating || rating > max_rating) {
+        return false;
+      }
     }
     return true;
   }).sort((a, b) => {

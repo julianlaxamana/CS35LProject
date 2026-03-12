@@ -102,7 +102,7 @@ const ReviewCard = ({ review }) => {
     <div className="review-card">
       <div className="review-header">
         <span className="reviewer-name">{review.owner}</span>
-        <span className="review-rating">{review.rating} / 5</span>
+        <span className="review-rating">{review.rating ? `${review.rating} / 5` : "N/A"}</span>
       </div>
       <p className="review-text">{review.text}</p>
     </div>
