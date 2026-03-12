@@ -71,10 +71,9 @@ const Content = ({ on_searchbar_click, on_item_click, venue, list_instructions, 
     // Rating Range Filter - let unrated items through
     const rating = item.rating;
     const [min_rating, max_rating] = list_instructions.rating_range;
-    if (rating != null && !isNaN(rating)) {
-      if (rating < min_rating || rating > max_rating) {
+    if (rating == null || isNaN(rating) || (rating < min_rating || rating > max_rating)) {
+      if (min_rating > 0)
         return false;
-      }
     }
     return true;
   }).sort((a, b) => {
